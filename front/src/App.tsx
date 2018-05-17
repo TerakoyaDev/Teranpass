@@ -4,6 +4,7 @@ import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
 import './App.css';
 import MyAppBar from './components/MyAppBar';
+import SigninPage from './components/SignupPage';
 
 class App extends React.Component {
   public render() {
@@ -12,14 +13,17 @@ class App extends React.Component {
     const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
     return (
       <MuiThemeProvider>
-        <MyAppBar />
-        <InfiniteCalendar
-          width={600}
-          hight={400}
-          selected={today}
-          disabledDays={[0,6]}
-          minDate={lastWeek}
-        />
+        <div>
+          <MyAppBar />
+          <InfiniteCalendar
+            width={600}
+            hight={400}
+            selected={today}
+            disabledDays={[0,6]}
+            minDate={lastWeek}
+          />
+          <SigninPage />
+        </div>
       </MuiThemeProvider>
     );
   }
