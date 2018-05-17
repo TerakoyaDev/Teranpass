@@ -12,6 +12,7 @@ func newEventRepositoryImpl() *EventRepositoryImpl {
 	return &EventRepositoryImpl{[]*event.Event{}}
 }
 
+// store event to repository
 func (self *EventRepositoryImpl) store(event *event.Event) *EventRepositoryImpl {
 	self.events = append(self.events, event)
 	return self
