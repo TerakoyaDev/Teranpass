@@ -1,22 +1,11 @@
 package infrastructure
 
 import (
-	"github.com/TerakoyaDev/Teranpass/domain/model/user"
 	"testing"
 )
 
 func TestEventRepositorySameEventStored(t *testing.T) {
-	event, err := CreateNewEvent(
-		"eventName",
-		"description",
-		"location",
-		"startTime",
-		"endTime",
-		user.NewUser("userName", "description", "image", "email"))
-
-	if err != nil {
-		t.Errorf("Don't create event: %v", event)
-	}
+	event, _ := setupCreateNewEvent(t)
 
 	repository := newEventRepositoryImpl()
 	actual := repository.store(event)
@@ -58,29 +47,7 @@ func TestEventRepositorySameEventStored(t *testing.T) {
 
 func TestEventRepositoryDifferentEventStored(t *testing.T) {
 	// create
-	event, err := CreateNewEvent(
-		"eventName",
-		"description",
-		"location",
-		"startTime",
-		"endTime",
-		user.NewUser("userName", "description", "image", "email"))
-
-	if err != nil {
-		t.Errorf("Don't create event: %v", event)
-	}
-
-	event_v2, err := CreateNewEvent(
-		"eventName",
-		"description",
-		"location",
-		"startTime",
-		"endTime",
-		user.NewUser("userName", "description", "image", "email"))
-
-	if err != nil {
-		t.Errorf("Don't create event: %v", event)
-	}
+	event, event_v2 := setupCreateNewEvent(t)
 
 	repository := newEventRepositoryImpl()
 	actual := repository.store(event)
