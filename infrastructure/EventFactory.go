@@ -13,6 +13,8 @@ func CreateNewEvent(
 	startTime,
 	endTime string,
 	user *user.User) (*event.Event, error) {
+
+	// validate
 	if eventName == "" {
 		return event.NewEvent(nil, "", "", "", "", ""), errors.New("eventName is empty")
 	}
@@ -32,6 +34,7 @@ func CreateNewEvent(
 		return event.NewEvent(nil, "", "", "", "", ""), errors.New("user is nil")
 	}
 
+	// call constructor
 	event := event.NewEvent(user, eventName, description, location, startTime, endTime)
 	return event, nil
 }
