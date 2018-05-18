@@ -3,6 +3,7 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import {firebaseAuth} from '../firebase'
+import {firebaseDb} from '../firebase'
 
 interface InterfaceState{
   userName: string,
@@ -73,7 +74,7 @@ export default class SignupPage extends React.Component<InterfaceProps, Interfac
     // create account
     firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
     firebaseAuth.createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => {
+      .then(async () => {
         const user = firebaseAuth.currentUser
         if (user) {
           user.updateProfile({
@@ -81,6 +82,12 @@ export default class SignupPage extends React.Component<InterfaceProps, Interfac
             photoURL: ''
           }).catch((error: {code: string, message: string}) => {
             console.error(error.message)
+          })
+          await firebaseDb.ref(`users/${user.uid}`).set({
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            uid: user.uid,
           })
         }
 

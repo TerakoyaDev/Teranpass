@@ -3,6 +3,7 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import {firebaseAuth} from '../firebase'
+import {firebaseDb} from '../firebase'
 
 interface InterfaceState{
   email: string,
@@ -57,7 +58,17 @@ export default class SigninPage extends React.Component<InterfaceProps, Interfac
     // signin
     firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
     firebaseAuth.signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => {
+      .then(async () => {
+        const user = firebaseAuth.currentUser
+        if (user) {
+          await firebaseDb.ref(`users/${user.uid}`).set({
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            uid: user.uid,
+          })
+        }
+
         this.props.toggleSigned()
 
         // redirect.... oh my god

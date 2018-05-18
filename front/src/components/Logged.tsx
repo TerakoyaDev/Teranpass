@@ -47,8 +47,8 @@ export default class Logged extends React.Component<InterfaceProps> {
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       >
-        <MenuItem primaryText={this.props.userInfo.displayName} containerElement={<Link to="/" />}/>
-        <MenuItem primaryText="Setting" containerElement={<Link to="/" />}/>
+        <MenuItem primaryText={this.props.userInfo.displayName} containerElement={<Link to={`/users/${this.props.userInfo.uid}`} />}/>
+        <MenuItem primaryText="Setting" containerElement={<Link to="/setting" />}/>
         <MenuItem onClick={this.Signout} primaryText="Sign out" />
       </IconMenu>
     )
