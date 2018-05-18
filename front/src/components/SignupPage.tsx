@@ -1,3 +1,4 @@
+import * as firebase from 'firebase';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
@@ -12,8 +13,12 @@ interface InterfaceState{
   passwordErrorMessage: string,
 }
 
-export default class SignupPage extends React.Component<{}, InterfaceState> {
-  constructor (props: {}){
+interface InterfaceProps {
+  toggleSigned: () => void
+}
+
+export default class SignupPage extends React.Component<InterfaceProps, InterfaceState> {
+  constructor (props: InterfaceProps){
     super(props)
 
     // state
@@ -30,11 +35,11 @@ export default class SignupPage extends React.Component<{}, InterfaceState> {
     this.onChangeUserName = this.onChangeUserName.bind(this)
     this.onChangeEmail = this.onChangeEmail.bind(this)
     this.onChangePassword = this.onChangePassword.bind(this)
-    this.signin = this.signin.bind(this)
+    this.signup = this.signup.bind(this)
   }
 
-  // signin
-  public signin () {
+  // signup
+  public signup () {
 
     // validate
     if (this.state.userName === "") {
@@ -42,14 +47,14 @@ export default class SignupPage extends React.Component<{}, InterfaceState> {
         ...this.state,
         emailErrorMessage: '',
         passwordErrorMessage: '',
-        userNameErrorMessage: 'UserName field require',
+        userNameErrorMessage: 'UserName field is required',
       })
       return;
     }
     if (this.state.email === "") {
       this.setState({
         ...this.state,
-        emailErrorMessage: 'email field require',
+        emailErrorMessage: 'email field is required',
         passwordErrorMessage: '',
         userNameErrorMessage: '',
       })
@@ -59,18 +64,36 @@ export default class SignupPage extends React.Component<{}, InterfaceState> {
       this.setState({
         ...this.state,
         emailErrorMessage: '',
-        passwordErrorMessage: 'password field require',
+        passwordErrorMessage: 'password field is required',
         userNameErrorMessage: '',
       })
       return;
     }
 
     // create account
+    firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
     firebaseAuth.createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .catch((error: {code: string}) => {
+      .then(() => {
+        const user = firebaseAuth.currentUser
+        if (user) {
+          user.updateProfile({
+            displayName: this.state.userName,
+            photoURL: ''
+          }).catch((error: {code: string, message: string}) => {
+            console.error(error.message)
+          })
+        }
+
+        // toggle isSigned state
+        this.props.toggleSigned()
+
+        // redirect.... oh my god
+        location.href='/'
+      })
+      .catch((error: {code: string, message: string}) => {
         this.setState({
           ...this.state,
-          emailErrorMessage: 'input email is not available',
+          emailErrorMessage: error.message,
           passwordErrorMessage: ''
         })
       })
@@ -115,7 +138,7 @@ export default class SignupPage extends React.Component<{}, InterfaceState> {
         <FlatButton
           label="Sign up"
           primary={true}
-          onClick={this.signin}
+          onClick={this.signup}
           style={{width: '60%'}}
         />
       </div>

@@ -1,3 +1,4 @@
+import * as firebase from 'firebase'
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
@@ -10,8 +11,12 @@ interface InterfaceState{
   passwordErrorMessage: string,
 }
 
-export default class SigninPage extends React.Component<{}, InterfaceState> {
-  constructor (props: {}){
+interface InterfaceProps {
+  toggleSigned: (() => void),
+}
+
+export default class SigninPage extends React.Component<InterfaceProps, InterfaceState> {
+  constructor (props: InterfaceProps){
     super(props)
 
     // state
@@ -35,7 +40,7 @@ export default class SigninPage extends React.Component<{}, InterfaceState> {
     if (this.state.email === "") {
       this.setState({
         ...this.state,
-        emailErrorMessage: 'email field require',
+        emailErrorMessage: 'email field is required',
         passwordErrorMessage: ''
       })
       return;
@@ -44,17 +49,24 @@ export default class SigninPage extends React.Component<{}, InterfaceState> {
       this.setState({
         ...this.state,
         emailErrorMessage: '',
-        passwordErrorMessage: 'password field require'
+        passwordErrorMessage: 'password field is required'
       })
       return;
     }
 
     // signin
+    firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
     firebaseAuth.signInWithEmailAndPassword(this.state.email, this.state.password)
-      .catch((error: {code: string}) => {
+      .then(() => {
+        this.props.toggleSigned()
+
+        // redirect.... oh my god
+        location.href='/'
+      })
+      .catch((error: {message: string}) => {
         this.setState({
           ...this.state,
-          emailErrorMessage: 'input email is not available',
+          emailErrorMessage: error.message,
           passwordErrorMessage: ''
         })
       })
