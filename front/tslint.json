@@ -15,6 +15,7 @@
       "time",
       "timeEnd",
       "trace"
-    ]
+    ],
+    "no-empty": false
   }
 }
