@@ -4,15 +4,13 @@ import * as React from 'react';
 import {firebaseAuth} from '../firebase'
 
 interface InterfaceState{
-  userName: string,
   email: string,
   password: string,
-  userNameErrorMessage: string,
   emailErrorMessage: string,
   passwordErrorMessage: string,
 }
 
-export default class SignupPage extends React.Component<{}, InterfaceState> {
+export default class SigninPage extends React.Component<{}, InterfaceState> {
   constructor (props: {}){
     super(props)
 
@@ -21,13 +19,10 @@ export default class SignupPage extends React.Component<{}, InterfaceState> {
       email: '',
       emailErrorMessage: '',
       password: '',
-      passwordErrorMessage: '',
-      userName: '',
-      userNameErrorMessage: '',
+      passwordErrorMessage: ''
     }
 
     // bind
-    this.onChangeUserName = this.onChangeUserName.bind(this)
     this.onChangeEmail = this.onChangeEmail.bind(this)
     this.onChangePassword = this.onChangePassword.bind(this)
     this.signin = this.signin.bind(this)
@@ -37,21 +32,11 @@ export default class SignupPage extends React.Component<{}, InterfaceState> {
   public signin () {
 
     // validate
-    if (this.state.userName === "") {
-      this.setState({
-        ...this.state,
-        emailErrorMessage: '',
-        passwordErrorMessage: '',
-        userNameErrorMessage: 'UserName field require',
-      })
-      return;
-    }
     if (this.state.email === "") {
       this.setState({
         ...this.state,
         emailErrorMessage: 'email field require',
-        passwordErrorMessage: '',
-        userNameErrorMessage: '',
+        passwordErrorMessage: ''
       })
       return;
     }
@@ -59,14 +44,13 @@ export default class SignupPage extends React.Component<{}, InterfaceState> {
       this.setState({
         ...this.state,
         emailErrorMessage: '',
-        passwordErrorMessage: 'password field require',
-        userNameErrorMessage: '',
+        passwordErrorMessage: 'password field require'
       })
       return;
     }
 
-    // create account
-    firebaseAuth.createUserWithEmailAndPassword(this.state.email, this.state.password)
+    // signin
+    firebaseAuth.signInWithEmailAndPassword(this.state.email, this.state.password)
       .catch((error: {code: string}) => {
         this.setState({
           ...this.state,
@@ -78,10 +62,6 @@ export default class SignupPage extends React.Component<{}, InterfaceState> {
 
 
   // change method
-  public onChangeUserName(event : React.FormEvent<HTMLSelectElement>) {
-    this.setState({...this.state, userName: event.currentTarget.value})
-  }
-
   public onChangeEmail(event : React.FormEvent<HTMLSelectElement>) {
     this.setState({...this.state, email: event.currentTarget.value})
   }
@@ -93,12 +73,6 @@ export default class SignupPage extends React.Component<{}, InterfaceState> {
   public render() {
     return (
       <div style={{textAlign: 'center'}}>
-        <TextField
-          hintText="UserName Field"
-          floatingLabelText="UserName"
-          onChange={this.onChangeUserName}
-          errorText={this.state.userNameErrorMessage}
-        />
         <TextField
           hintText="Email Field"
           floatingLabelText="Email"
@@ -113,7 +87,7 @@ export default class SignupPage extends React.Component<{}, InterfaceState> {
           errorText={this.state.passwordErrorMessage}
         />
         <FlatButton
-          label="Sign up"
+          label="Sign in"
           primary={true}
           onClick={this.signin}
           style={{width: '60%'}}

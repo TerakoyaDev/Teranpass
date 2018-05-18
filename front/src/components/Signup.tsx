@@ -4,19 +4,18 @@ import SvgIcon from 'material-ui/SvgIcon';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-export default class Signin extends React.Component {
+export default class Signup extends React.Component {
   public render() {
     return (
       <IconButton
-        color={white}
-        tooltip="sign in"
+        tooltip="sign up"
         tooltipPosition="bottom-center"
-        containerElement={<Link to="/signin" />}
+        containerElement={<Link to="/signup" />}
       >
         <SvgIcon
           color={white}
         >
-          <path d="M10,17.25V14H3V10H10V6.75L15.25,12L10,17.25M8,2H17A2,2 0 0,1 19,4V20A2,2 0 0,1 17,22H8A2,2 0 0,1 6,20V16H8V20H17V4H8V8H6V4A2,2 0 0,1 8,2Z" />
+          <path d="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z" />
         </SvgIcon>
       </IconButton>
     );
