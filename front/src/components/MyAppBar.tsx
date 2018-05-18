@@ -1,19 +1,23 @@
 import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import * as React from 'react';
-import Signin from './Signin';
 // import LoggedIcon from './LoggedIcon';
-
+import IconButton from 'material-ui/IconButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import Signin from './Signin';
+import Signup from './Signup';
 
 export default class MyAppBar extends React.Component {
   public render() {
     return (
       <div>
         <AppBar
-          title="Title"
-          iconElementLeft={<IconButton><NavigationClose /></IconButton>}
-          iconElementRight={<Signin />}
+          title="Teranpass"
+          iconElementLeft={<IconButton
+            containerElement={<Link to="/" />}
+            style={{ color: 'white' }}
+          ><ActionHome /></IconButton>}
+          iconElementRight={<div><Signup /><Signin /></div>}
         />
       </div>
     )
