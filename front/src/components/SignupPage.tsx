@@ -77,11 +77,9 @@ export default class SignupPage extends React.Component<InterfaceProps, Interfac
       .then(async () => {
         const user = firebaseAuth.currentUser
         if (user) {
-          user.updateProfile({
+          await user.updateProfile({
             displayName: this.state.userName,
-            photoURL: ''
-          }).catch((error: {code: string, message: string}) => {
-            console.error(error.message)
+            photoURL: 'default'
           })
           await firebaseDb.ref(`users/${user.uid}`).set({
             displayName: user.displayName,
