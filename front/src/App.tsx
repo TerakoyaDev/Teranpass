@@ -91,8 +91,8 @@ export default class App extends React.Component<{}, IState> {
               <Route exact={true} path='/' component={TopPage} />
               <Route path='/signin' component={SigninPageContainer} />
               <Route path='/signup' component={SignupPageContainer} />
-              <Route path='/user/:id' component={UserPage} />
-              <Route path='/Setting' component={SettingPage} />
+              <Route path='/users/:id' component={UserPage} />
+              <Route path='/setting' component={SettingPage} />
             </div>
           </Router>
         </SignContext.Provider>
