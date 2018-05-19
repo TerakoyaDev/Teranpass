@@ -1,5 +1,6 @@
 import Avatar from '@material-ui/core/Avatar';
 import Person from '@material-ui/icons/Person';
+import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import * as React from 'react';
@@ -38,11 +39,15 @@ export default class Logged extends React.Component<InterfaceProps> {
     return (
       <IconMenu
         iconButtonElement={
-          photoURL ?
-          <Avatar src={photoURL}/> :
-          <Avatar>
-            <Person />
-          </Avatar>
+            photoURL !== 'default' ?
+            <IconButton>
+              <Avatar src={photoURL}/>
+            </IconButton> :
+            <IconButton>
+              <Avatar>
+                <Person />
+              </Avatar>
+            </IconButton>
         }
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
