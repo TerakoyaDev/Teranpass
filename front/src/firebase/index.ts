@@ -4,3 +4,4 @@ import { config } from './config';
 export const firebaseApp = firebase.initializeApp(config);
 export const firebaseAuth = firebaseApp.auth();
 export const firebaseDb = firebaseApp.database();
+export const firebaseStorage = firebaseApp.storage();

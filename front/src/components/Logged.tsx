@@ -35,7 +35,6 @@ export default class Logged extends React.Component<InterfaceProps> {
 
   public render () {
     const photoURL = this.props.userInfo.photoURL
-    console.log(photoURL)
     return (
       <IconMenu
         iconButtonElement={
