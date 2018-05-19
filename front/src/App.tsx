@@ -18,16 +18,18 @@ export const SignContext = React.createContext({
   }
 });
 
+export interface IUserInfo {
+  displayName: string,
+  email: string,
+  photoURL: string,
+  uid: string,
+}
+
 interface IState {
   isSigned: boolean
   toggleSigned: () => void
   initApp: () => void
-  userInfo: {
-    displayName: string,
-    email: string,
-    photoURL: string,
-    uid: string,
-  }
+  userInfo: IUserInfo
 }
 
 // has isSignin

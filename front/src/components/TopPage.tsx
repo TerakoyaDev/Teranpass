@@ -11,14 +11,16 @@ interface IProps {
 export default class TopPage extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props)
-    console.log(this.props)
+
     this.selectedDate = this.selectedDate.bind(this)
   }
 
   public selectedDate(date: string) {
     console.log(Date.parse(date))
 
-    this.props.history.push('/signin')
+    const dateVal = new Date(Date.parse(date))
+
+    this.props.history.push(`/events/${dateVal.getFullYear()}/${dateVal.getMonth() + 1}/${dateVal.getDate()}`)
     // location.href='/signin'
     // TODO get events of given date
   }
@@ -28,11 +30,10 @@ export default class TopPage extends React.Component<IProps> {
     const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
     return (
       <InfiniteCalendar
-        width={(window.innerWidth <= 650) ? window.innerWidth : 650}
+        width={window.innerWidth}
         height={window.innerHeight - 250}
         rowHeight={70}
         selected={today}
-        disabledDays={[0,6]}
         minDate={lastWeek}
         onSelect={this.selectedDate}
       />

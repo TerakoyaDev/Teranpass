@@ -97,13 +97,14 @@ export default class SigninPage extends React.Component<InterfaceProps, Interfac
 
   public render() {
     return (
-      <div style={{textAlign: 'center'}}>
+      <div style={{textAlign: 'center', flex: 'column'}}>
         <TextField
           hintText="Email Field"
           floatingLabelText="Email"
           onChange={this.onChangeEmail}
           errorText={this.state.emailErrorMessage}
         />
+        <br />
         <TextField
           hintText="Password Field"
           floatingLabelText="Password"
@@ -111,6 +112,7 @@ export default class SigninPage extends React.Component<InterfaceProps, Interfac
           onChange={this.onChangePassword}
           errorText={this.state.passwordErrorMessage}
         />
+        <br />
         <FlatButton
           label="Sign in"
           primary={true}

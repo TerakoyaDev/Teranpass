@@ -60,12 +60,11 @@ export default class UserPage extends React.Component<InterfaceProps, IState> {
     return (
       <div>
         {this.state.isLoding ?
-          <div style={{textAlign: 'center', marginTop: '50%'}}>
+          <div style={{textAlign: 'center'}}>
             <CircularProgress size={70} style={{alignItems: 'center'}}/>
           </div> :
           <UserPageFragment userInfo={this.state.userInfo}/>
         }
-        {this.state.isLoding ? "Loding" : this.state.userInfo.photoURL}
       </div>
     );
   }
