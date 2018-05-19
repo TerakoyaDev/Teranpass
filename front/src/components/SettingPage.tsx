@@ -9,12 +9,20 @@ interface InterfaceState{
   userName: string,
   photoFile: string,
   photoFileInstance: {},
+  submitingMessage: string,
   userNameErrorMessage: string,
   photoFileErrorMessage: string,
 }
 
-export default class UserPage extends React.Component<{}, InterfaceState> {
-  constructor (props: {}){
+interface IProps {
+  initApp: () => void
+  history: {
+    push: (path: string) => void
+  }
+}
+
+export default class UserPage extends React.Component<IProps, InterfaceState> {
+  constructor (props: IProps){
     super(props)
 
     // state
@@ -22,6 +30,7 @@ export default class UserPage extends React.Component<{}, InterfaceState> {
       photoFile: 'New image',
       photoFileErrorMessage: '',
       photoFileInstance: {},
+      submitingMessage: 'Update',
       userName: '',
       userNameErrorMessage: '',
     }
@@ -54,8 +63,9 @@ export default class UserPage extends React.Component<{}, InterfaceState> {
 
     const user = firebaseAuth.currentUser
     if (user) {
+      this.setState({...this.state, submitingMessage: 'Now submiting'})
       // update image
-      const imageRef = firebaseStorage.ref().child(this.state.photoFile)
+      const imageRef = firebaseStorage.ref().child(`${user.uid}/${this.state.photoFile}`)
       await imageRef.put(this.state.photoFileInstance)
       const downloadLink = await imageRef.getDownloadURL()
       await user.updateProfile({
@@ -69,8 +79,8 @@ export default class UserPage extends React.Component<{}, InterfaceState> {
         uid: user.uid,
       })
 
-      // redirect.... oh my god
-      location.href='/'
+      this.props.initApp()
+      this.props.history.push('/')
     }
   }
 
@@ -103,7 +113,7 @@ export default class UserPage extends React.Component<{}, InterfaceState> {
           </label>
         </div>
         <FlatButton
-          label="Update"
+          label={this.state.submitingMessage}
           primary={true}
           onClick={this.update}
           style={{width: '60%'}}

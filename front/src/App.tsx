@@ -1,17 +1,13 @@
+import createBrowserHistory from 'history/createBrowserHistory';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-} from 'react-router-dom';
-import MyAppBar from './components/MyAppBar';
-import SettingPage from './components/SettingPage';
-import TopPage from './components/TopPage';
-import UserPage from './components/UserPage';
-import SigninPageContainer from './container/SigninPageContainer';
-import SignupPageContainer from './container/SignupPageContainer';
+import {Router} from 'react-router';
+import Routes from './components/Routes';
+
+const history = createBrowserHistory()
 
 export const SignContext = React.createContext({
+  initApp: () => {},
   isSigned: false,
   toggleSigned: () => {},
   userInfo: {
@@ -25,6 +21,7 @@ export const SignContext = React.createContext({
 interface IState {
   isSigned: boolean
   toggleSigned: () => void
+  initApp: () => void
   userInfo: {
     displayName: string,
     email: string,
@@ -40,6 +37,7 @@ export default class App extends React.Component<{}, IState> {
     super(props)
 
     this.state = {
+      initApp: this.initApp.bind(this),
       isSigned : false,
       toggleSigned: this.toggleSigned.bind(this),
       userInfo: {
@@ -79,21 +77,35 @@ export default class App extends React.Component<{}, IState> {
         ? false
         : true,
     }));
+    this.initApp()
   };
+
+  public initApp = async () => {
+    const storage = await window.sessionStorage
+    const filteredKeys = Object.keys(storage).filter((n: string) => JSON.parse(storage[n]).authDomain === "teranpass.firebaseapp.com")
+    if (filteredKeys.length !== 0) {
+      const filteredUser = JSON.parse(storage[filteredKeys[0]])
+      if (filteredUser) {
+        this.setState({
+          ...this.state,
+          isSigned: true,
+          userInfo: {
+            displayName: filteredUser.displayName,
+            email: filteredUser.email,
+            photoURL: filteredUser.photoURL,
+            uid: filteredUser.uid,
+          },
+        })
+      }
+    }
+  }
 
   public render() {
     return (
       <MuiThemeProvider>
         <SignContext.Provider value={this.state} >
-          <Router>
-            <div>
-              <MyAppBar />
-              <Route exact={true} path='/' component={TopPage} />
-              <Route path='/signin' component={SigninPageContainer} />
-              <Route path='/signup' component={SignupPageContainer} />
-              <Route path='/users/:id' component={UserPage} />
-              <Route path='/setting' component={SettingPage} />
-            </div>
+          <Router history={history}>
+            <Routes history={history}/>
           </Router>
         </SignContext.Provider>
       </MuiThemeProvider>

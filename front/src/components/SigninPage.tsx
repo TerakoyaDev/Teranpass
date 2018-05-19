@@ -14,6 +14,9 @@ interface InterfaceState{
 
 interface InterfaceProps {
   toggleSigned: (() => void),
+  history: {
+    push: (path: string) => void
+  }
 }
 
 export default class SigninPage extends React.Component<InterfaceProps, InterfaceState> {
@@ -71,8 +74,7 @@ export default class SigninPage extends React.Component<InterfaceProps, Interfac
 
         this.props.toggleSigned()
 
-        // redirect.... oh my god
-        location.href='/'
+        this.props.history.push('/')
       })
       .catch((error: {message: string}) => {
         this.setState({

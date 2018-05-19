@@ -2,9 +2,24 @@ import * as React from 'react';
 import InfiniteCalendar from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
 
-export default class TopPage extends React.Component {
+interface IProps {
+  history: {
+    push: (path: string) => void
+  }
+}
+
+export default class TopPage extends React.Component<IProps> {
+  constructor(props: IProps) {
+    super(props)
+    console.log(this.props)
+    this.selectedDate = this.selectedDate.bind(this)
+  }
+
   public selectedDate(date: string) {
     console.log(Date.parse(date))
+
+    this.props.history.push('/signin')
+    // location.href='/signin'
     // TODO get events of given date
   }
   public render() {
