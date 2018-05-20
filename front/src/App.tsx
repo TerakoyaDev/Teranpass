@@ -50,7 +50,7 @@ export default class App extends React.Component<{}, IState> {
     };
   }
 
-  public async componentDidMount() {
+  public async componentWillMount() {
     const storage = await window.sessionStorage;
     const filteredKeys = Object.keys(storage).filter(
       (n: string) =>

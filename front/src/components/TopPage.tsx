@@ -60,7 +60,7 @@ export default class TopPage extends React.Component<IProps, IState> {
     this.setState({ dateList: localDateList });
   }
 
-  public componentDidMount() {
+  public componentWillMount() {
     this.fetchEventListData();
   }
 

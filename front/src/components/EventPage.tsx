@@ -102,7 +102,7 @@ export default class EventPage extends React.Component<
     this.props.history.push(`/users/${userInfo.uid}`);
   }
 
-  public componentDidMount() {
+  public componentWillMount() {
     this.getEventsService();
   }
 

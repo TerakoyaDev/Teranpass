@@ -67,7 +67,7 @@ export default class UserPage extends React.Component<InterfaceProps, IState> {
     });
   }
 
-  public componentDidMount() {
+  public componentWillMount() {
     this.setState({ ...this.state, isLoding: false });
     this.getUserInfo(this.props.match.params.id);
   }

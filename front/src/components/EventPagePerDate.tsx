@@ -57,7 +57,7 @@ export default class EventPagePerDate extends React.Component<
     );
   }
 
-  public componentDidMount() {
+  public componentWillMount() {
     const { year, month, date } = this.props.match.params;
     this.getEvents(year, month, date);
   }

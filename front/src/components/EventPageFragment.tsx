@@ -182,7 +182,7 @@ export default class EventPageFragment extends React.Component<
     this.props.history.push(`/users/${userInfo.uid}`);
   }
 
-  public componentDidMount() {
+  public componentWillMount() {
     this.setJoin();
   }
 
