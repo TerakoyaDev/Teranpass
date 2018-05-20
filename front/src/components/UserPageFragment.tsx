@@ -7,7 +7,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
-import Person from '@material-ui/icons/Person';
 import Subheader from 'material-ui/Subheader';
 import * as React from 'react';
 
@@ -44,15 +43,7 @@ export default class UserPageFragment extends React.Component<IProps> {
       <div>
         <Card>
           <CardHeader
-            avatar={
-              this.props.userInfo.photoURL !== 'default' ? (
-                <Avatar src={this.props.userInfo.photoURL} />
-              ) : (
-                <Avatar>
-                  <Person />
-                </Avatar>
-              )
-            }
+            avatar={<Avatar src={this.props.userInfo.photoURL} />}
             title={this.props.userInfo.displayName}
             subheader="19卒エンジニア"
           />
