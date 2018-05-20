@@ -129,6 +129,8 @@ export default class EventPageFragment extends React.Component<
           return [];
         }
       });
+
+      // userHasEvents
       const val = (await firebaseDb
         .ref(`userHasEvents/${user.uid}`)
         .once('value')).val();
@@ -149,7 +151,32 @@ export default class EventPageFragment extends React.Component<
     }
   }
 
-  public deleteEvent() {}
+  public async deleteEvent() {
+    const user = firebaseAuth.currentUser;
+    if (user) {
+      // update
+      const updates = {};
+
+      const userEventList = (await firebaseDb
+        .ref(`userHasEvents`)
+        .once('value')).val();
+
+      const newUserEventList = {};
+      Object.keys(userEventList).map(n => {
+        newUserEventList[n] = userEventList[n].filter(
+          (m: any) => m.eventId !== this.props.event.eventId
+        );
+      });
+      updates[`userHasEvents`] = newUserEventList;
+      updates[
+        `events/${this.props.event.date.split(' ')[0]}/${
+          this.props.event.eventId
+        }`
+      ] = null;
+      await firebaseDb.ref().update(updates);
+      this.props.getEvents();
+    }
+  }
 
   public pushUserPage(userInfo: IUserInfo) {
     this.props.history.push(`/users/${userInfo.uid}`);

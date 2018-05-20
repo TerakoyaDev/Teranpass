@@ -66,7 +66,7 @@ export default class UserPageFragment extends React.Component<IProps> {
                       button={true}
                       onClick={this.onClickListItem.bind(this, index)}
                     >
-                      <Avatar src={this.props.userInfo.photoURL} />
+                      <Avatar src={item.sponsor.photoURL} />
                       <ListItemText
                         primary={`${item.title}`}
                         secondary={item.date}
