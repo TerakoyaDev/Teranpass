@@ -62,6 +62,9 @@ export default class EventPage extends React.Component<
       },
       isLoding: false,
     };
+
+    this.getEvents = this.getEvents.bind(this);
+    this.getEventsService = this.getEventsService.bind(this);
   }
 
   public async getEvents(
@@ -90,13 +93,17 @@ export default class EventPage extends React.Component<
     }
   }
 
+  public async getEventsService() {
+    const { year, month, date, eventId } = this.props.match.params;
+    this.getEvents(year, month, date, eventId);
+  }
+
   public pushUserPage(userInfo: IUserInfo) {
     this.props.history.push(`/users/${userInfo.uid}`);
   }
 
   public componentDidMount() {
-    const { year, month, date, eventId } = this.props.match.params;
-    this.getEvents(year, month, date, eventId);
+    this.getEventsService();
   }
 
   // TODO porfile card and register event
@@ -111,6 +118,7 @@ export default class EventPage extends React.Component<
           <EventPageFragment
             history={this.props.history}
             event={this.state.event}
+            getEvents={this.getEventsService}
           />
         )}
       </div>

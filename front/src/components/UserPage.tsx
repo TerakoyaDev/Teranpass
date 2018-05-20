@@ -53,7 +53,7 @@ export default class UserPage extends React.Component<InterfaceProps, IState> {
     let userEventList = [];
     if (user) {
       const fetchedEventList = (await firebaseDb
-        .ref(`userHasEvents/${user.uid}`)
+        .ref(`userHasEvents/${this.props.match.params.id}`)
         .once('value')).val();
       if (fetchedEventList) {
         userEventList = fetchedEventList;

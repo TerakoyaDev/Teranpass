@@ -6,7 +6,7 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Person from '@material-ui/icons/Person';
+import Typography from '@material-ui/core/Typography';
 import Subheader from 'material-ui/Subheader';
 import * as React from 'react';
 
@@ -43,15 +43,7 @@ export default class UserPageFragment extends React.Component<IProps> {
       <div>
         <Card>
           <CardHeader
-            avatar={
-              this.props.userInfo.photoURL !== 'default' ? (
-                <Avatar src={this.props.userInfo.photoURL} />
-              ) : (
-                <Avatar>
-                  <Person />
-                </Avatar>
-              )
-            }
+            avatar={<Avatar src={this.props.userInfo.photoURL} />}
             title={this.props.userInfo.displayName}
             subheader="19卒エンジニア"
           />
@@ -59,26 +51,34 @@ export default class UserPageFragment extends React.Component<IProps> {
         <Card>
           <CardContent>
             <Subheader>{`登録中のイベント`}</Subheader>
-            <List
-              style={{ maxHeight: 300, overflow: 'auto', position: 'relative' }}
-            >
-              {this.props.eventList.map((item, index) => (
-                <div key={index}>
-                  <ListItem
-                    key={index}
-                    button={true}
-                    onClick={this.onClickListItem.bind(this, index)}
-                  >
-                    <Avatar src={this.props.userInfo.photoURL} />
-                    <ListItemText
-                      primary={`${item.title}`}
-                      secondary={item.date}
-                    />
-                  </ListItem>
-                  <Divider />
-                </div>
-              ))}
-            </List>
+            {this.props.eventList.length !== 0 ? (
+              <List
+                style={{
+                  maxHeight: 300,
+                  overflow: 'auto',
+                  position: 'relative',
+                }}
+              >
+                {this.props.eventList.map((item, index) => (
+                  <div key={index}>
+                    <ListItem
+                      key={index}
+                      button={true}
+                      onClick={this.onClickListItem.bind(this, index)}
+                    >
+                      <Avatar src={this.props.userInfo.photoURL} />
+                      <ListItemText
+                        primary={`${item.title}`}
+                        secondary={item.date}
+                      />
+                    </ListItem>
+                    <Divider />
+                  </div>
+                ))}
+              </List>
+            ) : (
+              <Typography paragraph={true}>No Event</Typography>
+            )}
           </CardContent>
         </Card>
       </div>

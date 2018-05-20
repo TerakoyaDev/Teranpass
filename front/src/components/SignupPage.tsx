@@ -85,7 +85,8 @@ export default class SignupPage extends React.Component<
         if (user) {
           await user.updateProfile({
             displayName: this.state.userName,
-            photoURL: 'default',
+            photoURL:
+              'https://firebasestorage.googleapis.com/v0/b/teranpass.appspot.com/o/account-circle.png?alt=media&token=2c34cb44-a79e-4315-9f26-f868dfc0c550',
           });
           await firebaseDb.ref(`users/${user.uid}`).set({
             displayName: user.displayName,
