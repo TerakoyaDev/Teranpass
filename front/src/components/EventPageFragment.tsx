@@ -70,7 +70,7 @@ export default class EventPageFragment extends React.Component<
   }
 
   // join
-  public joinUserToEvent() {
+  public async joinUserToEvent() {
     const user = firebaseAuth.currentUser;
     if (user) {
       const ref = firebaseDb.ref(
@@ -91,13 +91,30 @@ export default class EventPageFragment extends React.Component<
           return [];
         }
       });
+      const val = (await firebaseDb
+        .ref(`userHasEvents/${user.uid}`)
+        .once('value')).val();
+
+      let eventsList = [];
+      if (val) {
+        eventsList = val;
+      }
+
+      // push
+      eventsList.push(this.props.event);
+
+      // update
+      const updates = {};
+      updates[`userHasEvents/${user.uid}`] = eventsList;
+      await firebaseDb.ref().update(updates);
+
       this.setState({ isJoin: true });
       this.props.getEvents();
     }
   }
 
   // remove
-  public removeUserInEvent() {
+  public async removeUserInEvent() {
     const user = firebaseAuth.currentUser;
     if (user) {
       const ref = firebaseDb.ref(
@@ -112,6 +129,21 @@ export default class EventPageFragment extends React.Component<
           return [];
         }
       });
+      const val = (await firebaseDb
+        .ref(`userHasEvents/${user.uid}`)
+        .once('value')).val();
+      let eventsList = [];
+      if (val) {
+        eventsList = val;
+      }
+
+      // update
+      const updates = {};
+      updates[`userHasEvents/${user.uid}`] = eventsList.filter(
+        (n: any) => n.eventId !== this.props.event.eventId
+      );
+      await firebaseDb.ref().update(updates);
+
       this.setState({ isJoin: false });
       this.props.getEvents();
     }
