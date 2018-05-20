@@ -237,7 +237,7 @@ export default class EventPageFragment extends React.Component<
             <Subheader>{`このイベントに登録中のユーザ`}</Subheader>
             <Grid container={true} spacing={24}>
               {this.props.event.participants.map((val, index) => (
-                <Grid item={true} xs={2} key={index}>
+                <Grid item={true} key={index}>
                   <IconButton onClick={this.pushUserPage.bind(this, val)}>
                     <Avatar src={val.photoURL} />
                   </IconButton>
