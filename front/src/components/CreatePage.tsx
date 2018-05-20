@@ -97,23 +97,26 @@ export default class UserPage extends React.Component<InterfaceProps, InterfaceS
         eventsList = val
       }
 
-      // postEventData
-      const postEventData = {
-        body: this.state.body,
-        date: this.state.date,
-        location: this.state.location,
-        participants: [],
-        sponsor: {
+      const newPostKey = await firebaseDb.ref(`events/${this.state.date.split(' ')[0]}`).push().key
+      const userInfo = {
           displayName: user.displayName,
           email: user.email,
           photoURL: user.photoURL,
           uid: user.uid,
-        },
+      }
+
+      // postEventData
+      const postEventData = {
+        body: this.state.body,
+        date: this.state.date,
+        eventId: newPostKey,
+        location: this.state.location,
+        participants: [userInfo],
+        sponsor: userInfo,
         title: this.state.title,
       }
       eventsList.push(postEventData)
 
-      const newPostKey = await firebaseDb.ref(`events/${this.state.date.split(' ')[0]}`).push().key
       const updates = {}
       updates[`events/${this.state.date.split(' ')[0]}/${newPostKey}`] = postEventData
       updates[`userHasEvents/${user.uid}`] = eventsList

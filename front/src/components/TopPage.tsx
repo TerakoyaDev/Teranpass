@@ -20,7 +20,7 @@ export default class TopPage extends React.Component<IProps> {
 
     const dateVal = new Date(Date.parse(date))
 
-    this.props.history.push(`/events/${dateVal.getFullYear()}/${dateVal.getMonth() + 1}/${dateVal.getDate()}`)
+    this.props.history.push(`/eventList/${dateVal.getFullYear()}/${dateVal.getMonth() + 1}/${dateVal.getDate()}`)
     // location.href='/signin'
     // TODO get events of given date
   }

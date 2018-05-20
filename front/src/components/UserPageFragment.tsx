@@ -6,48 +6,33 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ImageIcon from '@material-ui/icons/Image';
 import Person from '@material-ui/icons/Person';
 import Subheader from 'material-ui/Subheader';
 import * as React from 'react';
-import {firebaseAuth, firebaseDb} from '../firebase';
 
 interface IProps {
+  history: {
+    push: (path: string) => void
+  },
   userInfo: {
     displayName: string,
     email: string,
     photoURL: string,
     uid: string,
-  }
+  },
+  eventList: any[],
 }
 
-interface IState {
-  eventList: any[]
-}
-
-export default class UserPageFragment extends React.Component<IProps, IState> {
+export default class UserPageFragment extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props)
 
-    this.state = {eventList: []}
-    this.getEventList = this.getEventList.bind(this)
+    this.onClickListItem = this.onClickListItem.bind(this)
   }
 
-  public async getEventList() {
-    const user = firebaseAuth.currentUser
-    if (user) {
-      const val = ((await firebaseDb.ref(`userHasEvents/${user.uid}`).once('value')).val())
-      let userEventList = []
-      if (val) {
-        userEventList = val
-      }
-
-      this.setState({eventList: userEventList})
-    }
-  }
-
-  public componentDidMount() {
-    this.getEventList()
+  public onClickListItem(index: number) {
+    console.log(this.props.eventList[index])
+    this.props.history.push(`/events/${this.props.eventList[index].date.split(' ')[0]}/${this.props.eventList[index].eventId}`)
   }
 
   public render() {
@@ -67,12 +52,10 @@ export default class UserPageFragment extends React.Component<IProps, IState> {
         <CardContent>
           <Subheader>{`登録中のイベント`}</Subheader>
           <List style={{maxHeight: 300, overflow: 'auto', position: 'relative'}}>
-            {this.state.eventList.map(item => (
+            {this.props.eventList.map((item, index) => (
             <div key={item.toString()}>
-              <ListItem key={item.toString()}>
-                <Avatar>
-                  <ImageIcon />
-                </Avatar>
+              <ListItem key={item.toString()} button={true} onClick={this.onClickListItem.bind(this, index)}>
+                <Avatar src={this.props.userInfo.photoURL}/>
                 <ListItemText primary={`${item.title}`} secondary={item.date}/>
               </ListItem>
               <Divider />

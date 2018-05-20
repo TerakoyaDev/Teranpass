@@ -1,7 +1,8 @@
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import * as React from 'react';
+import {IUserInfo} from '../App';
 import {firebaseDb} from '../firebase'
+import EventPageFragment from './EventPageFragment'
 
 interface InterfaceProps {
   history: {
@@ -12,60 +13,92 @@ interface InterfaceProps {
       year: string,
       month: string,
       date: string,
+      eventId: string,
     }
   }
 }
 
 interface InterfaceState {
-  event: string[]
+  isLoding: boolean,
+  event: {
+      body: string,
+      date: string,
+      eventId: string,
+      location: string,
+      participants: IUserInfo[],
+      sponsor: {
+        displayName: string,
+          email: string ,
+          photoURL: string,
+          uid: string,
+      },
+      title: string,
+  }
 }
 
 // TODO get userInfo by id
-export default class UserPage extends React.Component<InterfaceProps, InterfaceState> {
+export default class EventPage extends React.Component<InterfaceProps, InterfaceState> {
   constructor(props: InterfaceProps) {
     super(props)
-    this.state = {event: []}
-
-    this.accessCreateEventPage = this.accessCreateEventPage.bind(this)
-  }
-
-  public async getEvents(year: string, month: string, date: string) {
-    const val = ((await firebaseDb.ref(`events/${year}/${month}/${date}`).once('value')).val())
-    if (val) {
-      this.setState({event: val})
-    } else {
-      this.setState({event: []})
+    this.state = {
+      event: {
+        body: '',
+        date: '',
+        eventId: '',
+        location: '',
+        participants: [],
+        sponsor: {
+          displayName: '',
+          email: '' ,
+          photoURL: '',
+          uid: '',
+        },
+        title: '',
+      },
+      isLoding: false,
     }
   }
 
-  public accessCreateEventPage() {
-    this.props.history.push('/create')
+  public async getEvents(year: string, month: string, date: string, eventId: string) {
+    this.setState({
+      event: { ...this.state.event},
+      isLoding: true,
+    })
+    const val = ((await firebaseDb.ref(`events/${year}/${month}/${date}/${eventId}`).once('value')).val())
+    console.log(val)
+    if (val) {
+      this.setState({
+        event: val,
+        isLoding: false,
+      })
+    } else {
+    this.setState({
+      event: this.state.event,
+      isLoding: false,
+    })
+    }
+  }
+
+  public pushUserPage(userInfo: IUserInfo) {
+    this.props.history.push(`/users/${userInfo.uid}`)
   }
 
   public componentDidMount() {
-    const {year, month, date} = this.props.match.params
-    console.log(year)
-    this.getEvents(year, month, date)
+    const {year, month, date, eventId} = this.props.match.params
+    this.getEvents(year, month, date, eventId)
   }
 
   // TODO porfile card and register event
   public render() {
-    const {year, month, date} = this.props.match.params
-    const key = Object.keys(this.state.event)[0]
     return (
       <div>
-        {`${year}年${month}月${date}日`}
-        {
-        this.state.event.length !== 0 ?
-          <div> {this.state.event[key].body} </div> :
-          <div> No Event </div>
-          }
-          <Button variant="fab" color={'primary'} style={{position: 'absolute', bottom: 10, right: 10}} onClick={this.accessCreateEventPage}>
-            <AddIcon />
-          </Button>
-      </div>
+      {this.state.isLoding ?
+          <div style={{textAlign: 'center'}}>
+            <CircularProgress size={70} style={{alignItems: 'center'}}/>
+          </div> :
+          <EventPageFragment history={this.props.history} event={this.state.event}/>
+      }
+    </div>
     );
   }
 }
-
-
