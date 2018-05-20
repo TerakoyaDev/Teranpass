@@ -1,6 +1,6 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import * as React from 'react';
-import { firebaseAuth, firebaseDb } from '../firebase';
+import { firebaseDb } from '../firebase';
 import UserPageFragment from './UserPageFragment';
 
 interface InterfaceProps {
@@ -49,15 +49,12 @@ export default class UserPage extends React.Component<InterfaceProps, IState> {
       isLoding: true,
     });
     const val = await (await firebaseDb.ref(`users/${id}`).once('value')).val();
-    const user = await firebaseAuth.currentUser;
     let userEventList = [];
-    if (user) {
-      const fetchedEventList = (await firebaseDb
-        .ref(`userHasEvents/${this.props.match.params.id}`)
-        .once('value')).val();
-      if (fetchedEventList) {
-        userEventList = fetchedEventList;
-      }
+    const fetchedEventList = (await firebaseDb
+      .ref(`userHasEvents/${this.props.match.params.id}`)
+      .once('value')).val();
+    if (fetchedEventList) {
+      userEventList = fetchedEventList;
     }
     this.setState({
       ...this.state,
