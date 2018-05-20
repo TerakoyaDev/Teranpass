@@ -1,7 +1,7 @@
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import * as React from 'react';
 import {firebaseDb} from '../firebase'
+import EventPagePerDateFragment from './EventPagePerDateFragment';
 
 interface InterfaceProps {
   history: {
@@ -17,24 +17,26 @@ interface InterfaceProps {
 }
 
 interface InterfaceState {
-  event: string[]
+  isLoding: boolean
+  event: any[]
 }
 
 // TODO get userInfo by id
 export default class EventPagePerDate extends React.Component<InterfaceProps, InterfaceState> {
   constructor(props: InterfaceProps) {
     super(props)
-    this.state = {event: []}
+    this.state = {isLoding: false, event: []}
 
     this.accessCreateEventPage = this.accessCreateEventPage.bind(this)
   }
 
   public async getEvents(year: string, month: string, date: string) {
+    this.setState({isLoding: true, event: []})
     const val = ((await firebaseDb.ref(`events/${year}/${month}/${date}`).once('value')).val())
     if (val) {
-      this.setState({event: val})
+      this.setState({isLoding: false, event: val})
     } else {
-      this.setState({event: []})
+      this.setState({isLoding: false, event: []})
     }
   }
 
@@ -42,27 +44,25 @@ export default class EventPagePerDate extends React.Component<InterfaceProps, In
     this.props.history.push('/create')
   }
 
+  public onClickListItem(key: string) {
+    this.props.history.push(`/events/${this.state.event[key].date.split(' ')[0]}/${this.state.event[key].eventId}`)
+  }
+
   public componentDidMount() {
     const {year, month, date} = this.props.match.params
-    console.log(year)
     this.getEvents(year, month, date)
   }
 
   // TODO porfile card and register event
   public render() {
-    const {year, month, date} = this.props.match.params
-    const key = Object.keys(this.state.event)[0]
     return (
       <div>
-        {`${year}年${month}月${date}日`}
-        {
-        this.state.event.length !== 0 ?
-          <div> {this.state.event[key].body} </div> :
-          <div> No Event </div>
-          }
-          <Button variant="fab" color={'primary'} style={{position: 'absolute', bottom: 10, right: 10}} onClick={this.accessCreateEventPage}>
-            <AddIcon />
-          </Button>
+        {this.state.isLoding ?
+        <div style={{textAlign: 'center'}}>
+          <CircularProgress size={70} style={{alignItems: 'center'}}/>
+        </div> :
+        <EventPagePerDateFragment history={this.props.history} match={this.props.match} event={this.state.event}/>
+        }
       </div>
     );
   }

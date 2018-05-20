@@ -16,8 +16,6 @@ export default class TopPage extends React.Component<IProps> {
   }
 
   public selectedDate(date: string) {
-    console.log(Date.parse(date))
-
     const dateVal = new Date(Date.parse(date))
 
     this.props.history.push(`/eventList/${dateVal.getFullYear()}/${dateVal.getMonth() + 1}/${dateVal.getDate()}`)

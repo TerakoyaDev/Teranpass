@@ -44,42 +44,46 @@ export default class EventPageFragment extends React.Component<InterfaceProps> {
   // TODO porfile card and register event
   public render() {
     return (
-      <Card>
-        <CardHeader
-          avatar={
-            this.props.event.sponsor.photoURL !== 'default' ?
-            <Avatar src={this.props.event.sponsor.photoURL}/> :
-            <Avatar>
-              <Person />
-            </Avatar>
-            }
-            title={this.props.event.title}
-            subheader={this.props.event.date}
-          />
-      <CardContent>
-        <Typography component="p">
-          {`場所: ${this.props.event.location}`}
-        </Typography>
-        <br />
-        <Typography component="p">
-          {this.props.event.body}
-        </Typography>
-      </CardContent>
-      <CardContent>
-        <Subheader>{`このイベントに登録中のユーザ`}</Subheader>
-        <Grid container={true} spacing={24}>
-          {
-          this.props.event.participants.map((val, index) => (
-          <Grid item={true} xs={1} key={index}>
-            <IconButton onClick={this.pushUserPage.bind(this, val)}>
-              <Avatar src={val.photoURL}/>
-            </IconButton>
-          </Grid>
-        ))
-        }
-      </Grid>
-    </CardContent>
-      </Card>
+      <div>
+        <Card>
+          <CardHeader
+            avatar={
+              this.props.event.sponsor.photoURL !== 'default' ?
+              <Avatar src={this.props.event.sponsor.photoURL}/> :
+              <Avatar>
+                <Person />
+              </Avatar>
+              }
+              title={this.props.event.title}
+              subheader={this.props.event.date}
+            />
+            <CardContent>
+              <Typography component="p">
+                {`場所: ${this.props.event.location}`}
+              </Typography>
+              <br />
+              <Typography component="p">
+                {this.props.event.body}
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <Subheader>{`このイベントに登録中のユーザ`}</Subheader>
+              <Grid container={true} spacing={24}>
+                {
+                this.props.event.participants.map((val, index) => (
+                <Grid item={true} xs={1} key={index}>
+                  <IconButton onClick={this.pushUserPage.bind(this, val)}>
+                    <Avatar src={val.photoURL}/>
+                  </IconButton>
+                </Grid>
+              ))
+              }
+            </Grid>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 }

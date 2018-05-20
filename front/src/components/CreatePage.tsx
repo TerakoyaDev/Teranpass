@@ -134,7 +134,6 @@ export default class UserPage extends React.Component<InterfaceProps, InterfaceS
   }
 
   public onChangeDate(event: any) {
-    console.log(event.currentTarget.value)
     const date = new Date(event.currentTarget.value)
     this.setState({...this.state, date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`})
   }

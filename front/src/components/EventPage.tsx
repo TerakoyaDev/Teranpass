@@ -4,6 +4,21 @@ import {IUserInfo} from '../App';
 import {firebaseDb} from '../firebase'
 import EventPageFragment from './EventPageFragment'
 
+export interface InterfaceEvent {
+  body: string,
+  date: string,
+  eventId: string,
+  location: string,
+  participants: IUserInfo[],
+  sponsor: {
+    displayName: string,
+      email: string ,
+      photoURL: string,
+      uid: string,
+  },
+  title: string,
+}
+
 interface InterfaceProps {
   history: {
     push: (path: string) => void
@@ -20,20 +35,7 @@ interface InterfaceProps {
 
 interface InterfaceState {
   isLoding: boolean,
-  event: {
-      body: string,
-      date: string,
-      eventId: string,
-      location: string,
-      participants: IUserInfo[],
-      sponsor: {
-        displayName: string,
-          email: string ,
-          photoURL: string,
-          uid: string,
-      },
-      title: string,
-  }
+    event: InterfaceEvent,
 }
 
 // TODO get userInfo by id
@@ -65,7 +67,6 @@ export default class EventPage extends React.Component<InterfaceProps, Interface
       isLoding: true,
     })
     const val = ((await firebaseDb.ref(`events/${year}/${month}/${date}/${eventId}`).once('value')).val())
-    console.log(val)
     if (val) {
       this.setState({
         event: val,
