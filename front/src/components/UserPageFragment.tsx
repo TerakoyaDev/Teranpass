@@ -12,26 +12,30 @@ import * as React from 'react';
 
 interface IProps {
   history: {
-    push: (path: string) => void
-  },
-    userInfo: {
-      displayName: string,
-        email: string,
-        photoURL: string,
-        uid: string,
-    },
-    eventList: any[],
+    push: (path: string) => void;
+  };
+  userInfo: {
+    displayName: string;
+    email: string;
+    photoURL: string;
+    uid: string;
+  };
+  eventList: any[];
 }
 
 export default class UserPageFragment extends React.Component<IProps> {
   constructor(props: IProps) {
-    super(props)
+    super(props);
 
-    this.onClickListItem = this.onClickListItem.bind(this)
+    this.onClickListItem = this.onClickListItem.bind(this);
   }
 
   public onClickListItem(index: number) {
-    this.props.history.push(`/events/${this.props.eventList[index].date.split(' ')[0]}/${this.props.eventList[index].eventId}`)
+    this.props.history.push(
+      `/events/${this.props.eventList[index].date.split(' ')[0]}/${
+        this.props.eventList[index].eventId
+      }`
+    );
   }
 
   public render() {
@@ -40,25 +44,36 @@ export default class UserPageFragment extends React.Component<IProps> {
         <Card>
           <CardHeader
             avatar={
-              this.props.userInfo.photoURL !== 'default' ?
-              <Avatar src={this.props.userInfo.photoURL}/> :
-              <Avatar>
-                <Person />
-              </Avatar>
-              }
-              title={this.props.userInfo.displayName}
-              subheader="19卒エンジニア"
-            />
-          </Card>
-          <Card>
-            <CardContent>
-              <Subheader>{`登録中のイベント`}</Subheader>
-              <List style={{maxHeight: 300, overflow: 'auto', position: 'relative'}}>
-                {this.props.eventList.map((item, index) => (
+              this.props.userInfo.photoURL !== 'default' ? (
+                <Avatar src={this.props.userInfo.photoURL} />
+              ) : (
+                <Avatar>
+                  <Person />
+                </Avatar>
+              )
+            }
+            title={this.props.userInfo.displayName}
+            subheader="19卒エンジニア"
+          />
+        </Card>
+        <Card>
+          <CardContent>
+            <Subheader>{`登録中のイベント`}</Subheader>
+            <List
+              style={{ maxHeight: 300, overflow: 'auto', position: 'relative' }}
+            >
+              {this.props.eventList.map((item, index) => (
                 <div key={index}>
-                  <ListItem key={index} button={true} onClick={this.onClickListItem.bind(this, index)}>
-                    <Avatar src={this.props.userInfo.photoURL}/>
-                    <ListItemText primary={`${item.title}`} secondary={item.date}/>
+                  <ListItem
+                    key={index}
+                    button={true}
+                    onClick={this.onClickListItem.bind(this, index)}
+                  >
+                    <Avatar src={this.props.userInfo.photoURL} />
+                    <ListItemText
+                      primary={`${item.title}`}
+                      secondary={item.date}
+                    />
                   </ListItem>
                   <Divider />
                 </div>
@@ -67,6 +82,6 @@ export default class UserPageFragment extends React.Component<IProps> {
           </CardContent>
         </Card>
       </div>
-    )
+    );
   }
 }

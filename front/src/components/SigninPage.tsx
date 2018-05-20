@@ -1,103 +1,105 @@
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
-import {firebaseAuth} from '../firebase'
-import {firebaseDb} from '../firebase'
+import { firebaseAuth } from '../firebase';
+import { firebaseDb } from '../firebase';
 
-interface InterfaceState{
-  email: string,
-  password: string,
-  emailErrorMessage: string,
-  passwordErrorMessage: string,
+interface InterfaceState {
+  email: string;
+  password: string;
+  emailErrorMessage: string;
+  passwordErrorMessage: string;
 }
 
 interface InterfaceProps {
-  toggleSigned: (() => void),
+  toggleSigned: (() => void);
   history: {
-    push: (path: string) => void
-  }
+    push: (path: string) => void;
+  };
 }
 
-export default class SigninPage extends React.Component<InterfaceProps, InterfaceState> {
-  constructor (props: InterfaceProps){
-    super(props)
+export default class SigninPage extends React.Component<
+  InterfaceProps,
+  InterfaceState
+> {
+  constructor(props: InterfaceProps) {
+    super(props);
 
     // state
     this.state = {
       email: '',
       emailErrorMessage: '',
       password: '',
-      passwordErrorMessage: ''
-    }
+      passwordErrorMessage: '',
+    };
 
     // bind
-    this.onChangeEmail = this.onChangeEmail.bind(this)
-    this.onChangePassword = this.onChangePassword.bind(this)
-    this.signin = this.signin.bind(this)
+    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangePassword = this.onChangePassword.bind(this);
+    this.signin = this.signin.bind(this);
   }
 
   // signin
-  public signin () {
-
+  public signin() {
     // validate
-    if (this.state.email === "") {
+    if (this.state.email === '') {
       this.setState({
         ...this.state,
         emailErrorMessage: 'email field is required',
-        passwordErrorMessage: ''
-      })
+        passwordErrorMessage: '',
+      });
       return;
     }
-    if (this.state.password === "") {
+    if (this.state.password === '') {
       this.setState({
         ...this.state,
         emailErrorMessage: '',
-        passwordErrorMessage: 'password field is required'
-      })
+        passwordErrorMessage: 'password field is required',
+      });
       return;
     }
 
     // signin
-    firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
-    firebaseAuth.signInWithEmailAndPassword(this.state.email, this.state.password)
+    firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+    firebaseAuth
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(async () => {
-        const user = firebaseAuth.currentUser
+        const user = firebaseAuth.currentUser;
         if (user) {
           await firebaseDb.ref(`users/${user.uid}`).set({
             displayName: user.displayName,
             email: user.email,
             photoURL: user.photoURL,
             uid: user.uid,
-          })
+          });
         }
 
-        this.props.toggleSigned()
+        this.props.toggleSigned();
 
-        this.props.history.push('/')
+        this.props.history.push('/');
       })
-      .catch((error: {message: string}) => {
+      .catch((error: { message: string }) => {
         this.setState({
           ...this.state,
           emailErrorMessage: error.message,
-          passwordErrorMessage: ''
-        })
-      })
+          passwordErrorMessage: '',
+        });
+      });
   }
-
 
   // change method
-  public onChangeEmail(event : React.FormEvent<HTMLSelectElement>) {
-    this.setState({...this.state, email: event.currentTarget.value})
+  public onChangeEmail(event: React.FormEvent<HTMLSelectElement>) {
+    this.setState({ ...this.state, email: event.currentTarget.value });
   }
 
-  public onChangePassword(event : React.FormEvent<HTMLSelectElement>) {
-    this.setState({...this.state, password: event.currentTarget.value})
+  public onChangePassword(event: React.FormEvent<HTMLSelectElement>) {
+    this.setState({ ...this.state, password: event.currentTarget.value });
   }
 
   public render() {
     return (
-      <div style={{textAlign: 'center', flex: 'column'}}>
+      <div style={{ textAlign: 'center', flex: 'column' }}>
         <TextField
           hintText="Email Field"
           floatingLabelText="Email"
@@ -117,7 +119,7 @@ export default class SigninPage extends React.Component<InterfaceProps, Interfac
           label="Sign in"
           primary={true}
           onClick={this.signin}
-          style={{width: '60%'}}
+          style={{ width: '60%' }}
         />
       </div>
     );
