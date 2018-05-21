@@ -1,7 +1,7 @@
 package infrastructure
 
 import (
-	"github.com/TerakoyaDev/Teranpass/domain/model/event"
+	"github.com/TerakoyaDev/Teranpass/server/domain/model/event"
 )
 
 type EventRepository interface {
