@@ -1,9 +1,7 @@
-import * as firebase from 'firebase';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
-import { firebaseAuth } from '../firebase';
-import { firebaseDb } from '../firebase';
+import { createNewUser } from '../action/ActionOfUser';
 
 interface InterfaceState {
   userName: string;
@@ -15,10 +13,11 @@ interface InterfaceState {
 }
 
 interface InterfaceProps {
-  toggleSigned: () => void;
+  message: string;
   history: {
     push: (path: string) => void;
   };
+  dispatch: any;
 }
 
 export default class SignupPage extends React.Component<
@@ -75,39 +74,20 @@ export default class SignupPage extends React.Component<
       });
       return;
     }
-
-    // create account
-    firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
-    firebaseAuth
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(async () => {
-        const user = firebaseAuth.currentUser;
-        if (user) {
-          await user.updateProfile({
-            displayName: this.state.userName,
-            photoURL:
-              'https://firebasestorage.googleapis.com/v0/b/teranpass.appspot.com/o/account-circle.png?alt=media&token=2c34cb44-a79e-4315-9f26-f868dfc0c550',
-          });
-          await firebaseDb.ref(`users/${user.uid}`).set({
-            displayName: user.displayName,
-            email: user.email,
-            photoURL: user.photoURL,
-            uid: user.uid,
-          });
-        }
-
-        // toggle isSigned state
-        this.props.toggleSigned();
-
-        this.props.history.push('/');
-      })
-      .catch((error: { code: string; message: string }) => {
-        this.setState({
-          ...this.state,
-          emailErrorMessage: error.message,
-          passwordErrorMessage: '',
-        });
+    if (!this.state.email.includes('@')) {
+      this.setState({
+        ...this.state,
+        emailErrorMessage: 'invalid email',
+        passwordErrorMessage: '',
+        userNameErrorMessage: '',
       });
+      return;
+    }
+
+    const { dispatch } = this.props;
+    dispatch(
+      createNewUser(this.state.userName, this.state.email, this.state.password)
+    );
   }
 
   // change method
@@ -126,6 +106,7 @@ export default class SignupPage extends React.Component<
   public render() {
     return (
       <div style={{ textAlign: 'center', flex: 'column' }}>
+        <div>{this.props.message}</div>
         <TextField
           hintText="UserName Field"
           floatingLabelText="UserName"

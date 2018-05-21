@@ -1,10 +1,11 @@
-import createBrowserHistory from 'history/createBrowserHistory';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as React from 'react';
+import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import Routes from './components/Routes';
+import store, { history } from './store';
 
-const history = createBrowserHistory();
+// const history = createBrowserHistory();
 
 export const SignContext = React.createContext({
   initApp: () => {},
@@ -107,11 +108,13 @@ export default class App extends React.Component<{}, IState> {
   public render() {
     return (
       <MuiThemeProvider>
-        <SignContext.Provider value={this.state}>
-          <Router history={history}>
-            <Routes history={history} />
-          </Router>
-        </SignContext.Provider>
+        <Provider store={store}>
+          <SignContext.Provider value={this.state}>
+            <Router history={history}>
+              <Routes history={history} />
+            </Router>
+          </SignContext.Provider>
+        </Provider>
       </MuiThemeProvider>
     );
   }
