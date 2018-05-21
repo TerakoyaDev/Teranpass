@@ -1,7 +1,7 @@
 package infrastructure
 
 import (
-	"github.com/TerakoyaDev/Teranpass/domain/model/event"
+	"github.com/TerakoyaDev/Teranpass/server/domain/model/event"
 )
 
 type EventRepositoryImpl struct {
@@ -19,11 +19,10 @@ func (self *EventRepositoryImpl) store(event *event.Event) *EventRepositoryImpl 
 }
 
 func (self *EventRepositoryImpl) Equals(other *EventRepositoryImpl) bool {
-	var isEquals = true
-	for i := 0; i < len(self.events); i++ {
-		if !self.events[i].Equals(other.events[i]) {
-			isEquals = false
+	for key, event := range self.events {
+		if !event.Equals(other.events[key]) {
+			return false
 		}
 	}
-	return isEquals
+	return true
 }
