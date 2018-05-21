@@ -1,0 +1,583 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		64021EB420B2DCC300BA4E18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64021EB320B2DCC300BA4E18 /* AppDelegate.swift */; };
+		64021EB620B2DCC300BA4E18 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64021EB520B2DCC300BA4E18 /* ViewController.swift */; };
+		64021EB920B2DCC300BA4E18 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64021EB720B2DCC300BA4E18 /* Main.storyboard */; };
+		64021EBB20B2DCC400BA4E18 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64021EBA20B2DCC400BA4E18 /* Assets.xcassets */; };
+		64021EBE20B2DCC400BA4E18 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64021EBC20B2DCC400BA4E18 /* LaunchScreen.storyboard */; };
+		64021EC920B2DCC400BA4E18 /* TeranpassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64021EC820B2DCC400BA4E18 /* TeranpassTests.swift */; };
+		64021ED420B2DCC400BA4E18 /* TeranpassUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64021ED320B2DCC400BA4E18 /* TeranpassUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		64021EC520B2DCC400BA4E18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64021EA820B2DCC300BA4E18 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 64021EAF20B2DCC300BA4E18;
+			remoteInfo = Teranpass;
+		};
+		64021ED020B2DCC400BA4E18 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64021EA820B2DCC300BA4E18 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 64021EAF20B2DCC300BA4E18;
+			remoteInfo = Teranpass;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		64021EB020B2DCC300BA4E18 /* Teranpass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Teranpass.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		64021EB320B2DCC300BA4E18 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		64021EB520B2DCC300BA4E18 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		64021EB820B2DCC300BA4E18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		64021EBA20B2DCC400BA4E18 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		64021EBD20B2DCC400BA4E18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		64021EBF20B2DCC400BA4E18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		64021EC420B2DCC400BA4E18 /* TeranpassTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeranpassTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		64021EC820B2DCC400BA4E18 /* TeranpassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeranpassTests.swift; sourceTree = "<group>"; };
+		64021ECA20B2DCC400BA4E18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		64021ECF20B2DCC400BA4E18 /* TeranpassUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeranpassUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		64021ED320B2DCC400BA4E18 /* TeranpassUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeranpassUITests.swift; sourceTree = "<group>"; };
+		64021ED520B2DCC400BA4E18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		64021EAD20B2DCC300BA4E18 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64021EC120B2DCC400BA4E18 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64021ECC20B2DCC400BA4E18 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		64021EA720B2DCC300BA4E18 = {
+			isa = PBXGroup;
+			children = (
+				64021EB220B2DCC300BA4E18 /* Teranpass */,
+				64021EC720B2DCC400BA4E18 /* TeranpassTests */,
+				64021ED220B2DCC400BA4E18 /* TeranpassUITests */,
+				64021EB120B2DCC300BA4E18 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		64021EB120B2DCC300BA4E18 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				64021EB020B2DCC300BA4E18 /* Teranpass.app */,
+				64021EC420B2DCC400BA4E18 /* TeranpassTests.xctest */,
+				64021ECF20B2DCC400BA4E18 /* TeranpassUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		64021EB220B2DCC300BA4E18 /* Teranpass */ = {
+			isa = PBXGroup;
+			children = (
+				64021EB320B2DCC300BA4E18 /* AppDelegate.swift */,
+				64021EB520B2DCC300BA4E18 /* ViewController.swift */,
+				64021EB720B2DCC300BA4E18 /* Main.storyboard */,
+				64021EBA20B2DCC400BA4E18 /* Assets.xcassets */,
+				64021EBC20B2DCC400BA4E18 /* LaunchScreen.storyboard */,
+				64021EBF20B2DCC400BA4E18 /* Info.plist */,
+			);
+			path = Teranpass;
+			sourceTree = "<group>";
+		};
+		64021EC720B2DCC400BA4E18 /* TeranpassTests */ = {
+			isa = PBXGroup;
+			children = (
+				64021EC820B2DCC400BA4E18 /* TeranpassTests.swift */,
+				64021ECA20B2DCC400BA4E18 /* Info.plist */,
+			);
+			path = TeranpassTests;
+			sourceTree = "<group>";
+		};
+		64021ED220B2DCC400BA4E18 /* TeranpassUITests */ = {
+			isa = PBXGroup;
+			children = (
+				64021ED320B2DCC400BA4E18 /* TeranpassUITests.swift */,
+				64021ED520B2DCC400BA4E18 /* Info.plist */,
+			);
+			path = TeranpassUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		64021EAF20B2DCC300BA4E18 /* Teranpass */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 64021ED820B2DCC400BA4E18 /* Build configuration list for PBXNativeTarget "Teranpass" */;
+			buildPhases = (
+				64021EAC20B2DCC300BA4E18 /* Sources */,
+				64021EAD20B2DCC300BA4E18 /* Frameworks */,
+				64021EAE20B2DCC300BA4E18 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Teranpass;
+			productName = Teranpass;
+			productReference = 64021EB020B2DCC300BA4E18 /* Teranpass.app */;
+			productType = "com.apple.product-type.application";
+		};
+		64021EC320B2DCC400BA4E18 /* TeranpassTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 64021EDB20B2DCC400BA4E18 /* Build configuration list for PBXNativeTarget "TeranpassTests" */;
+			buildPhases = (
+				64021EC020B2DCC400BA4E18 /* Sources */,
+				64021EC120B2DCC400BA4E18 /* Frameworks */,
+				64021EC220B2DCC400BA4E18 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				64021EC620B2DCC400BA4E18 /* PBXTargetDependency */,
+			);
+			name = TeranpassTests;
+			productName = TeranpassTests;
+			productReference = 64021EC420B2DCC400BA4E18 /* TeranpassTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		64021ECE20B2DCC400BA4E18 /* TeranpassUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 64021EDE20B2DCC400BA4E18 /* Build configuration list for PBXNativeTarget "TeranpassUITests" */;
+			buildPhases = (
+				64021ECB20B2DCC400BA4E18 /* Sources */,
+				64021ECC20B2DCC400BA4E18 /* Frameworks */,
+				64021ECD20B2DCC400BA4E18 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				64021ED120B2DCC400BA4E18 /* PBXTargetDependency */,
+			);
+			name = TeranpassUITests;
+			productName = TeranpassUITests;
+			productReference = 64021ECF20B2DCC400BA4E18 /* TeranpassUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		64021EA820B2DCC300BA4E18 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = "Tomoya Matsuyama";
+				TargetAttributes = {
+					64021EAF20B2DCC300BA4E18 = {
+						CreatedOnToolsVersion = 9.3.1;
+					};
+					64021EC320B2DCC400BA4E18 = {
+						CreatedOnToolsVersion = 9.3.1;
+						TestTargetID = 64021EAF20B2DCC300BA4E18;
+					};
+					64021ECE20B2DCC400BA4E18 = {
+						CreatedOnToolsVersion = 9.3.1;
+						TestTargetID = 64021EAF20B2DCC300BA4E18;
+					};
+				};
+			};
+			buildConfigurationList = 64021EAB20B2DCC300BA4E18 /* Build configuration list for PBXProject "Teranpass" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 64021EA720B2DCC300BA4E18;
+			productRefGroup = 64021EB120B2DCC300BA4E18 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				64021EAF20B2DCC300BA4E18 /* Teranpass */,
+				64021EC320B2DCC400BA4E18 /* TeranpassTests */,
+				64021ECE20B2DCC400BA4E18 /* TeranpassUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		64021EAE20B2DCC300BA4E18 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64021EBE20B2DCC400BA4E18 /* LaunchScreen.storyboard in Resources */,
+				64021EBB20B2DCC400BA4E18 /* Assets.xcassets in Resources */,
+				64021EB920B2DCC300BA4E18 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64021EC220B2DCC400BA4E18 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64021ECD20B2DCC400BA4E18 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		64021EAC20B2DCC300BA4E18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64021EB620B2DCC300BA4E18 /* ViewController.swift in Sources */,
+				64021EB420B2DCC300BA4E18 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64021EC020B2DCC400BA4E18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64021EC920B2DCC400BA4E18 /* TeranpassTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		64021ECB20B2DCC400BA4E18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64021ED420B2DCC400BA4E18 /* TeranpassUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		64021EC620B2DCC400BA4E18 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 64021EAF20B2DCC300BA4E18 /* Teranpass */;
+			targetProxy = 64021EC520B2DCC400BA4E18 /* PBXContainerItemProxy */;
+		};
+		64021ED120B2DCC400BA4E18 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 64021EAF20B2DCC300BA4E18 /* Teranpass */;
+			targetProxy = 64021ED020B2DCC400BA4E18 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		64021EB720B2DCC300BA4E18 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				64021EB820B2DCC300BA4E18 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		64021EBC20B2DCC400BA4E18 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				64021EBD20B2DCC400BA4E18 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		64021ED620B2DCC400BA4E18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		64021ED720B2DCC400BA4E18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		64021ED920B2DCC400BA4E18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Teranpass/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tomoya.matsuyama.Teranpass;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		64021EDA20B2DCC400BA4E18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Teranpass/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tomoya.matsuyama.Teranpass;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		64021EDC20B2DCC400BA4E18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = TeranpassTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tomoya.matsuyama.TeranpassTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Teranpass.app/Teranpass";
+			};
+			name = Debug;
+		};
+		64021EDD20B2DCC400BA4E18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = TeranpassTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tomoya.matsuyama.TeranpassTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Teranpass.app/Teranpass";
+			};
+			name = Release;
+		};
+		64021EDF20B2DCC400BA4E18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = TeranpassUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tomoya.matsuyama.TeranpassUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Teranpass;
+			};
+			name = Debug;
+		};
+		64021EE020B2DCC400BA4E18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = TeranpassUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tomoya.matsuyama.TeranpassUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Teranpass;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		64021EAB20B2DCC300BA4E18 /* Build configuration list for PBXProject "Teranpass" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				64021ED620B2DCC400BA4E18 /* Debug */,
+				64021ED720B2DCC400BA4E18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		64021ED820B2DCC400BA4E18 /* Build configuration list for PBXNativeTarget "Teranpass" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				64021ED920B2DCC400BA4E18 /* Debug */,
+				64021EDA20B2DCC400BA4E18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		64021EDB20B2DCC400BA4E18 /* Build configuration list for PBXNativeTarget "TeranpassTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				64021EDC20B2DCC400BA4E18 /* Debug */,
+				64021EDD20B2DCC400BA4E18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		64021EDE20B2DCC400BA4E18 /* Build configuration list for PBXNativeTarget "TeranpassUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				64021EDF20B2DCC400BA4E18 /* Debug */,
+				64021EE020B2DCC400BA4E18 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 64021EA820B2DCC300BA4E18 /* Project object */;
+}
