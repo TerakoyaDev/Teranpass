@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		64021EB420B2DCC300BA4E18 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64021EB320B2DCC300BA4E18 /* AppDelegate.swift */; };
-		64021EB620B2DCC300BA4E18 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64021EB520B2DCC300BA4E18 /* ViewController.swift */; };
-		64021EB920B2DCC300BA4E18 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64021EB720B2DCC300BA4E18 /* Main.storyboard */; };
 		64021EBB20B2DCC400BA4E18 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64021EBA20B2DCC400BA4E18 /* Assets.xcassets */; };
 		64021EBE20B2DCC400BA4E18 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64021EBC20B2DCC400BA4E18 /* LaunchScreen.storyboard */; };
 		64021EC920B2DCC400BA4E18 /* TeranpassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64021EC820B2DCC400BA4E18 /* TeranpassTests.swift */; };
@@ -36,8 +34,6 @@
 /* Begin PBXFileReference section */
 		64021EB020B2DCC300BA4E18 /* Teranpass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Teranpass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		64021EB320B2DCC300BA4E18 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		64021EB520B2DCC300BA4E18 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		64021EB820B2DCC300BA4E18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		64021EBA20B2DCC400BA4E18 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64021EBD20B2DCC400BA4E18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		64021EBF20B2DCC400BA4E18 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -98,8 +94,6 @@
 			isa = PBXGroup;
 			children = (
 				64021EB320B2DCC300BA4E18 /* AppDelegate.swift */,
-				64021EB520B2DCC300BA4E18 /* ViewController.swift */,
-				64021EB720B2DCC300BA4E18 /* Main.storyboard */,
 				64021EBA20B2DCC400BA4E18 /* Assets.xcassets */,
 				64021EBC20B2DCC400BA4E18 /* LaunchScreen.storyboard */,
 				64021EBF20B2DCC400BA4E18 /* Info.plist */,
@@ -231,7 +225,6 @@
 			files = (
 				64021EBE20B2DCC400BA4E18 /* LaunchScreen.storyboard in Resources */,
 				64021EBB20B2DCC400BA4E18 /* Assets.xcassets in Resources */,
-				64021EB920B2DCC300BA4E18 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,7 +249,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64021EB620B2DCC300BA4E18 /* ViewController.swift in Sources */,
 				64021EB420B2DCC300BA4E18 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,14 +285,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		64021EB720B2DCC300BA4E18 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				64021EB820B2DCC300BA4E18 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		64021EBC20B2DCC400BA4E18 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
