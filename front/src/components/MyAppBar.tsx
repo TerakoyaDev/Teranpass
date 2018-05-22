@@ -12,6 +12,7 @@ import Signup from './Signup';
 interface IProps {
   isSigned: boolean;
   userInfo: IUserInfo;
+  dispatch: any;
 }
 
 interface InterfaceState {
@@ -34,48 +35,47 @@ export default class MyAppBar extends React.Component<IProps, InterfaceState> {
   public handleClose = () => {
     this.setState({ open: false });
   };
+
   public render() {
     return (
       <div>
-        <div>
-          <AppBar
-            title="Teranpass"
-            iconElementLeft={
-              <IconButton
-                containerElement={<Link to="/" />}
-                style={{ color: 'white' }}
-              >
-                <ActionHome />
-              </IconButton>
-            }
-            iconElementRight={
-              this.props.isSigned ? (
-                <Logged
-                  userInfo={this.props.userInfo}
-                  openSnackbar={this.openSnackbar}
-                />
-              ) : (
-                <div>
-                  <Signup />
-                  <Signin />
-                </div>
-              )
-            }
-          />
-          <Snackbar
-            anchorOrigin={{
-              horizontal: 'left',
-              vertical: 'bottom',
-            }}
-            open={this.state.open}
-            autoHideDuration={2000}
-            onClose={this.handleClose}
-            ContentProps={{
-              'aria-describedby': 'message-id',
-            }}
-            message={<span id="message-id">Sign out Success</span>}
-          />
-        </div>
+        <AppBar
+          title="Teranpass"
+          iconElementLeft={
+            <IconButton
+              containerElement={<Link to="/" />}
+              style={{ color: 'white' }}
+            >
+              <ActionHome />
+            </IconButton>
+          }
+          iconElementRight={
+            this.props.isSigned ? (
+              <Logged
+                userInfo={this.props.userInfo}
+                openSnackbar={this.openSnackbar}
+              />
+            ) : (
+              <div>
+                <Signup />
+                <Signin />
+              </div>
+            )
+          }
+        />
+        <Snackbar
+          anchorOrigin={{
+            horizontal: 'left',
+            vertical: 'bottom',
+          }}
+          open={this.state.open}
+          autoHideDuration={2000}
+          onClose={this.handleClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Sign out Success</span>}
+        />
       </div>
     );
   }

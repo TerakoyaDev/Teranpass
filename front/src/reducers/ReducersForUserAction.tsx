@@ -1,8 +1,9 @@
 import {
   CREATE_NEW_USER_FAILED,
   CREATE_NEW_USER_SUCCESS,
-  FETCH_USER_INFO_FROM_SESSION_STORAGE_FAILED,
-  FETCH_USER_INFO_FROM_SESSION_STORAGE_SUCCESS,
+  FETCH_USER_INFO_FROM_SESSION_STORAGE,
+  SIGNIN_USER_FAILED,
+  SIGNIN_USER_SUCCESS,
 } from '../action/ActionOfUserType';
 
 const initialState = {
@@ -11,6 +12,22 @@ const initialState = {
   photoURL: '',
   uid: '',
 };
+
+function fetchUserInfoFromSessionStorage() {
+  const storage = window.sessionStorage;
+  console.log(storage);
+  const filteredKeys = Object.keys(storage).filter(
+    (n: string) =>
+      JSON.parse(storage[n]).authDomain === 'teranpass.firebaseapp.com'
+  );
+  if (filteredKeys.length !== 0) {
+    const filteredUser = JSON.parse(storage[filteredKeys[0]]);
+    if (filteredUser) {
+      return filteredUser;
+    }
+  }
+  return initialState;
+}
 
 const reducersForUserAction = (
   state: any = {
@@ -27,6 +44,7 @@ const reducersForUserAction = (
       return {
         ...state,
         isSigned: true,
+        message: '',
         userInfo: action.userInfo.userInfo,
       };
     case CREATE_NEW_USER_FAILED:
@@ -37,16 +55,24 @@ const reducersForUserAction = (
           ...initialState,
         },
       };
-    case FETCH_USER_INFO_FROM_SESSION_STORAGE_SUCCESS:
+    case FETCH_USER_INFO_FROM_SESSION_STORAGE:
       return {
         ...state,
         isSigned: true,
-        userInfo: { ...action.filteredUser },
+        message: '',
+        userInfo: fetchUserInfoFromSessionStorage(),
       };
-    case FETCH_USER_INFO_FROM_SESSION_STORAGE_FAILED:
+    case SIGNIN_USER_SUCCESS:
+      return {
+        ...state,
+        isSigned: true,
+        message: '',
+      };
+    case SIGNIN_USER_FAILED:
       return {
         ...state,
         isSigned: false,
+        message: action.message,
       };
     default:
       return state;

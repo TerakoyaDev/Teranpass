@@ -1,9 +1,7 @@
-import * as firebase from 'firebase';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
-import { firebaseAuth } from '../firebase';
-import { firebaseDb } from '../firebase';
+import { signinUser } from '../action/ActionOfUser';
 
 interface InterfaceState {
   email: string;
@@ -13,10 +11,11 @@ interface InterfaceState {
 }
 
 interface InterfaceProps {
-  toggleSigned: (() => void);
+  message: string;
   history: {
     push: (path: string) => void;
   };
+  dispatch: any;
 }
 
 export default class SigninPage extends React.Component<
@@ -60,32 +59,8 @@ export default class SigninPage extends React.Component<
       return;
     }
 
-    // signin
-    firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
-    firebaseAuth
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(async () => {
-        const user = firebaseAuth.currentUser;
-        if (user) {
-          await firebaseDb.ref(`users/${user.uid}`).set({
-            displayName: user.displayName,
-            email: user.email,
-            photoURL: user.photoURL,
-            uid: user.uid,
-          });
-        }
-
-        this.props.toggleSigned();
-
-        this.props.history.push('/');
-      })
-      .catch((error: { message: string }) => {
-        this.setState({
-          ...this.state,
-          emailErrorMessage: error.message,
-          passwordErrorMessage: '',
-        });
-      });
+    const { dispatch } = this.props;
+    dispatch(signinUser(this.state.email, this.state.password));
   }
 
   // change method
@@ -100,6 +75,7 @@ export default class SigninPage extends React.Component<
   public render() {
     return (
       <div style={{ textAlign: 'center', flex: 'column' }}>
+        <div>{this.props.message}</div>
         <TextField
           hintText="Email Field"
           floatingLabelText="Email"

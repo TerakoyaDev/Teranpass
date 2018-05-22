@@ -6,11 +6,13 @@ import {
   CREATE_NEW_USER_FAILED,
   CREATE_NEW_USER_SUCCESS,
   FETCH_USER_INFO_FROM_SESSION_STORAGE,
-  FETCH_USER_INFO_FROM_SESSION_STORAGE_FAILED,
-  FETCH_USER_INFO_FROM_SESSION_STORAGE_SUCCESS,
+  SIGNIN_USER,
+  SIGNIN_USER_FAILED,
+  SIGNIN_USER_SUCCESS,
 } from '../action/ActionOfUserType';
 import { firebaseAuth, firebaseDb } from '../firebase';
 
+// create new user
 function createNewUserToFirebase(payload: {
   userName: string;
   email: string;
@@ -23,14 +25,14 @@ function createNewUserToFirebase(payload: {
   // create account
   return firebaseAuth
     .createUserWithEmailAndPassword(email, password)
-    .then((): any => {
+    .then(async () => {
       const user = firebaseAuth.currentUser;
       if (user) {
         // update user profile
         const defaultURL =
           'https://firebasestorage.googleapis.com/v0/b/teranpass.appspot.com/o/account-circle.png?alt=media&token=2c34cb44-a79e-4315-9f26-f868dfc0c550';
 
-        user.updateProfile({
+        await user.updateProfile({
           displayName: userName,
           photoURL: defaultURL,
         });
@@ -43,11 +45,12 @@ function createNewUserToFirebase(payload: {
         };
 
         // push data to database
-        firebaseDb.ref(`users/${user.uid}`).set({
+        await firebaseDb.ref(`users/${user.uid}`).set({
           userInfo,
         });
         return { isCreated: true, userInfo: { userInfo }, message: '' };
       }
+      return { isCreated: false, userInfo: {}, message: '' };
     })
     .catch(e => {
       return { isCreated: false, message: e.message };
@@ -68,6 +71,7 @@ function* createNewUserService() {
         userInfo,
       });
       yield put(push('/'));
+      yield put({ type: FETCH_USER_INFO_FROM_SESSION_STORAGE });
     } else {
       yield put({
         message,
@@ -77,32 +81,44 @@ function* createNewUserService() {
   }
 }
 
-async function fetchUserInfoFromSessionStorage() {
-  const storage = await window.sessionStorage;
-  const filteredKeys = Object.keys(storage).filter(
-    (n: string) =>
-      JSON.parse(storage[n]).authDomain === 'teranpass.firebaseapp.com'
-  );
-  if (filteredKeys.length !== 0) {
-    const filteredUser = JSON.parse(storage[filteredKeys[0]]);
-    if (filteredUser) {
-      return filteredUser;
-    }
-  }
+// signin user
+function signinUser(payload: { email: string; password: string }) {
+  const { email, password } = payload;
+  firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+  return firebaseAuth
+    .signInWithEmailAndPassword(email, password)
+    .then(() => {
+      const user = firebaseAuth.currentUser;
+      if (user) {
+        firebaseDb.ref(`users/${user.uid}`).set({
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          uid: user.uid,
+        });
+      }
+      return { isSigned: true, message: '' };
+    })
+    .catch((error: { message: string }) => {
+      return { isSigned: false, message: error.message };
+    });
 }
 
-function* fetchUserInfoFromSessionStorageService() {
+function* signinUserService() {
   while (true) {
-    yield take(FETCH_USER_INFO_FROM_SESSION_STORAGE);
-    const { filteredUser } = yield call(fetchUserInfoFromSessionStorage);
-    if (filteredUser) {
+    const { payload } = yield take(SIGNIN_USER);
+    console.log(payload);
+    const { isSigned, message } = yield call(signinUser, payload);
+    if (isSigned) {
       yield put({
-        payload: filteredUser,
-        type: FETCH_USER_INFO_FROM_SESSION_STORAGE_SUCCESS,
+        type: SIGNIN_USER_SUCCESS,
       });
+      yield put({ type: FETCH_USER_INFO_FROM_SESSION_STORAGE });
+      yield put(push('/'));
     } else {
       yield put({
-        type: FETCH_USER_INFO_FROM_SESSION_STORAGE_FAILED,
+        message,
+        type: SIGNIN_USER_FAILED,
       });
     }
   }
@@ -110,7 +126,7 @@ function* fetchUserInfoFromSessionStorageService() {
 
 function* mySaga() {
   yield fork(createNewUserService);
-  yield fork(fetchUserInfoFromSessionStorageService);
+  yield fork(signinUserService);
 }
 
 export default mySaga;
