@@ -11,6 +11,7 @@ import {
   SIGNIN_USER_SUCCESS,
 } from '../action/ActionOfUserType';
 import { firebaseAuth, firebaseDb } from '../firebase';
+import { fetchEventListDataService } from './EventSagas';
 
 // create new user
 function createNewUserToFirebase(payload: {
@@ -127,6 +128,7 @@ function* signinUserService() {
 function* mySaga() {
   yield fork(createNewUserService);
   yield fork(signinUserService);
+  yield fork(fetchEventListDataService);
 }
 
 export default mySaga;
