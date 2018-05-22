@@ -3,7 +3,7 @@ import { routerMiddleware, routerReducer } from 'react-router-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import reducer from '../reducers';
+import reducers from '../reducers';
 import sagas from './sagas';
 
 // router
@@ -17,10 +17,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 // Store にマウントする
 const store = createStore(
-  combineReducers({
-    ...reducer,
-    router: routerReducer,
-  }),
+  combineReducers({ reducers, routerReducer }),
   applyMiddleware(sagaMiddleware, logger, routerMiddlewareWithHistory)
 );
 

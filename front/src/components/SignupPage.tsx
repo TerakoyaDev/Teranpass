@@ -2,6 +2,7 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { createNewUser } from '../action/ActionOfUser';
+import store from '../store';
 
 interface InterfaceState {
   userName: string;
@@ -74,15 +75,6 @@ export default class SignupPage extends React.Component<
       });
       return;
     }
-    if (!this.state.email.includes('@')) {
-      this.setState({
-        ...this.state,
-        emailErrorMessage: 'invalid email',
-        passwordErrorMessage: '',
-        userNameErrorMessage: '',
-      });
-      return;
-    }
 
     const { dispatch } = this.props;
     dispatch(
@@ -106,7 +98,7 @@ export default class SignupPage extends React.Component<
   public render() {
     return (
       <div style={{ textAlign: 'center', flex: 'column' }}>
-        <div>{this.props.message}</div>
+        <div>{store.getState().reducers.ReducersForUserAction.message}</div>
         <TextField
           hintText="UserName Field"
           floatingLabelText="UserName"

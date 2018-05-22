@@ -1,13 +1,11 @@
-// import * as React from 'react';
 import { connect } from 'react-redux';
 import SignupPage from '../components/SignupPage';
+import store from '../store';
 
-interface ISignupPageState {
-  message: string;
-}
-
-const mapStateToProps = (state: ISignupPageState) => {
-  return { message: state.message };
+const mapStateToProps = (state: any) => {
+  return {
+    message: store.getState().reducers.ReducersForUserAction.message,
+  };
 };
 
 export default connect(mapStateToProps)(SignupPage);

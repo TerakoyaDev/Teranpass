@@ -4,16 +4,11 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { IUserInfo } from '../App';
 import { firebaseAuth } from '../firebase';
 
 interface InterfaceProps {
-  toggleSigned: () => void;
-  userInfo: {
-    displayName: string;
-    email: string;
-    photoURL: string;
-    uid: string;
-  };
+  userInfo: IUserInfo;
   openSnackbar: () => void;
 }
 
@@ -25,7 +20,6 @@ export default class Logged extends React.Component<InterfaceProps> {
 
   public Signout() {
     firebaseAuth.signOut().then(() => {
-      this.props.toggleSigned();
       this.props.openSnackbar();
     });
   }

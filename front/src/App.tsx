@@ -109,11 +109,9 @@ export default class App extends React.Component<{}, IState> {
     return (
       <MuiThemeProvider>
         <Provider store={store}>
-          <SignContext.Provider value={this.state}>
-            <Router history={history}>
-              <Routes history={history} />
-            </Router>
-          </SignContext.Provider>
+          <Router history={history}>
+            <Routes history={history} />
+          </Router>
         </Provider>
       </MuiThemeProvider>
     );
