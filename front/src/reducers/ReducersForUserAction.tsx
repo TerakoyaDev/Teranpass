@@ -31,7 +31,7 @@ function fetchUserInfoFromSessionStorage() {
 
 const reducersForUserAction = (
   state: any = {
-    isSigned: false,
+    isAuth: false,
     message: '',
     userInfo: {
       ...initialState,
@@ -43,13 +43,13 @@ const reducersForUserAction = (
     case CREATE_NEW_USER_SUCCESS:
       return {
         ...state,
-        isSigned: true,
+        isAuth: true,
         message: '',
         userInfo: action.userInfo.userInfo,
       };
     case CREATE_NEW_USER_FAILED:
       return {
-        isSigned: false,
+        isAuth: false,
         message: action.message,
         userInfo: {
           ...initialState,
@@ -58,20 +58,20 @@ const reducersForUserAction = (
     case FETCH_USER_INFO_FROM_SESSION_STORAGE:
       return {
         ...state,
-        isSigned: true,
+        isAuth: true,
         message: '',
         userInfo: fetchUserInfoFromSessionStorage(),
       };
     case SIGNIN_USER_SUCCESS:
       return {
         ...state,
-        isSigned: true,
+        isAuth: true,
         message: '',
       };
     case SIGNIN_USER_FAILED:
       return {
         ...state,
-        isSigned: false,
+        jsAuth: false,
         message: action.message,
       };
     default:

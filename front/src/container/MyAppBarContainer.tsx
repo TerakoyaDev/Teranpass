@@ -4,7 +4,7 @@ import store from '../store';
 
 const mapStateToProps = (state: any) => {
   return {
-    isSigned: store.getState().reducers.ReducersForUserAction.isSigned,
+    isAuth: store.getState().reducers.ReducersForUserAction.isAuth,
     userInfo: store.getState().reducers.ReducersForUserAction.userInfo,
   };
 };

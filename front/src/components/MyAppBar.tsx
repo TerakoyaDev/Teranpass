@@ -10,7 +10,7 @@ import Signin from './Signin';
 import Signup from './Signup';
 
 interface IProps {
-  isSigned: boolean;
+  isAuth: boolean;
   userInfo: IUserInfo;
   dispatch: any;
 }
@@ -50,7 +50,7 @@ export default class MyAppBar extends React.Component<IProps, InterfaceState> {
             </IconButton>
           }
           iconElementRight={
-            this.props.isSigned ? (
+            this.props.isAuth ? (
               <Logged
                 userInfo={this.props.userInfo}
                 openSnackbar={this.openSnackbar}

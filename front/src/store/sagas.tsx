@@ -97,10 +97,10 @@ function signinUser(payload: { email: string; password: string }) {
           uid: user.uid,
         });
       }
-      return { isSigned: true, message: '' };
+      return { isAuth: true, message: '' };
     })
     .catch((error: { message: string }) => {
-      return { isSigned: false, message: error.message };
+      return { isAuth: false, message: error.message };
     });
 }
 
@@ -108,8 +108,8 @@ function* signinUserService() {
   while (true) {
     const { payload } = yield take(SIGNIN_USER);
     console.log(payload);
-    const { isSigned, message } = yield call(signinUser, payload);
-    if (isSigned) {
+    const { isAuth, message } = yield call(signinUser, payload);
+    if (isAuth) {
       yield put({
         type: SIGNIN_USER_SUCCESS,
       });
