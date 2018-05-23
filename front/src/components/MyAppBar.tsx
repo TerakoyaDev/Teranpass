@@ -4,6 +4,10 @@ import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  fetchUserInfoFromSessionStorage,
+  snackbarClose,
+} from '../action/ActionOfUser';
 import { IUserInfo } from '../App';
 import Logged from './Logged';
 import Signin from './Signin';
@@ -13,28 +17,23 @@ interface IProps {
   isAuth: boolean;
   userInfo: IUserInfo;
   dispatch: any;
+  isOpenSnackbar: boolean;
 }
 
-interface InterfaceState {
-  open: boolean;
-}
-
-export default class MyAppBar extends React.Component<IProps, InterfaceState> {
+export default class MyAppBar extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props);
-    this.state = { open: false };
-
-    this.openSnackbar = this.openSnackbar.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-  }
-
-  public openSnackbar() {
-    this.setState({ open: true });
   }
 
   public handleClose = () => {
-    this.setState({ open: false });
+    const { dispatch } = this.props;
+    dispatch(snackbarClose());
   };
+
+  public componentWillMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchUserInfoFromSessionStorage());
+  }
 
   public render() {
     return (
@@ -53,7 +52,7 @@ export default class MyAppBar extends React.Component<IProps, InterfaceState> {
             this.props.isAuth ? (
               <Logged
                 userInfo={this.props.userInfo}
-                openSnackbar={this.openSnackbar}
+                dispatch={this.props.dispatch}
               />
             ) : (
               <div>
@@ -68,7 +67,7 @@ export default class MyAppBar extends React.Component<IProps, InterfaceState> {
             horizontal: 'left',
             vertical: 'bottom',
           }}
-          open={this.state.open}
+          open={this.props.isOpenSnackbar}
           autoHideDuration={2000}
           onClose={this.handleClose}
           ContentProps={{

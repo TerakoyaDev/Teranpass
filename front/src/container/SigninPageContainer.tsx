@@ -4,7 +4,7 @@ import store from '../store';
 
 const mapStateToProps = (state: any) => {
   return {
-    message: store.getState().reducers.ReducersForUserAction.message,
+    message: store.getState().reducers.UserReducer.message,
   };
 };
 

@@ -9,75 +9,88 @@ import {
   SIGNIN_USER,
   SIGNIN_USER_FAILED,
   SIGNIN_USER_SUCCESS,
+  SIGNOUT_USER,
+  SIGNOUT_USER_FAILED,
+  SIGNOUT_USER_SUCCESS,
 } from '../action/ActionOfUserType';
+import { IUserInfo } from '../App';
 import { firebaseAuth, firebaseDb } from '../firebase';
 import { fetchEventListDataService } from './EventSagas';
 
 // create new user
-function createNewUserToFirebase(payload: {
-  userName: string;
-  email: string;
-  password: string;
-}) {
-  const { userName, email, password } = payload;
-  // set session mode of firebase
+function createNewUserToDB(email: string, password: string) {
   firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
   // create account
   return firebaseAuth
     .createUserWithEmailAndPassword(email, password)
-    .then(async () => {
-      const user = firebaseAuth.currentUser;
-      if (user) {
-        // update user profile
-        const defaultURL =
-          'https://firebasestorage.googleapis.com/v0/b/teranpass.appspot.com/o/account-circle.png?alt=media&token=2c34cb44-a79e-4315-9f26-f868dfc0c550';
-
-        await user.updateProfile({
-          displayName: userName,
-          photoURL: defaultURL,
-        });
-
-        const userInfo = {
-          displayName: userName,
-          email: user.email,
-          photoURL: defaultURL,
-          uid: user.uid,
-        };
-
-        // push data to database
-        await firebaseDb.ref(`users/${user.uid}`).set({
-          userInfo,
-        });
-        return { isCreated: true, userInfo: { userInfo }, message: '' };
-      }
-      return { isCreated: false, userInfo: {}, message: '' };
+    .then(() => {
+      return { isCreated: true, message: '' };
     })
     .catch(e => {
       return { isCreated: false, message: e.message };
     });
 }
 
+async function updateUserProfile(userName: string, photoURL: string) {
+  const user = await firebaseAuth.currentUser;
+  if (user) {
+    await user.updateProfile({
+      displayName: userName,
+      photoURL,
+    });
+
+    const userInfo = {
+      displayName: userName,
+      email: user.email,
+      photoURL,
+      uid: user.uid,
+    };
+    return userInfo;
+  } else {
+    return {};
+  }
+}
+
+async function postUserDataToDB(userInfo: IUserInfo) {
+  // push data to database
+  await firebaseDb.ref(`users/${userInfo.uid}`).set({
+    userInfo,
+  });
+}
+
 function* createNewUserService() {
   while (true) {
     // fetch payload
     const { payload } = yield take(CREATE_NEW_USER);
-    const { isCreated, userInfo, message } = yield call(
-      createNewUserToFirebase,
-      payload
+
+    const { userName, email, password } = payload;
+
+    // createNewUserToFirebase
+    const { isCreated, message } = yield call(
+      createNewUserToDB,
+      email,
+      password
     );
+    // TODO transaction?
     if (isCreated) {
+      const userInfo = yield call(
+        updateUserProfile,
+        userName,
+        'https://firebasestorage.googleapis.com/v0/b/teranpass.appspot.com/o/account-circle.png?alt=media&token=2c34cb44-a79e-4315-9f26-f868dfc0c550'
+      );
+      yield call(postUserDataToDB, userInfo);
       yield put({
         type: CREATE_NEW_USER_SUCCESS,
         userInfo,
       });
       yield put(push('/'));
-      yield put({ type: FETCH_USER_INFO_FROM_SESSION_STORAGE });
     } else {
       yield put({
         message,
         type: CREATE_NEW_USER_FAILED,
       });
+      return;
     }
   }
 }
@@ -89,15 +102,6 @@ function signinUser(payload: { email: string; password: string }) {
   return firebaseAuth
     .signInWithEmailAndPassword(email, password)
     .then(() => {
-      const user = firebaseAuth.currentUser;
-      if (user) {
-        firebaseDb.ref(`users/${user.uid}`).set({
-          displayName: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-          uid: user.uid,
-        });
-      }
       return { isAuth: true, message: '' };
     })
     .catch((error: { message: string }) => {
@@ -108,7 +112,6 @@ function signinUser(payload: { email: string; password: string }) {
 function* signinUserService() {
   while (true) {
     const { payload } = yield take(SIGNIN_USER);
-    console.log(payload);
     const { isAuth, message } = yield call(signinUser, payload);
     if (isAuth) {
       yield put({
@@ -125,10 +128,41 @@ function* signinUserService() {
   }
 }
 
+// signout
+function signoutUser() {
+  return firebaseAuth
+    .signOut()
+    .then(() => {
+      return { isSignout: true, message: '' };
+    })
+    .catch(e => {
+      return { isSignout: false, message: e.message };
+    });
+}
+
+function* signoutUserService() {
+  while (true) {
+    yield take(SIGNOUT_USER);
+    const { isSignout, message } = yield call(signoutUser);
+    if (isSignout) {
+      yield put({
+        type: SIGNOUT_USER_SUCCESS,
+      });
+      yield put(push('/'));
+    } else {
+      yield put({
+        message,
+        type: SIGNOUT_USER_FAILED,
+      });
+    }
+  }
+}
+
 function* mySaga() {
   yield fork(createNewUserService);
   yield fork(signinUserService);
   yield fork(fetchEventListDataService);
+  yield fork(signoutUserService);
 }
 
 export default mySaga;

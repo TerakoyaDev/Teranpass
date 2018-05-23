@@ -4,12 +4,12 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { signoutUser, snackbarOpen } from '../action/ActionOfUser';
 import { IUserInfo } from '../App';
-import { firebaseAuth } from '../firebase';
 
 interface InterfaceProps {
   userInfo: IUserInfo;
-  openSnackbar: () => void;
+  dispatch: any;
 }
 
 export default class Logged extends React.Component<InterfaceProps> {
@@ -19,9 +19,9 @@ export default class Logged extends React.Component<InterfaceProps> {
   }
 
   public Signout() {
-    firebaseAuth.signOut().then(() => {
-      this.props.openSnackbar();
-    });
+    const { dispatch } = this.props;
+    dispatch(signoutUser());
+    dispatch(snackbarOpen());
   }
 
   public render() {

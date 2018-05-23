@@ -2,6 +2,9 @@ import {
   CREATE_NEW_USER,
   FETCH_USER_INFO_FROM_SESSION_STORAGE,
   SIGNIN_USER,
+  SIGNOUT_USER,
+  SNACKBAR_CLOSE,
+  SNACKBAR_OPEN,
 } from './ActionOfUserType';
 
 export const createNewUser = (
@@ -32,5 +35,23 @@ export const signinUser = (email: string, password: string) => {
       password,
     },
     type: SIGNIN_USER,
+  };
+};
+
+export const signoutUser = () => {
+  return {
+    type: SIGNOUT_USER,
+  };
+};
+
+export const snackbarOpen = () => {
+  return {
+    type: SNACKBAR_OPEN,
+  };
+};
+
+export const snackbarClose = () => {
+  return {
+    type: SNACKBAR_CLOSE,
   };
 };

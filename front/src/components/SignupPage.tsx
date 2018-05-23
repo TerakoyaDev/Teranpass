@@ -98,7 +98,7 @@ export default class SignupPage extends React.Component<
   public render() {
     return (
       <div style={{ textAlign: 'center', flex: 'column' }}>
-        <div>{store.getState().reducers.ReducersForUserAction.message}</div>
+        <div>{store.getState().reducers.UserReducer.message}</div>
         <TextField
           hintText="UserName Field"
           floatingLabelText="UserName"

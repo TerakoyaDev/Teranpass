@@ -4,6 +4,10 @@ import {
   FETCH_USER_INFO_FROM_SESSION_STORAGE,
   SIGNIN_USER_FAILED,
   SIGNIN_USER_SUCCESS,
+  SIGNOUT_USER_FAILED,
+  SIGNOUT_USER_SUCCESS,
+  SNACKBAR_CLOSE,
+  SNACKBAR_OPEN,
 } from '../action/ActionOfUserType';
 
 const initialState = {
@@ -15,7 +19,6 @@ const initialState = {
 
 function fetchUserInfoFromSessionStorage() {
   const storage = window.sessionStorage;
-  console.log(storage);
   const filteredKeys = Object.keys(storage).filter(
     (n: string) =>
       JSON.parse(storage[n]).authDomain === 'teranpass.firebaseapp.com'
@@ -23,15 +26,16 @@ function fetchUserInfoFromSessionStorage() {
   if (filteredKeys.length !== 0) {
     const filteredUser = JSON.parse(storage[filteredKeys[0]]);
     if (filteredUser) {
-      return filteredUser;
+      return { isAuth: true, userInfo: filteredUser };
     }
   }
-  return initialState;
+  return { isAuth: false, userInfo: initialState };
 }
 
-const reducersForUserAction = (
+const userReducer = (
   state: any = {
     isAuth: false,
+    isOpenSnackbar: false,
     message: '',
     userInfo: {
       ...initialState,
@@ -45,7 +49,7 @@ const reducersForUserAction = (
         ...state,
         isAuth: true,
         message: '',
-        userInfo: action.userInfo.userInfo,
+        userInfo: action.userInfo,
       };
     case CREATE_NEW_USER_FAILED:
       return {
@@ -56,11 +60,12 @@ const reducersForUserAction = (
         },
       };
     case FETCH_USER_INFO_FROM_SESSION_STORAGE:
+      const { isAuth, userInfo } = fetchUserInfoFromSessionStorage();
       return {
         ...state,
-        isAuth: true,
+        isAuth,
         message: '',
-        userInfo: fetchUserInfoFromSessionStorage(),
+        userInfo,
       };
     case SIGNIN_USER_SUCCESS:
       return {
@@ -71,12 +76,31 @@ const reducersForUserAction = (
     case SIGNIN_USER_FAILED:
       return {
         ...state,
-        jsAuth: false,
+        isAuth: false,
         message: action.message,
+      };
+    case SIGNOUT_USER_SUCCESS:
+      return {
+        ...state,
+        isAuth: false,
+      };
+    case SIGNOUT_USER_FAILED:
+      return {
+        ...state,
+      };
+    case SNACKBAR_OPEN:
+      return {
+        ...state,
+        isOpenSnackbar: true,
+      };
+    case SNACKBAR_CLOSE:
+      return {
+        ...state,
+        isOpenSnackbar: false,
       };
     default:
       return state;
   }
 };
 
-export default reducersForUserAction;
+export default userReducer;
