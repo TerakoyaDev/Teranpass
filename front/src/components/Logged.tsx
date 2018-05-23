@@ -4,7 +4,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { signoutUser, snackbarOpen } from '../action/ActionOfUser';
+import { signoutUser, snackbarOpen } from '../action/UserAction';
 import { IUserInfo } from '../App';
 
 interface InterfaceProps {

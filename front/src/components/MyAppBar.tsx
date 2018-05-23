@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import {
   fetchUserInfoFromSessionStorage,
   snackbarClose,
-} from '../action/ActionOfUser';
+} from '../action/UserAction';
 import { IUserInfo } from '../App';
 import Logged from './Logged';
 import Signin from './Signin';

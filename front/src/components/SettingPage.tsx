@@ -69,10 +69,14 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
         .child(`${user.uid}/${this.state.photoFile}`);
       await imageRef.put(this.state.photoFileInstance);
       const downloadLink = await imageRef.getDownloadURL();
+
+      // update
       await user.updateProfile({
         displayName: this.state.userName,
         photoURL: downloadLink,
       });
+
+      // set
       await firebaseDb.ref(`users/${user.uid}`).set({
         displayName: this.state.userName,
         email: user.email,

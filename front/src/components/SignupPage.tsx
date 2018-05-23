@@ -1,7 +1,7 @@
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
-import { createNewUser } from '../action/ActionOfUser';
+import { createNewUser } from '../action/UserAction';
 import store from '../store';
 
 interface InterfaceState {

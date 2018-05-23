@@ -12,7 +12,7 @@ import {
   SIGNOUT_USER,
   SIGNOUT_USER_FAILED,
   SIGNOUT_USER_SUCCESS,
-} from '../action/ActionOfUserType';
+} from '../action/UserActionType';
 import { IUserInfo } from '../App';
 import { firebaseAuth, firebaseDb } from '../firebase';
 

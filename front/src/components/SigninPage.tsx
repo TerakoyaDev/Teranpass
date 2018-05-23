@@ -1,7 +1,7 @@
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
-import { signinUser } from '../action/ActionOfUser';
+import { signinUser } from '../action/UserAction';
 
 interface InterfaceState {
   email: string;

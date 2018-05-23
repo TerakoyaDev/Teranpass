@@ -5,7 +5,7 @@ import {
   SIGNOUT_USER,
   SNACKBAR_CLOSE,
   SNACKBAR_OPEN,
-} from './ActionOfUserType';
+} from './UserActionType';
 
 export const createNewUser = (
   userName: string,

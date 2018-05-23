@@ -8,7 +8,7 @@ import {
   SIGNOUT_USER_SUCCESS,
   SNACKBAR_CLOSE,
   SNACKBAR_OPEN,
-} from '../action/ActionOfUserType';
+} from '../action/UserActionType';
 
 const initialState = {
   displayName: '',
