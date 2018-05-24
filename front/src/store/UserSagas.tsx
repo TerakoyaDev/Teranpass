@@ -54,7 +54,7 @@ async function updateUserProfile(userName: string, photoURL: string) {
 async function postUserDataToDB(userInfo: IUserInfo) {
   // push data to database
   await firebaseDb.ref(`users/${userInfo.uid}`).set({
-    userInfo,
+    ...userInfo,
   });
 }
 
