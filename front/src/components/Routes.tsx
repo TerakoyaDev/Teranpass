@@ -3,12 +3,12 @@ import { Route } from 'react-router';
 import CreatePage from '../components/CreatePage';
 import EventPage from '../components/EventPage';
 import EventPagePerDate from '../components/EventPagePerDate';
-import MyAppBar from '../components/MyAppBar';
-import TopPage from '../components/TopPage';
 import UserPage from '../components/UserPage';
+import MyAppBarContainer from '../container/MyAppBarContainer';
 import SettingPageContainer from '../container/SettingPageContainer';
 import SigninPageContainer from '../container/SigninPageContainer';
 import SignupPageContainer from '../container/SignupPageContainer';
+import TopPageContainer from '../container/TopPageContainer';
 
 interface IProps {
   history: {
@@ -24,8 +24,8 @@ export default class Routes extends React.Component<IProps, {}> {
   public render() {
     return (
       <div>
-        <MyAppBar />
-        <Route exact={true} path="/" component={TopPage} />
+        <MyAppBarContainer />
+        <Route exact={true} path="/" component={TopPageContainer} />
         <Route path="/signin" component={SigninPageContainer} />
         <Route path="/signup" component={SignupPageContainer} />
         <Route path="/users/:id" component={UserPage} />

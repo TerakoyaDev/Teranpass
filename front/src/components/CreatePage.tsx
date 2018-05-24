@@ -50,7 +50,7 @@ export default class UserPage extends React.Component<
     this.create = this.create.bind(this);
   }
 
-  // signin
+  // create
   public async create() {
     this.setState({
       ...this.state,
@@ -96,14 +96,18 @@ export default class UserPage extends React.Component<
       const val = (await firebaseDb
         .ref(`userHasEvents/${user.uid}`)
         .once('value')).val();
+
+      // assign eventsList
       let eventsList = [];
       if (val) {
         eventsList = val;
       }
 
+      // get key
       const newPostKey = await firebaseDb
         .ref(`events/${this.state.date.split(' ')[0]}`)
         .push().key;
+
       const userInfo = {
         displayName: user.displayName,
         email: user.email,
@@ -123,6 +127,7 @@ export default class UserPage extends React.Component<
       };
       eventsList.push(postEventData);
 
+      // update
       const updates = {};
       updates[
         `events/${this.state.date.split(' ')[0]}/${newPostKey}`
@@ -167,6 +172,7 @@ export default class UserPage extends React.Component<
             id="datetime-local"
             label="Next appointment"
             type="datetime-local"
+            defaultValue={new Date().toISOString().split('.')[0]}
             style={{ width: '200' }}
             InputLabelProps={{
               shrink: true,

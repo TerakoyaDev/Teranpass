@@ -1,28 +1,11 @@
-import * as React from 'react';
-import { SignContext } from '../App';
+import { connect } from 'react-redux';
 import SigninPage from '../components/SigninPage';
+import store from '../store';
 
-interface IProps {
-  history: {
-    push: (path: string) => void;
+const mapStateToProps = (state: any) => {
+  return {
+    message: store.getState().reducers.UserReducer.message,
   };
-}
+};
 
-export default class SignupPageContainer extends React.Component<IProps> {
-  constructor(props: IProps) {
-    super(props);
-  }
-
-  public render() {
-    return (
-      <SignContext.Consumer>
-        {({ isSigned, toggleSigned }) => (
-          <SigninPage
-            toggleSigned={toggleSigned}
-            history={this.props.history}
-          />
-        )}
-      </SignContext.Consumer>
-    );
-  }
-}
+export default connect(mapStateToProps)(SigninPage);

@@ -1,14 +1,15 @@
-import createBrowserHistory from 'history/createBrowserHistory';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as React from 'react';
+import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import Routes from './components/Routes';
+import store, { history } from './store';
 
-const history = createBrowserHistory();
+// const history = createBrowserHistory();
 
 export const SignContext = React.createContext({
   initApp: () => {},
-  isSigned: false,
+  isAuth: false,
   toggleSigned: () => {},
   userInfo: {
     displayName: '',
@@ -26,20 +27,20 @@ export interface IUserInfo {
 }
 
 interface IState {
-  isSigned: boolean;
+  isAuth: boolean;
   toggleSigned: () => void;
   initApp: () => void;
   userInfo: IUserInfo;
 }
 
-// has isSignin
+// has isAuth
 export default class App extends React.Component<{}, IState> {
   constructor(props: {}) {
     super(props);
 
     this.state = {
       initApp: this.initApp.bind(this),
-      isSigned: false,
+      isAuth: false,
       toggleSigned: this.toggleSigned.bind(this),
       userInfo: {
         displayName: '',
@@ -61,7 +62,7 @@ export default class App extends React.Component<{}, IState> {
       if (filteredUser) {
         this.setState({
           ...this.state,
-          isSigned: true,
+          isAuth: true,
           userInfo: {
             displayName: filteredUser.displayName,
             email: filteredUser.email,
@@ -73,10 +74,10 @@ export default class App extends React.Component<{}, IState> {
     }
   }
 
-  // change isSigned
+  // change isAuth
   public toggleSigned = () => {
     this.setState(state => ({
-      isSigned: state.isSigned ? false : true,
+      isAuth: state.isAuth ? false : true,
     }));
     this.initApp();
   };
@@ -92,7 +93,7 @@ export default class App extends React.Component<{}, IState> {
       if (filteredUser) {
         this.setState({
           ...this.state,
-          isSigned: true,
+          isAuth: true,
           userInfo: {
             displayName: filteredUser.displayName,
             email: filteredUser.email,
@@ -107,11 +108,11 @@ export default class App extends React.Component<{}, IState> {
   public render() {
     return (
       <MuiThemeProvider>
-        <SignContext.Provider value={this.state}>
+        <Provider store={store}>
           <Router history={history}>
             <Routes history={history} />
           </Router>
-        </SignContext.Provider>
+        </Provider>
       </MuiThemeProvider>
     );
   }
