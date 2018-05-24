@@ -2,8 +2,9 @@ package infrastructure
 
 import (
 	"errors"
-	"github.com/TerakoyaDev/Teranpass/domain/model/event"
-	"github.com/TerakoyaDev/Teranpass/domain/model/user"
+
+	"github.com/TerakoyaDev/Teranpass/server/domain/model/event"
+	"github.com/TerakoyaDev/Teranpass/server/domain/model/user"
 )
 
 func CreateNewEvent(
@@ -12,7 +13,8 @@ func CreateNewEvent(
 	location,
 	startTime,
 	endTime string,
-	user *user.User) (*event.Event, error) {
+	user *user.User,
+) (*event.Event, error) {
 
 	// validate
 	if eventName == "" {

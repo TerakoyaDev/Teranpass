@@ -1,10 +1,11 @@
 package infrastructure
 
 import (
-	"github.com/TerakoyaDev/Teranpass/domain/model/event"
-	"github.com/TerakoyaDev/Teranpass/domain/model/user"
 	"os"
 	"testing"
+
+	"github.com/TerakoyaDev/Teranpass/server/domain/model/event"
+	"github.com/TerakoyaDev/Teranpass/server/domain/model/user"
 )
 
 func TestCreateNewEventSuccess(t *testing.T) {
