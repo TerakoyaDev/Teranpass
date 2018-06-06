@@ -11,7 +11,7 @@ var EventType = graphql.NewObject(graphql.ObjectConfig{
 			Type: graphql.String,
 		},
 		"user": &graphql.Field{
-			Type: graphql.String,
+			Type: UserType,
 		},
 		"eventName": &graphql.Field{
 			Type: graphql.String,
@@ -29,11 +29,10 @@ var EventType = graphql.NewObject(graphql.ObjectConfig{
 			Type: graphql.String,
 		},
 		"participants": &graphql.Field{
-			Type: graphql.String,
+			Type: graphql.NewList(UserType),
 		},
 		"registeredTime": &graphql.Field{
 			Type: graphql.Int,
 		},
 	},
 })
-

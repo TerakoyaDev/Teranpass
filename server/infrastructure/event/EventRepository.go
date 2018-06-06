@@ -5,6 +5,7 @@ import (
 )
 
 type EventRepository interface {
-	store(event *event.Event) *EventRepositoryImpl
-	Equals(other *EventRepositoryImpl) bool
+	Store(event *event.Event) EventRepository
+	FindById(eventId string) (*event.Event, error)
+	EventList() []*event.Event
 }

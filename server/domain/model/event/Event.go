@@ -8,15 +8,15 @@ import (
 )
 
 type Event struct {
-	eventId        [16]byte
-	user           *user.User
-	eventName      string
-	description    string
-	location       string
-	startTime      string
-	endTime        string
-	participants   []*user.User
-	registeredTime int64
+	EventId        string       `json:"eventId"`
+	User           *user.User   `json:"user"`
+	EventName      string       `json:"eventName"`
+	Description    string       `json:"description"`
+	Location       string       `json:"location"`
+	StartTime      string       `json:"startTime"`
+	EndTime        string       `json:"endTime"`
+	Participants   []*user.User `json:"participants"`
+	RegisteredTime int64        `json:"registeredTime"`
 }
 
 // constructor
@@ -49,19 +49,19 @@ func NewEvent(
 	}
 
 	return &Event{
-		eventId:        uuid.New(),
-		user:           givenUser,
-		eventName:      eventName,
-		description:    description,
-		location:       location,
-		startTime:      startTime,
-		endTime:        endTime,
-		participants:   []*user.User{},
-		registeredTime: time.Now().Unix()}, nil
+		EventId:        uuid.New().String(),
+		User:           givenUser,
+		EventName:      eventName,
+		Description:    description,
+		Location:       location,
+		StartTime:      startTime,
+		EndTime:        endTime,
+		Participants:   []*user.User{},
+		RegisteredTime: time.Now().Unix()}, nil
 }
 
 func (event *Event) Equals(other *Event) bool {
-	if event.eventId == other.eventId {
+	if event.EventId == other.EventId {
 		return true
 	}
 	return false

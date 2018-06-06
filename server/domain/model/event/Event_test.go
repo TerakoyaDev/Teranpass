@@ -24,23 +24,23 @@ func TestCreateEventSuccess(t *testing.T) {
 	}
 
 	// confirm each value
-	if !reflect.DeepEqual(newEvent.user, newUser) {
-		t.Errorf("got %v want %v", newEvent.user, newUser)
+	if !reflect.DeepEqual(newEvent.User, newUser) {
+		t.Errorf("got %v want %v", newEvent.User, newUser)
 	}
-	if newEvent.eventName != "eventName" {
-		t.Errorf("got %v want %v", newEvent.eventName, "eventName")
+	if newEvent.EventName != "eventName" {
+		t.Errorf("got %v want %v", newEvent.EventName, "eventName")
 	}
-	if newEvent.description != "description" {
-		t.Errorf("got %v want %v", newEvent.description, "description")
+	if newEvent.Description != "description" {
+		t.Errorf("got %v want %v", newEvent.Description, "description")
 	}
-	if newEvent.location != "location" {
-		t.Errorf("got %v want %v", newEvent.location, "location")
+	if newEvent.Location != "location" {
+		t.Errorf("got %v want %v", newEvent.Location, "location")
 	}
-	if newEvent.startTime != "startTime" {
-		t.Errorf("got %v want %v", newEvent.startTime, "startTime")
+	if newEvent.StartTime != "startTime" {
+		t.Errorf("got %v want %v", newEvent.StartTime, "startTime")
 	}
-	if newEvent.endTime != "endTime" {
-		t.Errorf("got %v want %v", newEvent.endTime, "endTime")
+	if newEvent.EndTime != "endTime" {
+		t.Errorf("got %v want %v", newEvent.EndTime, "endTime")
 	}
 }
 func TestCreateUserFailed(t *testing.T) {
