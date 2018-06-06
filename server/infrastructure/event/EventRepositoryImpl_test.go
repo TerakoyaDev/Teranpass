@@ -1,4 +1,4 @@
-package infrastructure
+package event
 
 import (
 	"github.com/TerakoyaDev/Teranpass/server/domain/model/event"
