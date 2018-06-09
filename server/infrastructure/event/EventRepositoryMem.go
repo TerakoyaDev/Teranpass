@@ -14,14 +14,14 @@ func NewEventRepositoryMem() EventRepository {
 }
 
 // store event to repository
-func (self *EventRepositoryMem) Store(event *event.Event) EventRepository {
-	self.events = append(self.events, event)
+func (self *EventRepositoryMem) Store(item *event.Event) EventRepository {
+	self.events = append(self.events, item)
 	return self
 }
 
-func (self EventRepositoryMem) FindById(userId string) (*event.Event, error) {
+func (self EventRepositoryMem) FindById(eventId string) (*event.Event, error) {
 	for _, val := range self.events {
-		if val.EventId == userId {
+		if val.EventId == eventId {
 			return val, nil
 		}
 	}
@@ -29,6 +29,25 @@ func (self EventRepositoryMem) FindById(userId string) (*event.Event, error) {
 	return nil, errors.New("user not found")
 }
 
-func (self EventRepositoryMem) EventList() []*event.Event {
+func (self *EventRepositoryMem) DeleteById(eventId string) (*event.Event, error) {
+	removedSlice := []*event.Event{}
+	var removedEvent *event.Event
+	for _, val := range self.events {
+		if val.EventId != eventId {
+			removedSlice = append(removedSlice, val)
+		} else {
+			removedEvent = val
+		}
+	}
+
+	if len(removedSlice) == len(self.events) {
+		return nil, errors.New("event not found")
+	} else {
+		self.events = removedSlice
+		return removedEvent, nil
+	}
+}
+
+func (self EventRepositoryMem) FindAll() []*event.Event {
 	return self.events
 }

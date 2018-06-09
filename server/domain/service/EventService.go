@@ -5,7 +5,12 @@ import (
 	"github.com/TerakoyaDev/Teranpass/server/infrastructure"
 )
 
-func FindEventById(userId string) (*event.Event, error) {
+func FindEventById(eventId string) (*event.Event, error) {
 	repository := infrastructure.NewEventRepository()
-	return repository.FindById(userId)
+	return repository.FindById(eventId)
+}
+
+func DeleteEventById(eventId string) (*event.Event, error) {
+	repository := infrastructure.NewEventRepository()
+	return repository.DeleteById(eventId)
 }

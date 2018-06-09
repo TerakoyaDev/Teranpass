@@ -9,3 +9,8 @@ func FindUserById(userId string) (*user.User, error) {
 	repository := infrastructure.NewUserRepository()
 	return repository.FindById(userId)
 }
+
+func DeleteUserById(userId string) (*user.User, error) {
+	repository := infrastructure.NewUserRepository()
+	return repository.DeleteById(userId)
+}

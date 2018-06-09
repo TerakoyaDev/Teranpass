@@ -16,8 +16,8 @@ func TestEventRepositorySameEventStored(t *testing.T) {
 	repository2 := NewEventRepositoryMem()
 	expected := repository2.Store(event)
 
-	if !reflect.DeepEqual(actual.EventList(), expected.EventList()) {
-		t.Errorf("got %v want %v", actual.EventList(), expected.EventList())
+	if !reflect.DeepEqual(actual.FindAll(), expected.FindAll()) {
+		t.Errorf("got %v want %v", actual.FindAll(), expected.FindAll())
 	}
 }
 
@@ -31,12 +31,12 @@ func TestEventRepositoryDifferentEventStored(t *testing.T) {
 	repository2 := NewEventRepositoryMem()
 	expected := repository2.Store(eventV2)
 
-	if actual.EventList()[0].Equals(expected.EventList()[0]) {
+	if actual.FindAll()[0].Equals(expected.FindAll()[0]) {
 		t.Errorf("got %v want %v", actual, expected)
 	}
 
-	if reflect.DeepEqual(actual.EventList(), expected.EventList()) {
-		t.Errorf("got %v want %v", actual.EventList(), expected.EventList())
+	if reflect.DeepEqual(actual.FindAll(), expected.FindAll()) {
+		t.Errorf("got %v want %v", actual.FindAll(), expected.FindAll())
 	}
 }
 

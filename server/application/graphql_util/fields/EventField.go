@@ -15,12 +15,12 @@ var EventField = &graphql.Field{
 	Type:        types.EventType,
 	Description: "Get single event",
 	Args: graphql.FieldConfigArgument{
-		"id": &graphql.ArgumentConfig{
+		"eventId": &graphql.ArgumentConfig{
 			Type: graphql.String,
 		},
 	},
 	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
-		eventId, isOK := params.Args["id"].(string)
+		eventId, isOK := params.Args["eventId"].(string)
 		if isOK {
 			return service.FindEventById(eventId)
 		}
@@ -33,7 +33,7 @@ var EventListField = &graphql.Field{
 	Type:        graphql.NewList(types.EventType),
 	Description: "List of events",
 	Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-		return infrastructure.NewEventRepository().EventList(), nil
+		return infrastructure.NewEventRepository().FindAll(), nil
 	},
 }
 
@@ -86,5 +86,23 @@ var CreateEventField = &graphql.Field{
 
 		infrastructure.NewEventRepository().Store(newEvent)
 		return newEvent, nil
+	},
+}
+
+var DeleteEventField = &graphql.Field{
+	Type:        types.EventType,
+	Description: "Get single event",
+	Args: graphql.FieldConfigArgument{
+		"eventId": &graphql.ArgumentConfig{
+			Type: graphql.String,
+		},
+	},
+	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+		eventId, isOK := params.Args["eventId"].(string)
+		if isOK {
+			return service.DeleteEventById(eventId)
+		}
+
+		return nil, errors.New("no eventId")
 	},
 }

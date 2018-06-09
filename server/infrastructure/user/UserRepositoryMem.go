@@ -14,8 +14,8 @@ func NewUserRepositoryMem() UserRepository {
 }
 
 // store event to repository
-func (self *UserRepositoryMem) Store(user *user.User) UserRepository {
-	self.users = append(self.users, user)
+func (self *UserRepositoryMem) Store(item *user.User) UserRepository {
+	self.users = append(self.users, item)
 	return self
 }
 
@@ -29,6 +29,25 @@ func (self UserRepositoryMem) FindById(userId string) (*user.User, error) {
 	return nil, errors.New("user not found")
 }
 
-func (self UserRepositoryMem) UserList() []*user.User {
+func (self *UserRepositoryMem) DeleteById(userId string) (*user.User, error) {
+	removedSlice := []*user.User{}
+	var removedUser *user.User
+	for _, val := range self.users {
+		if val.UserId != userId {
+			removedSlice = append(removedSlice, val)
+		} else {
+			removedUser = val
+		}
+	}
+
+	if len(removedSlice) == len(self.users) {
+		return nil, errors.New("user not found")
+	} else {
+		self.users = removedSlice
+		return removedUser, nil
+	}
+}
+
+func (self UserRepositoryMem) FindAll() []*user.User {
 	return self.users
 }

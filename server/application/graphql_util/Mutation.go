@@ -10,5 +10,7 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 	Fields: graphql.Fields{
 		"createUser":  fields.CreateUserField,
 		"createEvent": fields.CreateEventField,
+		"deleteUser":  fields.DeleteUserField,
+		"deleteEvent": fields.DeleteEventField,
 	},
 })

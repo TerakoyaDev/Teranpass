@@ -13,12 +13,12 @@ var UserField = &graphql.Field{
 	Type:        types.UserType,
 	Description: "Get single user",
 	Args: graphql.FieldConfigArgument{
-		"id": &graphql.ArgumentConfig{
+		"userId": &graphql.ArgumentConfig{
 			Type: graphql.String,
 		},
 	},
 	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
-		userId, isOK := params.Args["id"].(string)
+		userId, isOK := params.Args["userId"].(string)
 		if isOK {
 			return service.FindUserById(userId)
 		}
@@ -31,7 +31,7 @@ var UserListField = &graphql.Field{
 	Type:        graphql.NewList(types.UserType),
 	Description: "List of users",
 	Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-		return infrastructure.NewUserRepository().UserList(), nil
+		return infrastructure.NewUserRepository().FindAll(), nil
 	},
 }
 
@@ -64,5 +64,19 @@ var CreateUserField = &graphql.Field{
 		}
 		infrastructure.NewUserRepository().Store(newUser)
 		return newUser, nil
+	},
+}
+
+var DeleteUserField = &graphql.Field{
+	Type:        types.UserType,
+	Description: "Delete new user",
+	Args: graphql.FieldConfigArgument{
+		"userId": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+	},
+	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+		userId, _ := params.Args["userId"].(string)
+		return service.DeleteUserById(userId)
 	},
 }

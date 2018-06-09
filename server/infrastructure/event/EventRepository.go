@@ -5,7 +5,8 @@ import (
 )
 
 type EventRepository interface {
-	Store(event *event.Event) EventRepository
+	Store(item *event.Event) EventRepository
 	FindById(eventId string) (*event.Event, error)
-	EventList() []*event.Event
+	DeleteById(eventId string) (*event.Event, error)
+	FindAll() []*event.Event
 }

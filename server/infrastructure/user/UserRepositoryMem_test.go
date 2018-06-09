@@ -9,6 +9,7 @@ import (
 var mituba, _ = user.NewUser("mituba", "des", "photoURL", "email")
 var terako, _ = user.NewUser("terako", "des", "photoURL", "email")
 
+// find user test
 func TestUserRepositoryMemFindByIdSuccess(t *testing.T) {
 	newUserRepositoryMem := NewUserRepositoryMem()
 	newUserRepositoryMem.Store(mituba)
@@ -36,10 +37,11 @@ func TestUserRepositoryMemFindByIdFailed(t *testing.T) {
 	}
 }
 
+// stored test
 func TestUserRepositoryMemIsStored(t *testing.T) {
 	newUserRepositoryMem := NewUserRepositoryMem()
 
-	actual := newUserRepositoryMem.UserList()
+	actual := newUserRepositoryMem.FindAll()
 	excepted := []*user.User{}
 
 	// isEmpty
@@ -49,7 +51,7 @@ func TestUserRepositoryMemIsStored(t *testing.T) {
 
 	newUserRepositoryMem.Store(mituba)
 
-	actual = newUserRepositoryMem.UserList()
+	actual = newUserRepositoryMem.FindAll()
 	excepted = []*user.User{mituba}
 
 	// isStored
@@ -59,7 +61,7 @@ func TestUserRepositoryMemIsStored(t *testing.T) {
 
 	newUserRepositoryMem.Store(terako)
 
-	actual = newUserRepositoryMem.UserList()
+	actual = newUserRepositoryMem.FindAll()
 	excepted = []*user.User{terako}
 
 	// isStored
@@ -75,8 +77,8 @@ func TestUserRepositoryMemSameEventStored(t *testing.T) {
 	newUserRepositoryMem2 := NewUserRepositoryMem()
 	newUserRepositoryMem2.Store(mituba)
 
-	actual := newUserRepositoryMem.UserList()
-	excepted := newUserRepositoryMem2.UserList()
+	actual := newUserRepositoryMem.FindAll()
+	excepted := newUserRepositoryMem2.FindAll()
 
 	// equal
 	if !reflect.DeepEqual(actual, excepted) {
@@ -91,11 +93,38 @@ func TestUserRepositoryMemDifferentEventStored(t *testing.T) {
 	newUserRepositoryMem2 := NewUserRepositoryMem()
 	newUserRepositoryMem2.Store(terako)
 
-	actual := newUserRepositoryMem.UserList()
-	excepted := newUserRepositoryMem2.UserList()
+	actual := newUserRepositoryMem.FindAll()
+	excepted := newUserRepositoryMem2.FindAll()
 
 	// not equal
 	if reflect.DeepEqual(actual, excepted) {
+		t.Errorf("got %v want %v", actual, excepted)
+	}
+}
+
+// delete test
+func TestUserRepositoryMem_Delete(t *testing.T) {
+	newUserRepositoryMem := NewUserRepositoryMem()
+
+	// store
+	newUserRepositoryMem.Store(mituba)
+
+	actual := newUserRepositoryMem.FindAll()
+	excepted := []*user.User{mituba}
+
+	// isStored
+	if len(actual) != 1 && !reflect.DeepEqual(actual, excepted) {
+		t.Errorf("got %v want %v", actual, excepted)
+	}
+
+	// delete
+	newUserRepositoryMem.DeleteById(mituba.UserId)
+
+	actual = newUserRepositoryMem.FindAll()
+	excepted = []*user.User{}
+
+	// isDeleted
+	if len(actual) != 0 && !reflect.DeepEqual(actual, excepted) {
 		t.Errorf("got %v want %v", actual, excepted)
 	}
 }
