@@ -67,6 +67,54 @@ var CreateUserField = &graphql.Field{
 	},
 }
 
+var UpdateUserField = &graphql.Field{
+	Type:        types.UserType,
+	Description: "Create new user",
+	Args: graphql.FieldConfigArgument{
+		"userId": &graphql.ArgumentConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+		"userName": &graphql.ArgumentConfig{
+			Type: graphql.String,
+		},
+		"description": &graphql.ArgumentConfig{
+			Type: graphql.String,
+		},
+		"photoURL": &graphql.ArgumentConfig{
+			Type: graphql.String,
+		},
+		"email": &graphql.ArgumentConfig{
+			Type: graphql.String,
+		},
+	},
+	Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+		userId, _ := params.Args["userId"].(string)
+		userName, _ := params.Args["userName"].(string)
+		description, _ := params.Args["description"].(string)
+		photoURL, _ := params.Args["photoURL"].(string)
+		email, _ := params.Args["email"].(string)
+
+		user, err := service.FindUserById(userId)
+		if err != nil {
+			panic(err)
+		}
+		if userName != "" {
+			user.UserName = userName
+		}
+		if description != "" {
+			user.Description = description
+		}
+		if photoURL != "" {
+			user.PhotoURL = photoURL
+		}
+		if email != "" {
+			user.Email = email
+		}
+		infrastructure.NewUserRepository().Store(user)
+		return user, nil
+	},
+}
+
 var DeleteUserField = &graphql.Field{
 	Type:        types.UserType,
 	Description: "Delete new user",

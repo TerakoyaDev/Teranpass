@@ -19,6 +19,19 @@ func (self *EventRepositoryMem) Store(item *event.Event) EventRepository {
 	return self
 }
 
+func (self *EventRepositoryMem) Update(item *event.Event) EventRepository {
+	updatedSlice := []*event.Event{}
+	for _, val := range self.events {
+		if val.EventId == item.EventId {
+			updatedSlice = append(updatedSlice, item)
+		} else {
+			updatedSlice = append(updatedSlice, val)
+		}
+	}
+	self.events = updatedSlice
+	return self
+}
+
 func (self EventRepositoryMem) FindById(eventId string) (*event.Event, error) {
 	for _, val := range self.events {
 		if val.EventId == eventId {

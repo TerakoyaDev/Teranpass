@@ -19,6 +19,19 @@ func (self *UserRepositoryMem) Store(item *user.User) UserRepository {
 	return self
 }
 
+func (self *UserRepositoryMem) Update(item *user.User) UserRepository {
+	updatedSlice := []*user.User{}
+	for _, val := range self.users {
+		if val.UserId == item.UserId {
+			updatedSlice = append(updatedSlice, item)
+		} else {
+			updatedSlice = append(updatedSlice, val)
+		}
+	}
+	self.users = updatedSlice
+	return self
+}
+
 func (self UserRepositoryMem) FindById(userId string) (*user.User, error) {
 	for _, val := range self.users {
 		if val.UserId == userId {

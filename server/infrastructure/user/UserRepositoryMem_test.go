@@ -102,8 +102,37 @@ func TestUserRepositoryMemDifferentEventStored(t *testing.T) {
 	}
 }
 
+// update test
+func TestUserRepositoryMemUpdate(t *testing.T) {
+	newUserRepositoryMem := NewUserRepositoryMem()
+
+	// store
+	newUserRepositoryMem.Store(mituba)
+
+	actual := newUserRepositoryMem.FindAll()
+	excepted := []*user.User{mituba}
+
+	// isStored
+	if len(actual) != 1 && !reflect.DeepEqual(actual, excepted) {
+		t.Errorf("got %v want %v", actual, excepted)
+	}
+
+	mituba.UserName = "terako"
+
+	// delete
+	newUserRepositoryMem.Update(mituba)
+
+	actual = newUserRepositoryMem.FindAll()
+	excepted = []*user.User{mituba}
+
+	// isUpdated
+	if len(actual) != 0 && !reflect.DeepEqual(actual, excepted) {
+		t.Errorf("got %v want %v", actual, excepted)
+	}
+}
+
 // delete test
-func TestUserRepositoryMem_Delete(t *testing.T) {
+func TestUserRepositoryMemDelete(t *testing.T) {
 	newUserRepositoryMem := NewUserRepositoryMem()
 
 	// store
