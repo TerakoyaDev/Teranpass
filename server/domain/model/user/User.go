@@ -1,31 +1,50 @@
 package user
 
 import (
+	"errors"
 	"github.com/google/uuid"
 )
 
 type User struct {
-	userId      [16]byte
-	userName    string
-	description string
-	image       string
-	email       string
+	UserId      string `json:"userId"`
+	UserName    string `json:"userName"`
+	Description string `json:"description"`
+	PhotoURL    string `json:"photoURL"`
+	Email       string `json:"email"`
 }
 
 // constructor
 func NewUser(
 	userName string,
 	description string,
-	image string,
-	email string) *User {
+	photoURL string,
+	email string) (*User, error) {
+
+	// validate
+	if userName == "" {
+		return &User{"", "", "", "", ""}, errors.New("eventName is empty")
+	}
+	if description == "" {
+		return &User{"", "", "", "", ""}, errors.New("description is empty")
+	}
+	if photoURL == "" {
+		return &User{"", "", "", "", ""}, errors.New("location is empty")
+	}
+	if email == "" {
+		return &User{"", "", "", "", ""}, errors.New("startTime is empty")
+	}
+
 	return &User{
-		userId:      uuid.New(),
-		userName:    userName,
-		description: description,
-		image:       image,
-		email:       email}
+		UserId:      uuid.New().String(),
+		UserName:    userName,
+		Description: description,
+		PhotoURL:    photoURL,
+		Email:       email}, nil
 }
 
-func Equals(other User) {
-
+func (user *User) Equals(other User) bool {
+	if user.UserId == other.UserId {
+		return true
+	}
+	return false
 }
