@@ -1,5 +1,8 @@
+import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
 import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 import InfiniteCalendar, {
@@ -9,19 +12,27 @@ import InfiniteCalendar, {
 } from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
 import { fetchEventDateList } from '../action/EventAction';
+import EventList from './EventList';
 
 interface IProps {
   isFetching: boolean;
   dateList: Date[];
+  eventList: any[];
   history: {
     push: (path: string) => void;
   };
   dispatch: any;
 }
 
-export default class TopPage extends React.Component<IProps> {
+interface IState {
+  value: number;
+}
+
+export default class TopPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
+
+    this.state = { value: 0 };
 
     this.selectedDate = this.selectedDate.bind(this);
     this.accessCreateEventPage = this.accessCreateEventPage.bind(this);
@@ -48,6 +59,21 @@ export default class TopPage extends React.Component<IProps> {
     dispatch(fetchEventDateList());
   }
 
+  public handleChange = (event: any, value: number) => {
+    console.log(value);
+    this.setState({ value });
+  };
+
+  public popularSortFunc(a: any, b: any) {
+    if (a.participants.length > b.participants.length) {
+      return -1;
+    }
+    if (a.participants.length < b.participants.length) {
+      return 1;
+    }
+    return 0;
+  }
+
   public render() {
     return (
       <div>
@@ -57,17 +83,48 @@ export default class TopPage extends React.Component<IProps> {
           </div>
         ) : (
           <div>
-            <InfiniteCalendar
-              Component={withMultipleDates(Calendar)}
-              interpolateSelection={defaultMultipleDateInterpolation}
-              width={window.innerWidth}
-              height={window.innerHeight - 200}
-              selected={this.props.dateList}
-              onSelect={this.selectedDate}
-              displayOptions={{
-                showHeader: false,
-              }}
-            />
+            <AppBar position="static" color="default">
+              <Tabs
+                value={this.state.value}
+                onChange={this.handleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                fullWidth={true}
+              >
+                <Tab label="人気" />
+                <Tab label="最新" />
+                <Tab label="カレンダー" />
+              </Tabs>
+            </AppBar>
+            {((): any => {
+              if (this.state.value === 0) {
+                return (
+                  <EventList
+                    event={this.props.eventList}
+                    history={this.props.history}
+                    sortFunc={this.popularSortFunc}
+                  />
+                );
+              } else if (this.state.value === 1) {
+                return <div>1</div>;
+              } else if (this.state.value === 2) {
+                return (
+                  <div>
+                    <InfiniteCalendar
+                      Component={withMultipleDates(Calendar)}
+                      interpolateSelection={defaultMultipleDateInterpolation}
+                      width={window.innerWidth}
+                      height={window.innerHeight - 250}
+                      selected={this.props.dateList}
+                      onSelect={this.selectedDate}
+                      displayOptions={{
+                        showHeader: false,
+                      }}
+                    />
+                  </div>
+                );
+              }
+            })()}
             <Button
               variant="fab"
               color={'primary'}
