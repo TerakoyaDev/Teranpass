@@ -21,6 +21,8 @@ interface IState {
     email: string;
     photoURL: string;
     uid: string;
+    joinEventList: any[];
+    description: string;
   };
   eventList: any[];
 }
@@ -33,8 +35,10 @@ export default class UserPage extends React.Component<InterfaceProps, IState> {
       eventList: [],
       isLoding: false,
       userInfo: {
+        description: '',
         displayName: '',
         email: '',
+        joinEventList: [],
         photoURL: '',
         uid: '',
       },
@@ -50,11 +54,8 @@ export default class UserPage extends React.Component<InterfaceProps, IState> {
     });
     const val = await (await firebaseDb.ref(`users/${id}`).once('value')).val();
     let userEventList = [];
-    const fetchedEventList = (await firebaseDb
-      .ref(`userHasEvents/${this.props.match.params.id}`)
-      .once('value')).val();
-    if (fetchedEventList) {
-      userEventList = fetchedEventList;
+    if (val.joinEventList) {
+      userEventList = val.joinEventList;
     }
     this.setState({
       ...this.state,

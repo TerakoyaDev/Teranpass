@@ -2,33 +2,20 @@ import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Subheader from 'material-ui/Subheader';
 import SvgIcon from 'material-ui/SvgIcon';
 import * as React from 'react';
 import { IUserInfo } from '../App';
 import { firebaseAuth, firebaseDb } from '../firebase';
+import JoinButton from './JoinButton';
+import RegisteredUserList from './RegisteredUserList';
 
 interface InterfaceProps {
   history: {
     push: (path: string) => void;
   };
-  event: {
-    body: string;
-    date: string;
-    eventId: string;
-    location: string;
-    participants: IUserInfo[];
-    sponsor: {
-      displayName: string;
-      email: string;
-      photoURL: string;
-      uid: string;
-    };
-    title: string;
-  };
+  event: any;
   getEvents: () => void;
 }
 
@@ -61,7 +48,7 @@ export default class EventPageFragment extends React.Component<
   public setJoin() {
     const user = firebaseAuth.currentUser;
     if (user) {
-      if (this.props.event.participants.find(n => n.uid === user.uid)) {
+      if (this.props.event.participants.find((n: any) => n.uid === user.uid)) {
         this.setState({ isJoin: true });
       } else {
         this.setState({ isJoin: false });
@@ -74,9 +61,7 @@ export default class EventPageFragment extends React.Component<
     const user = firebaseAuth.currentUser;
     if (user) {
       const ref = firebaseDb.ref(
-        `events/${this.props.event.date.split(' ')[0]}/${
-          this.props.event.eventId
-        }/participants`
+        `events/${this.props.event.eventId}/participants`
       );
       ref.transaction(array => {
         if (array) {
@@ -92,7 +77,7 @@ export default class EventPageFragment extends React.Component<
         }
       });
       const val = (await firebaseDb
-        .ref(`userHasEvents/${user.uid}`)
+        .ref(`users/${user.uid}/joinEventList`)
         .once('value')).val();
 
       let eventsList = [];
@@ -105,7 +90,7 @@ export default class EventPageFragment extends React.Component<
 
       // update
       const updates = {};
-      updates[`userHasEvents/${user.uid}`] = eventsList;
+      updates[`users/${user.uid}/joinEventList`] = eventsList;
       await firebaseDb.ref().update(updates);
 
       this.setState({ isJoin: true });
@@ -118,9 +103,7 @@ export default class EventPageFragment extends React.Component<
     const user = firebaseAuth.currentUser;
     if (user) {
       const ref = firebaseDb.ref(
-        `events/${this.props.event.date.split(' ')[0]}/${
-          this.props.event.eventId
-        }/participants`
+        `events/${this.props.event.eventId}/participants`
       );
       ref.transaction(array => {
         if (array) {
@@ -132,7 +115,7 @@ export default class EventPageFragment extends React.Component<
 
       // userHasEvents
       const val = (await firebaseDb
-        .ref(`userHasEvents/${user.uid}`)
+        .ref(`users/${user.uid}/joinEventList`)
         .once('value')).val();
       let eventsList = [];
       if (val) {
@@ -141,7 +124,7 @@ export default class EventPageFragment extends React.Component<
 
       // update
       const updates = {};
-      updates[`userHasEvents/${user.uid}`] = eventsList.filter(
+      updates[`users/${user.uid}/joinEventList`] = eventsList.filter(
         (n: any) => n.eventId !== this.props.event.eventId
       );
       await firebaseDb.ref().update(updates);
@@ -157,24 +140,15 @@ export default class EventPageFragment extends React.Component<
       // update
       const updates = {};
 
-      const userEventList = (await firebaseDb
-        .ref(`userHasEvents`)
+      const event = (await firebaseDb
+        .ref(`events/${this.props.event.eventId}`)
         .once('value')).val();
 
-      const newUserEventList = {};
-      Object.keys(userEventList).map(n => {
-        newUserEventList[n] = userEventList[n].filter(
-          (m: any) => m.eventId !== this.props.event.eventId
-        );
-      });
-      updates[`userHasEvents`] = newUserEventList;
-      updates[
-        `events/${this.props.event.date.split(' ')[0]}/${
-          this.props.event.eventId
-        }`
-      ] = null;
+      event.isDelete = true;
+
+      updates[`events/${this.props.event.eventId}`] = event;
       await firebaseDb.ref().update(updates);
-      this.props.getEvents();
+      this.props.history.push('/');
     }
   }
 
@@ -186,23 +160,9 @@ export default class EventPageFragment extends React.Component<
     this.setJoin();
   }
 
-  public joinButton = () =>
-    this.state.isJoin ? (
-      <IconButton onClick={this.removeUserInEvent}>
-        <SvgIcon>
-          <path d="M19,13H5V11H19V13Z" />
-        </SvgIcon>
-      </IconButton>
-    ) : (
-      <IconButton onClick={this.joinUserToEvent}>
-        <SvgIcon>
-          <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-        </SvgIcon>
-      </IconButton>
-    );
-
   // TODO porfile card and register event
   public render() {
+    console.log(this.props);
     return (
       <div>
         <Card>
@@ -217,7 +177,11 @@ export default class EventPageFragment extends React.Component<
                     </SvgIcon>
                   </IconButton>
                 ) : (
-                  <this.joinButton />
+                  <JoinButton
+                    isJoin={this.state.isJoin}
+                    removeUserInEvent={this.removeUserInEvent}
+                    joinUserToEvent={this.joinUserToEvent}
+                  />
                 )}
               </div>
             }
@@ -232,20 +196,11 @@ export default class EventPageFragment extends React.Component<
             <Typography component="p">{this.props.event.body}</Typography>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent>
-            <Subheader>{`このイベントに登録中のユーザ`}</Subheader>
-            <Grid container={true} spacing={24}>
-              {this.props.event.participants.map((val, index) => (
-                <Grid item={true} key={index}>
-                  <IconButton onClick={this.pushUserPage.bind(this, val)}>
-                    <Avatar src={val.photoURL} />
-                  </IconButton>
-                </Grid>
-              ))}
-            </Grid>
-          </CardContent>
-        </Card>
+        <RegisteredUserList
+          history={this.props.history}
+          event={this.props.event}
+          pushUserPage={this.pushUserPage}
+        />
       </div>
     );
   }

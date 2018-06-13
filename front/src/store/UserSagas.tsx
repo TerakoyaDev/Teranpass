@@ -55,6 +55,7 @@ async function postUserDataToDB(userInfo: IUserInfo) {
   // push data to database
   await firebaseDb.ref(`users/${userInfo.uid}`).set({
     ...userInfo,
+    description: 'エンジニア',
   });
 }
 
@@ -89,7 +90,6 @@ export function* createNewUserService() {
         message,
         type: CREATE_NEW_USER_FAILED,
       });
-      return;
     }
   }
 }

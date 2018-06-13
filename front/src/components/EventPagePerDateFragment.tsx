@@ -1,10 +1,8 @@
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 
 interface InterfaceProps {
@@ -48,7 +46,9 @@ export default class EventPagePerDateFragment extends React.Component<
     const { year, month, date } = this.props.match.params;
     return (
       <div>
-        {`${year}年${month}月${date}日のイベント`}
+        <p
+          style={{ margin: '5px' }}
+        >{`${year}年${month}月${date}日のイベント`}</p>
         {this.props.event.length !== 0 ? (
           <div>
             <List
@@ -75,14 +75,6 @@ export default class EventPagePerDateFragment extends React.Component<
         ) : (
           <div> No Event </div>
         )}
-        <Button
-          variant="fab"
-          color={'primary'}
-          style={{ position: 'absolute', bottom: 10, right: 10 }}
-          onClick={this.accessCreateEventPage}
-        >
-          <AddIcon />
-        </Button>
       </div>
     );
   }

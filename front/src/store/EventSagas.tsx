@@ -8,30 +8,34 @@ import {
 } from '../action/EventActionType';
 
 async function fetchEventListData() {
-  return await firebaseDb.ref(`events`).once('value');
+  return (await firebaseDb.ref(`events`).once('value')).val();
 }
 
-function* parseEventListForEventDateList(val: any) {
-  const dateList: Date[] = [];
-
-  // collect date data
-  JSON.parse(JSON.stringify(val), (key, value) => {
-    if (key === 'date') {
-      const dateObject = value.split(' ')[0].split('/');
-      dateList.push(new Date(dateObject[0], dateObject[1] - 1, dateObject[2]));
-    }
-  });
-  return dateList;
+function* parseEventListForEventDateList(fetchedEventList: any) {
+  let val = [];
+  if (fetchedEventList) {
+    val = fetchedEventList;
+  }
+  const filteredEvent = Object.keys(val).filter(
+    n => !fetchedEventList[n].isDelete
+  );
+  const dateList = filteredEvent.map(n => new Date(fetchedEventList[n].date));
+  const eventList = filteredEvent.map(n => fetchedEventList[n]);
+  return { dateList, eventList };
 }
 
 export function* fetchEventListDataService() {
   while (true) {
     yield take(FETCH_EVENT_DATE_LIST);
-    const eventList = yield call(fetchEventListData);
-    const dateList = yield call(parseEventListForEventDateList, eventList);
-    if (dateList) {
+    const fetchedEventList = yield call(fetchEventListData);
+    const { dateList, eventList } = yield call(
+      parseEventListForEventDateList,
+      fetchedEventList
+    );
+    if (dateList && eventList) {
       yield put({
         dateList,
+        eventList,
         type: FETCH_EVENT_DATE_LIST_SUCCESS,
       });
     } else {

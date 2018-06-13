@@ -16,7 +16,6 @@ interface InterfaceState {
 }
 
 interface InterfaceProps {
-  toggleSigned: (() => void);
   history: {
     push: (path: string) => void;
   };
@@ -34,7 +33,7 @@ export default class UserPage extends React.Component<
     this.state = {
       body: '',
       bodyErrorMessage: '',
-      date: '',
+      date: this.changeDateFormat(new Date()),
       dateErrorMessage: '',
       location: '',
       locationErrorMessage: '',
@@ -94,7 +93,7 @@ export default class UserPage extends React.Component<
     if (user) {
       // get events list
       const val = (await firebaseDb
-        .ref(`userHasEvents/${user.uid}`)
+        .ref(`${user.uid}/joinEventList`)
         .once('value')).val();
 
       // assign eventsList
@@ -104,13 +103,12 @@ export default class UserPage extends React.Component<
       }
 
       // get key
-      const newPostKey = await firebaseDb
-        .ref(`events/${this.state.date.split(' ')[0]}`)
-        .push().key;
+      const newPostKey = await firebaseDb.ref(`events`).push().key;
 
       const userInfo = {
         displayName: user.displayName,
         email: user.email,
+        joinEventList: [],
         photoURL: user.photoURL,
         uid: user.uid,
       };
@@ -118,8 +116,9 @@ export default class UserPage extends React.Component<
       // postEventData
       const postEventData = {
         body: this.state.body,
-        date: this.state.date,
+        date: this.state.date.split(' ')[0],
         eventId: newPostKey,
+        isDelete: false,
         location: this.state.location,
         participants: [userInfo],
         sponsor: userInfo,
@@ -129,15 +128,19 @@ export default class UserPage extends React.Component<
 
       // update
       const updates = {};
-      updates[
-        `events/${this.state.date.split(' ')[0]}/${newPostKey}`
-      ] = postEventData;
-      updates[`userHasEvents/${user.uid}`] = eventsList;
+      updates[`events/${newPostKey}`] = postEventData;
+      updates[`users/${user.uid}/joinEventList`] = eventsList;
 
       await firebaseDb.ref().update(updates);
 
       this.props.history.push('/');
     }
+  }
+
+  public changeDateFormat(value: any) {
+    const date = new Date(value);
+    return `${date.getFullYear()}/${date.getMonth() +
+      1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
   }
 
   // change method
@@ -146,11 +149,9 @@ export default class UserPage extends React.Component<
   }
 
   public onChangeDate(event: any) {
-    const date = new Date(event.currentTarget.value);
     this.setState({
       ...this.state,
-      date: `${date.getFullYear()}/${date.getMonth() +
-        1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`,
+      date: this.changeDateFormat(event.currentTarget.value),
     });
   }
 

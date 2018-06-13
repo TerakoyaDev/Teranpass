@@ -19,16 +19,24 @@ export const SignContext = React.createContext({
   },
 });
 
-export interface IUserInfo {
+interface IUser {
   displayName: string;
   email: string;
   photoURL: string;
   uid: string;
 }
 
+export interface IUserInfo {
+  displayName: string;
+  email: string;
+  photoURL: string;
+  uid: string;
+  joinEventList: IUser[];
+  description: string;
+}
+
 interface IState {
   isAuth: boolean;
-  toggleSigned: () => void;
   initApp: () => void;
   userInfo: IUserInfo;
 }
@@ -41,10 +49,11 @@ export default class App extends React.Component<{}, IState> {
     this.state = {
       initApp: this.initApp.bind(this),
       isAuth: false,
-      toggleSigned: this.toggleSigned.bind(this),
       userInfo: {
+        description: '',
         displayName: '',
         email: '',
+        joinEventList: [],
         photoURL: '',
         uid: '',
       },
@@ -52,35 +61,8 @@ export default class App extends React.Component<{}, IState> {
   }
 
   public async componentWillMount() {
-    const storage = await window.sessionStorage;
-    const filteredKeys = Object.keys(storage).filter(
-      (n: string) =>
-        JSON.parse(storage[n]).authDomain === 'teranpass.firebaseapp.com'
-    );
-    if (filteredKeys.length !== 0) {
-      const filteredUser = JSON.parse(storage[filteredKeys[0]]);
-      if (filteredUser) {
-        this.setState({
-          ...this.state,
-          isAuth: true,
-          userInfo: {
-            displayName: filteredUser.displayName,
-            email: filteredUser.email,
-            photoURL: filteredUser.photoURL,
-            uid: filteredUser.uid,
-          },
-        });
-      }
-    }
-  }
-
-  // change isAuth
-  public toggleSigned = () => {
-    this.setState(state => ({
-      isAuth: state.isAuth ? false : true,
-    }));
     this.initApp();
-  };
+  }
 
   public initApp = async () => {
     const storage = await window.sessionStorage;
@@ -95,8 +77,10 @@ export default class App extends React.Component<{}, IState> {
           ...this.state,
           isAuth: true,
           userInfo: {
+            description: filteredUser.description,
             displayName: filteredUser.displayName,
             email: filteredUser.email,
+            joinEventList: filteredUser.joinEventList,
             photoURL: filteredUser.photoURL,
             uid: filteredUser.uid,
           },
