@@ -1,11 +1,10 @@
-import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
 import Subheader from 'material-ui/Subheader';
 import * as React from 'react';
 import { IUserInfo } from '../App';
+import UserListItem from './UserListItem';
 
 interface IProps {
   history: {
@@ -25,13 +24,30 @@ interface IProps {
     };
     title: string;
   };
-  pushUserPage: (userInfo: IUserInfo) => void;
 }
 
-export default class RegisteredUserList extends React.Component<IProps> {
+interface IState {
+  open: boolean;
+}
+
+export default class RegisteredUserList extends React.Component<
+  IProps,
+  IState
+> {
   constructor(props: IProps) {
     super(props);
+    this.state = { open: false };
+    this.handleTooltipClose = this.handleTooltipClose.bind(this);
+    this.handleTooltipOpen = this.handleTooltipOpen.bind(this);
   }
+
+  public handleTooltipClose = () => {
+    this.setState({ open: false });
+  };
+
+  public handleTooltipOpen = () => {
+    this.setState({ open: true });
+  };
 
   public render() {
     return (
@@ -41,9 +57,7 @@ export default class RegisteredUserList extends React.Component<IProps> {
           <Grid container={true} spacing={24}>
             {this.props.event.participants.map((val: any, index: any) => (
               <Grid item={true} key={index}>
-                <IconButton onClick={this.props.pushUserPage.bind(this, val)}>
-                  <Avatar src={val.photoURL} />
-                </IconButton>
+                <UserListItem history={this.props.history} item={val} />
               </Grid>
             ))}
           </Grid>

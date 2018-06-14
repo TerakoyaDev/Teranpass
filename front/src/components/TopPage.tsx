@@ -74,10 +74,10 @@ export default class TopPage extends React.Component<IProps, IState> {
   }
 
   public newestSortFunc(a: any, b: any) {
-    if (a.date > b.date) {
+    if (a.date < b.date) {
       return -1;
     }
-    if (a.date < b.date) {
+    if (a.date > b.date) {
       return 1;
     }
     return 0;
@@ -100,8 +100,8 @@ export default class TopPage extends React.Component<IProps, IState> {
                 textColor="primary"
                 fullWidth={true}
               >
-                <Tab label="人気" />
-                <Tab label="最新" />
+                <Tab label="人気のイベント" />
+                <Tab label="直近のイベント" />
                 <Tab label="カレンダー" />
               </Tabs>
             </AppBar>

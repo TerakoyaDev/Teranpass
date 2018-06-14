@@ -33,7 +33,11 @@ export default class EventList extends React.Component<IProps> {
         {this.props.event.length !== 0 ? (
           <div>
             <List
-              style={{ maxHeight: 300, overflow: 'auto', position: 'relative' }}
+              style={{
+                maxHeight: window.innerHeight - 250,
+                overflow: 'auto',
+                position: 'relative',
+              }}
             >
               {Object.keys(this.props.event.sort(this.props.sortFunc)).map(
                 (val, index) => (
@@ -49,9 +53,9 @@ export default class EventList extends React.Component<IProps> {
                         secondary={this.props.event[val].date}
                       />
                       <ListItemSecondaryAction>
-                        <div style={{ margin: '5px' }}>{`${
+                        <div style={{ margin: '10px' }}>{`${
                           this.props.event[val].participants.length
-                        }人登録中`}</div>
+                        }人登録中！`}</div>
                       </ListItemSecondaryAction>
                     </ListItem>
                     <Divider />

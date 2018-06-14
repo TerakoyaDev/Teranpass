@@ -152,10 +152,6 @@ export default class EventPageFragment extends React.Component<
     }
   }
 
-  public pushUserPage(userInfo: IUserInfo) {
-    this.props.history.push(`/users/${userInfo.uid}`);
-  }
-
   public componentWillMount() {
     this.setJoin();
   }
@@ -199,7 +195,6 @@ export default class EventPageFragment extends React.Component<
         <RegisteredUserList
           history={this.props.history}
           event={this.props.event}
-          pushUserPage={this.pushUserPage}
         />
       </div>
     );

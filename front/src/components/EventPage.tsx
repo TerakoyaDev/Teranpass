@@ -19,6 +19,21 @@ export interface InterfaceEvent {
   title: string;
 }
 
+export const initialEventState = {
+  body: '',
+  date: '',
+  eventId: '',
+  location: '',
+  participants: [],
+  sponsor: {
+    displayName: '',
+    email: '',
+    photoURL: '',
+    uid: '',
+  },
+  title: '',
+};
+
 interface InterfaceProps {
   history: {
     push: (path: string) => void;
@@ -49,20 +64,7 @@ export default class EventPage extends React.Component<
   constructor(props: InterfaceProps) {
     super(props);
     this.state = {
-      event: {
-        body: '',
-        date: '',
-        eventId: '',
-        location: '',
-        participants: [],
-        sponsor: {
-          displayName: '',
-          email: '',
-          photoURL: '',
-          uid: '',
-        },
-        title: '',
-      },
+      event: initialEventState,
       isLoding: false,
     };
 
@@ -77,20 +79,7 @@ export default class EventPage extends React.Component<
     if (findedEvent) {
       return findedEvent;
     }
-    return {
-      body: '',
-      date: '',
-      eventId: '',
-      location: '',
-      participants: [],
-      sponsor: {
-        displayName: '',
-        email: '',
-        photoURL: '',
-        uid: '',
-      },
-      title: '',
-    };
+    return initialEventState;
   }
 
   public pushUserPage(userInfo: IUserInfo) {

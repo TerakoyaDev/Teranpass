@@ -2,6 +2,7 @@ import { call, put, take } from 'redux-saga/effects';
 import { firebaseDb } from '../firebase';
 
 import {
+  DELETE_EVENT_SERVICE,
   FETCH_EVENT_DATE_LIST,
   FETCH_EVENT_DATE_LIST_FAILED,
   FETCH_EVENT_DATE_LIST_SUCCESS,
@@ -43,5 +44,11 @@ export function* fetchEventListDataService() {
         type: FETCH_EVENT_DATE_LIST_FAILED,
       });
     }
+  }
+}
+
+export function* deleteEventService() {
+  while (true) {
+    yield take(DELETE_EVENT_SERVICE);
   }
 }
