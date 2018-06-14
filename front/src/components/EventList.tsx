@@ -34,7 +34,7 @@ export default class EventList extends React.Component<IProps> {
           <div>
             <List
               style={{
-                maxHeight: window.innerHeight - 250,
+                maxHeight: window.innerHeight - 150,
                 overflow: 'auto',
                 position: 'relative',
               }}
