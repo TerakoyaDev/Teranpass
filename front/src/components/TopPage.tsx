@@ -60,7 +60,6 @@ export default class TopPage extends React.Component<IProps, IState> {
   }
 
   public handleChange = (event: any, value: number) => {
-    console.log(value);
     this.setState({ value });
   };
 
@@ -69,6 +68,16 @@ export default class TopPage extends React.Component<IProps, IState> {
       return -1;
     }
     if (a.participants.length < b.participants.length) {
+      return 1;
+    }
+    return 0;
+  }
+
+  public newestSortFunc(a: any, b: any) {
+    if (a.date > b.date) {
+      return -1;
+    }
+    if (a.date < b.date) {
       return 1;
     }
     return 0;
@@ -106,7 +115,13 @@ export default class TopPage extends React.Component<IProps, IState> {
                   />
                 );
               } else if (this.state.value === 1) {
-                return <div>1</div>;
+                return (
+                  <EventList
+                    event={this.props.eventList}
+                    history={this.props.history}
+                    sortFunc={this.newestSortFunc}
+                  />
+                );
               } else if (this.state.value === 2) {
                 return (
                   <div>

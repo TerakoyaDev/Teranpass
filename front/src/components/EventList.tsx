@@ -2,6 +2,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import * as React from 'react';
 
@@ -47,6 +48,11 @@ export default class EventList extends React.Component<IProps> {
                         primary={`${this.props.event[val].title}`}
                         secondary={this.props.event[val].date}
                       />
+                      <ListItemSecondaryAction>
+                        <div style={{ margin: '5px' }}>{`${
+                          this.props.event[val].participants.length
+                        }人登録中`}</div>
+                      </ListItemSecondaryAction>
                     </ListItem>
                     <Divider />
                   </div>
