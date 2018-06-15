@@ -4,7 +4,7 @@ import { fetchEventDateList } from '../action/EventAction';
 import { IUserInfo } from '../App';
 import EventPageFragment from './EventPageFragment';
 
-export interface InterfaceEvent {
+export interface IEvent {
   body: string;
   date: string;
   eventId: string;
@@ -46,14 +46,14 @@ interface InterfaceProps {
       eventId: string;
     };
   };
-  eventList: InterfaceEvent[];
+  eventList: IEvent[];
   isFetching: boolean;
   dispatch: any;
 }
 
 interface InterfaceState {
   isLoding: boolean;
-  event: InterfaceEvent;
+  event: IEvent;
 }
 
 // TODO get userInfo by id

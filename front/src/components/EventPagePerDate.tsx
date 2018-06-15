@@ -39,7 +39,7 @@ export default class EventPagePerDate extends React.Component<
   public getEvents() {
     const { year, month, date } = this.props.match.params;
     return this.props.eventList.filter(
-      n => n.date === `${year}/${month}/${date}`
+      n => n.date.split(' ')[0] === `${year}/${month}/${date}`
     );
   }
 
@@ -59,8 +59,7 @@ export default class EventPagePerDate extends React.Component<
     const { dispatch } = this.props;
     dispatch(fetchEventDateList());
   }
-  //
-  // TODO porfile card and register event
+
   public render() {
     return (
       <div>

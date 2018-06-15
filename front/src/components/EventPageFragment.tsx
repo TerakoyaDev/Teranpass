@@ -8,6 +8,7 @@ import SvgIcon from 'material-ui/SvgIcon';
 import * as React from 'react';
 import { IUserInfo } from '../App';
 import { firebaseAuth, firebaseDb } from '../firebase';
+import { IEvent } from './EventPage';
 import JoinButton from './JoinButton';
 import RegisteredUserList from './RegisteredUserList';
 
@@ -33,7 +34,7 @@ export default class EventPageFragment extends React.Component<
     this.state = { isJoin: false };
 
     this.joinUserToEvent = this.joinUserToEvent.bind(this);
-    this.removeUserInEvent = this.removeUserInEvent.bind(this);
+    this.removeUserFromEvent = this.removeUserFromEvent.bind(this);
     this.setJoin = this.setJoin.bind(this);
   }
 
@@ -99,7 +100,7 @@ export default class EventPageFragment extends React.Component<
   }
 
   // remove
-  public async removeUserInEvent() {
+  public async removeUserFromEvent() {
     const user = firebaseAuth.currentUser;
     if (user) {
       const ref = firebaseDb.ref(
@@ -140,6 +141,10 @@ export default class EventPageFragment extends React.Component<
       // update
       const updates = {};
 
+      const joinEventList = (await firebaseDb
+        .ref(`users/${user.uid}/joinEventList`)
+        .once('value')).val();
+
       const event = (await firebaseDb
         .ref(`events/${this.props.event.eventId}`)
         .once('value')).val();
@@ -147,6 +152,9 @@ export default class EventPageFragment extends React.Component<
       event.isDelete = true;
 
       updates[`events/${this.props.event.eventId}`] = event;
+      updates[`users/${user.uid}/joinEventList`] = joinEventList.filter(
+        (n: IEvent) => n.eventId !== this.props.event.eventId
+      );
       await firebaseDb.ref().update(updates);
       this.props.history.push('/');
     }
@@ -156,14 +164,13 @@ export default class EventPageFragment extends React.Component<
     this.setJoin();
   }
 
-  // TODO porfile card and register event
   public render() {
-    console.log(this.props);
     return (
       <div>
         <Card>
           <CardHeader
             avatar={<Avatar src={this.props.event.sponsor.photoURL} />}
+            style={{ backgroundColor: '#CEECF5' }}
             action={
               <div>
                 {this.isAuthedAccount() ? (
@@ -175,7 +182,7 @@ export default class EventPageFragment extends React.Component<
                 ) : (
                   <JoinButton
                     isJoin={this.state.isJoin}
-                    removeUserInEvent={this.removeUserInEvent}
+                    removeUserInEvent={this.removeUserFromEvent}
                     joinUserToEvent={this.joinUserToEvent}
                   />
                 )}

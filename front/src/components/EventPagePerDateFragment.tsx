@@ -52,7 +52,11 @@ export default class EventPagePerDateFragment extends React.Component<
         {this.props.event.length !== 0 ? (
           <div>
             <List
-              style={{ maxHeight: 300, overflow: 'auto', position: 'relative' }}
+              style={{
+                maxHeight: window.innerHeight - 150,
+                overflow: 'auto',
+                position: 'relative',
+              }}
             >
               {Object.keys(this.props.event).map((val, index) => (
                 <div key={index}>

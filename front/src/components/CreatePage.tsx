@@ -2,7 +2,7 @@ import TextFieldCore from '@material-ui/core/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
-import { firebaseAuth, firebaseDb } from '../firebase';
+import { createEventAction } from '../action/EventAction';
 
 interface InterfaceState {
   title: string;
@@ -19,6 +19,7 @@ interface InterfaceProps {
   history: {
     push: (path: string) => void;
   };
+  dispatch: any;
 }
 
 // TODO get userInfo by id
@@ -89,52 +90,9 @@ export default class UserPage extends React.Component<
       return;
     }
 
-    const user = firebaseAuth.currentUser;
-    if (user) {
-      // get events list
-      const val = (await firebaseDb
-        .ref(`${user.uid}/joinEventList`)
-        .once('value')).val();
-
-      // assign eventsList
-      let eventsList = [];
-      if (val) {
-        eventsList = val;
-      }
-
-      // get key
-      const newPostKey = await firebaseDb.ref(`events`).push().key;
-
-      const userInfo = {
-        displayName: user.displayName,
-        email: user.email,
-        joinEventList: [],
-        photoURL: user.photoURL,
-        uid: user.uid,
-      };
-
-      // postEventData
-      const postEventData = {
-        body: this.state.body,
-        date: this.state.date.split(' ')[0],
-        eventId: newPostKey,
-        isDelete: false,
-        location: this.state.location,
-        participants: [userInfo],
-        sponsor: userInfo,
-        title: this.state.title,
-      };
-      eventsList.push(postEventData);
-
-      // update
-      const updates = {};
-      updates[`events/${newPostKey}`] = postEventData;
-      updates[`users/${user.uid}/joinEventList`] = eventsList;
-
-      await firebaseDb.ref().update(updates);
-
-      this.props.history.push('/');
-    }
+    const { title, date, location, body } = this.state;
+    const { dispatch } = this.props;
+    dispatch(createEventAction(title, date, location, body));
   }
 
   public changeDateFormat(value: any) {

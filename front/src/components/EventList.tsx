@@ -1,9 +1,11 @@
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 
 interface IProps {
@@ -17,6 +19,7 @@ interface IProps {
 export default class EventList extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props);
+    this.accessCreateEventPage = this.accessCreateEventPage.bind(this);
   }
 
   public onClickListItem(key: string) {
@@ -25,6 +28,11 @@ export default class EventList extends React.Component<IProps> {
         this.props.event[key].eventId
       }`
     );
+  }
+
+  // push create page
+  public accessCreateEventPage() {
+    this.props.history.push('/create');
   }
 
   public render() {
@@ -53,9 +61,13 @@ export default class EventList extends React.Component<IProps> {
                         secondary={this.props.event[val].date}
                       />
                       <ListItemSecondaryAction>
-                        <div style={{ margin: '10px' }}>{`${
-                          this.props.event[val].participants.length
-                        }人登録中！`}</div>
+                        {this.props.event[val].participants.length !== 1 ? (
+                          <div style={{ margin: '10px', color: 'red' }}>{`${this
+                            .props.event[val].participants.length -
+                            1}人登録中！`}</div>
+                        ) : (
+                          <div />
+                        )}
                       </ListItemSecondaryAction>
                     </ListItem>
                     <Divider />
@@ -65,8 +77,18 @@ export default class EventList extends React.Component<IProps> {
             </List>
           </div>
         ) : (
-          <div> No Event </div>
+          <div style={{ margin: '10px' }}>
+            イベントがありません．イベントを作成してみましょう．
+          </div>
         )}
+        <Button
+          variant="fab"
+          color={'primary'}
+          style={{ position: 'absolute', bottom: 10, right: 10 }}
+          onClick={this.accessCreateEventPage}
+        >
+          <AddIcon />
+        </Button>
       </div>
     );
   }

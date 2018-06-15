@@ -1,6 +1,7 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import * as React from 'react';
 import { firebaseDb } from '../firebase';
+import { IEvent } from './EventPage';
 import UserPageFragment from './UserPageFragment';
 
 interface InterfaceProps {
@@ -59,7 +60,9 @@ export default class UserPage extends React.Component<InterfaceProps, IState> {
     }
     this.setState({
       ...this.state,
-      eventList: userEventList,
+      eventList: userEventList.filter(
+        (n: IEvent) => new Date(n.date) >= new Date()
+      ),
       isLoding: false,
       userInfo: val,
     });

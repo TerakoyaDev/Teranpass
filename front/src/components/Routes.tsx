@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Route } from 'react-router';
-import CreatePage from '../components/CreatePage';
 import UserPage from '../components/UserPage';
+import CreatePageContainer from '../container/CreatePageContainer';
 import EventPageContainer from '../container/EventPageContainer';
 import EventPagePerDateContainer from '../container/EventPagePerDateContainer';
 import MyAppBarContainer from '../container/MyAppBarContainer';
@@ -37,7 +37,7 @@ export default class Routes extends React.Component<IProps, {}> {
           path="/events/:year/:month/:date/:eventId"
           component={EventPageContainer}
         />
-        <Route path="/create" component={CreatePage} />
+        <Route path="/create" component={CreatePageContainer} />
         <Route path="/setting" component={SettingPageContainer} />
       </div>
     );

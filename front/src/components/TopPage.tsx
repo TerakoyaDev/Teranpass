@@ -1,9 +1,7 @@
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
-import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 import InfiniteCalendar, {
   Calendar,
@@ -129,7 +127,7 @@ export default class TopPage extends React.Component<IProps, IState> {
                       Component={withMultipleDates(Calendar)}
                       interpolateSelection={defaultMultipleDateInterpolation}
                       width={window.innerWidth}
-                      height={window.innerHeight - 150}
+                      height={window.innerHeight - 170}
                       selected={this.props.dateList}
                       onSelect={this.selectedDate}
                       displayOptions={{
@@ -140,14 +138,6 @@ export default class TopPage extends React.Component<IProps, IState> {
                 );
               }
             })()}
-            <Button
-              variant="fab"
-              color={'primary'}
-              style={{ position: 'absolute', bottom: 10, right: 10 }}
-              onClick={this.accessCreateEventPage}
-            >
-              <AddIcon />
-            </Button>
           </div>
         )}
       </div>
