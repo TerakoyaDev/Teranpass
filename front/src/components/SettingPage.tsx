@@ -3,8 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
-import { fetchUserInfoFromSessionStorage } from '../action/UserAction';
-import { firebaseAuth, firebaseDb, firebaseStorage } from '../firebase';
+import { updateUser } from '../action/UserAction';
 
 interface InterfaceState {
   userName: string;
@@ -77,100 +76,17 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
       return;
     }
 
-    const user = firebaseAuth.currentUser;
-    if (user) {
-      this.setState({ ...this.state, submitingMessage: 'Now submiting' });
-      // update image
-      const imageRef = firebaseStorage
-        .ref()
-        .child(`${user.uid}/${this.state.photoFile}`);
-      await imageRef.put(this.state.photoFileInstance);
-      const downloadLink = await imageRef.getDownloadURL();
+    this.setState({ ...this.state, submitingMessage: '送信中' });
 
-      // update
-      await user.updateProfile({
-        displayName: this.state.userName,
-        photoURL: downloadLink,
-      });
-
-      const joinEventList = (await firebaseDb
-        .ref(`users/${user.uid}/joinEventList`)
-        .once('value')).val();
-
-      // set
-      await firebaseDb.ref(`users/${user.uid}`).set({
-        description: this.state.userDescription,
-        displayName: this.state.userName,
-        email: user.email,
-        joinEventList,
-        photoURL: downloadLink,
-        uid: user.uid,
-      });
-
-      // check all events
-      const val = (await firebaseDb.ref(`events`).once('value')).val();
-      if (val) {
-        const updates = {};
-        Object.keys(val).map((n: any) => {
-          updates[`events/${n}`] = {
-            ...val[n],
-            participants: val[n].participants.map(
-              (m: any) =>
-                m.uid === user.uid
-                  ? {
-                      description: this.state.userDescription,
-                      displayName: this.state.userName,
-                      email: user.email,
-                      photoURL: downloadLink,
-                      uid: user.uid,
-                    }
-                  : m
-            ),
-            sponsor: {
-              description: this.state.userDescription,
-              displayName: this.state.userName,
-              email: user.email,
-              photoURL: downloadLink,
-              uid: user.uid,
-            },
-          };
-        });
-
-        await firebaseDb.ref().update(updates);
-      }
-
-      // check all users
-      const users = (await firebaseDb.ref(`users`).once('value')).val();
-      if (users) {
-        const updates = {};
-        Object.keys(users).map((n: any) => {
-          updates[`users/${n}`] = {
-            ...users[n],
-            joinEventList: users[n].joinEventList.map((m: any) => {
-              return {
-                ...m,
-                sponsor:
-                  m.sponsor.uid === user.uid
-                    ? {
-                        description: this.state.userDescription,
-                        displayName: this.state.userName,
-                        email: user.email,
-                        photoURL: downloadLink,
-                        uid: user.uid,
-                      }
-                    : m.sponsor,
-              };
-            }),
-          };
-        });
-
-        await firebaseDb.ref().update(updates);
-      }
-
-      const { dispatch } = this.props;
-      dispatch(fetchUserInfoFromSessionStorage());
-      this.props.history.push('/');
-    }
+    const { dispatch } = this.props;
+    dispatch(
+      updateUser(
+        this.state.userName,
+        this.state.userDescription,
+        this.state.photoFileInstance,
+        this.state.photoFile
+      )
+    );
   }
 
   // change method

@@ -1,4 +1,4 @@
-import FlatButton from 'material-ui/FlatButton';
+import Button from '@material-ui/core/Button';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { signinUser } from '../action/UserAction';
@@ -81,9 +81,11 @@ export default class SigninPage extends React.Component<
           floatingLabelText="Email"
           onChange={this.onChangeEmail}
           errorText={this.state.emailErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
         <TextField
+          style={{ textAlign: 'left', width: '80%' }}
           hintText="パスワード"
           floatingLabelText="Password"
           type="password"
@@ -91,12 +93,14 @@ export default class SigninPage extends React.Component<
           errorText={this.state.passwordErrorMessage}
         />
         <br />
-        <FlatButton
-          label="Sign in"
-          primary={true}
+        <Button
+          variant="outlined"
+          color="primary"
           onClick={this.signin}
-          style={{ width: '20%' }}
-        />
+          style={{ width: '80%' }}
+        >
+          Signin
+        </Button>
       </div>
     );
   }

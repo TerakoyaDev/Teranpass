@@ -4,11 +4,7 @@ import {
   FETCH_USER_INFO_FROM_DATABASE,
   FETCH_USER_INFO_FROM_DATABASE_SUCCESS,
 } from '../../action/UserActionType';
-import { firebaseDb } from '../../firebase';
-
-async function fetchDataFromGivenPass(path: string) {
-  return (await firebaseDb.ref(path).once('value')).val();
-}
+import { fetchDataFromGivenPass } from '../repository';
 
 export default function* createNewUserService() {
   while (true) {

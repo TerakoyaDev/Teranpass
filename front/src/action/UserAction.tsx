@@ -6,6 +6,7 @@ import {
   SIGNOUT_USER,
   SNACKBAR_CLOSE,
   SNACKBAR_OPEN,
+  UPDATE_USER,
 } from './UserActionType';
 
 export const createNewUser = (
@@ -20,6 +21,23 @@ export const createNewUser = (
       userName,
     },
     type: CREATE_NEW_USER,
+  };
+};
+
+export const updateUser = (
+  userName: string,
+  description: string,
+  photoFileInstance: {},
+  photoURL: string
+) => {
+  return {
+    payload: {
+      description,
+      photoFileInstance,
+      photoURL,
+      userName,
+    },
+    type: UPDATE_USER,
   };
 };
 

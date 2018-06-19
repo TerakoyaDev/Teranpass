@@ -6,6 +6,7 @@ import fetchEventListDataService from './service/FetchEventListData';
 import signinUserService from './service/SigninUser';
 import signoutUserService from './service/SignoutUser';
 import updateEventService from './service/UpdateEvent';
+import updateUserService from './service/UpdateUser';
 
 function* mySaga() {
   yield fork(createNewUserService);
@@ -15,6 +16,7 @@ function* mySaga() {
   yield fork(updateEventService);
   yield fork(deleteEventService);
   yield fork(signoutUserService);
+  yield fork(updateUserService);
 }
 
 export default mySaga;

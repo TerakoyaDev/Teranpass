@@ -1,4 +1,4 @@
-import FlatButton from 'material-ui/FlatButton';
+import Button from '@material-ui/core/Button';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { createNewUser } from '../action/UserAction';
@@ -104,6 +104,7 @@ export default class SignupPage extends React.Component<
           floatingLabelText="UserName"
           onChange={this.onChangeUserName}
           errorText={this.state.userNameErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
         <TextField
@@ -111,6 +112,7 @@ export default class SignupPage extends React.Component<
           floatingLabelText="Email"
           onChange={this.onChangeEmail}
           errorText={this.state.emailErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
         <TextField
@@ -119,14 +121,17 @@ export default class SignupPage extends React.Component<
           type="password"
           onChange={this.onChangePassword}
           errorText={this.state.passwordErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
-        <FlatButton
-          label="Sign up"
-          primary={true}
+        <Button
+          variant="outlined"
+          color="primary"
           onClick={this.signup}
-          style={{ width: '20%' }}
-        />
+          style={{ width: '80%' }}
+        >
+          Signin
+        </Button>
       </div>
     );
   }
