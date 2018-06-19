@@ -2,6 +2,9 @@ import AppBar from '@material-ui/core/AppBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import Event from '@material-ui/icons/Event';
+import New from '@material-ui/icons/SmsFailed';
+import Star from '@material-ui/icons/Star';
 import * as React from 'react';
 import InfiniteCalendar, {
   Calendar,
@@ -84,17 +87,17 @@ export default class TopPage extends React.Component<IProps, IState> {
           </div>
         ) : (
           <div>
-            <AppBar position="static" color="default">
+            <AppBar position="static" color="inherit">
               <Tabs
                 value={this.state.value}
                 onChange={this.handleChange}
                 indicatorColor="primary"
-                textColor="primary"
+                textColor="inherit"
                 fullWidth={true}
               >
-                <Tab label="人気のイベント" />
-                <Tab label="直近のイベント" />
-                <Tab label="カレンダー" />
+                <Tab icon={<Star />} label="人気のイベント" />
+                <Tab icon={<New />} label="直近のイベント" />
+                <Tab icon={<Event />} label="カレンダー" />
               </Tabs>
             </AppBar>
             {((): any => {
@@ -123,7 +126,7 @@ export default class TopPage extends React.Component<IProps, IState> {
                       Component={withMultipleDates(Calendar)}
                       interpolateSelection={defaultMultipleDateInterpolation}
                       width={window.innerWidth}
-                      height={window.innerHeight - 170}
+                      height={window.innerHeight - 190}
                       selected={this.props.dateList}
                       onSelect={this.selectedDate}
                       displayOptions={{
