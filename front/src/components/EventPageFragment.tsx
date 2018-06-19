@@ -7,6 +7,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import SvgIcon from 'material-ui/SvgIcon';
 import * as React from 'react';
+import * as ReactMarkdown from 'react-markdown';
 import { deleteEventAction } from '../action/EventAction';
 import { firebaseAuth, firebaseDb } from '../firebase';
 import { IUserInfo } from '../types';
@@ -194,7 +195,9 @@ export default class EventPageFragment extends React.Component<
               {`場所: ${this.props.event.location}`}
             </Typography>
             <br />
-            <Typography component="p">{this.props.event.body}</Typography>
+            <div>
+              <ReactMarkdown source={this.props.event.body} />
+            </div>
           </CardContent>
         </Card>
         <RegisteredUserList

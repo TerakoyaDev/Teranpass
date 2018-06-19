@@ -153,7 +153,7 @@ export default class UserPage extends React.Component<
         <br />
         <TextField
           style={{ textAlign: 'left', width: '80%' }}
-          hintText="説明文"
+          hintText="説明文．マークダウン形式で書けます．改行二つで改行扱いなので注意！！"
           floatingLabelText="Body"
           onChange={this.onChangeBody}
           errorText={this.state.bodyErrorMessage}
