@@ -70,7 +70,7 @@ export default function* createNewUserService() {
       const userInfo = yield call(
         updateUserProfile,
         userName,
-        'https://firebasestorage.googleapis.com/v0/b/teranpass.appspot.com/o/account-circle.png?alt=media&token=2c34cb44-a79e-4315-9f26-f868dfc0c550'
+        'https://materialdesignicons.com/api/download/icon/png/1D7E8F31-998D-442A-80E6-EBB8DFA8CBA2/48'
       );
       yield call(postUserDataToDB, userInfo);
       yield put({

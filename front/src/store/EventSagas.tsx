@@ -6,6 +6,7 @@ import {
   FETCH_EVENT_DATE_LIST,
   FETCH_EVENT_DATE_LIST_FAILED,
   FETCH_EVENT_DATE_LIST_SUCCESS,
+  UPDATE_EVENT,
 } from '../action/EventActionType';
 import { IUserInfo } from '../App';
 import { IEvent } from '../components/EventPage';
@@ -120,6 +121,52 @@ export function* createEventService() {
   }
 }
 
+export function* updateEventService() {
+  while (true) {
+    const { payload } = yield take(UPDATE_EVENT);
+    const user = firebaseAuth.currentUser;
+    if (user) {
+      const updates = {};
+
+      const { id, title, date, location, body } = payload;
+      const targetEvent = yield call(fetchDataFromGivenPass, `events/${id}`);
+      targetEvent.title = title;
+      targetEvent.date = date;
+      targetEvent.location = location;
+      targetEvent.body = body;
+
+      updates[`events/${id}`] = targetEvent;
+
+      for (const val of targetEvent.participants) {
+        const targetUser = yield call(
+          fetchDataFromGivenPass,
+          `users/${val.uid}`
+        );
+        const newJoinEventList = targetUser.joinEventList.map((ev: IEvent) => {
+          return ev.eventId === id
+            ? {
+                ...ev,
+                body,
+                date,
+                location,
+                title,
+              }
+            : {
+                ...ev,
+              };
+        });
+        updates[`users/${val.uid}`] = {
+          ...targetUser,
+          joinEventList: newJoinEventList,
+        };
+      }
+
+      yield call(update, updates);
+      yield put(push('/'));
+    }
+  }
+}
+
 async function update(updates: any) {
   await firebaseDb.ref().update(updates);
 }
@@ -144,15 +191,12 @@ export function* deleteEventService() {
 
       event.isDelete = true;
 
-      console.log(event);
-
       updates[`events/${eventId}`] = event;
       updates[`users/${user.uid}/joinEventList`] = joinEventList.filter(
         (n: IEvent) => n.eventId !== eventId
       );
       // check all users
       const users = yield call(fetchDataFromGivenPass, `users`);
-      console.log(users);
       if (users) {
         Object.keys(users).map(
           (n: any) =>
