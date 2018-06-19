@@ -2,7 +2,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import * as React from 'react';
-import { IUserInfo } from '../App';
+import { IUserInfo } from '../types';
 
 interface IProps {
   history: {

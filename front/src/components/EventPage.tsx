@@ -1,7 +1,7 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import * as React from 'react';
 import { fetchEventDateList } from '../action/EventAction';
-import { IUserInfo } from '../App';
+import { IUserInfo } from '../types';
 import EventPageFragment from './EventPageFragment';
 
 export interface IEvent {
@@ -53,23 +53,9 @@ interface InterfaceProps {
   dispatch: any;
 }
 
-interface InterfaceState {
-  isLoding: boolean;
-  event: IEvent;
-}
-
-// TODO get userInfo by id
-export default class EventPage extends React.Component<
-  InterfaceProps,
-  InterfaceState
-> {
+export default class EventPage extends React.Component<InterfaceProps> {
   constructor(props: InterfaceProps) {
     super(props);
-    this.state = {
-      event: initialEventState,
-      isLoding: false,
-    };
-
     this.refreshEventList = this.refreshEventList.bind(this);
   }
 
@@ -84,10 +70,6 @@ export default class EventPage extends React.Component<
     return initialEventState;
   }
 
-  public pushUserPage(userInfo: IUserInfo) {
-    this.props.history.push(`/users/${userInfo.uid}`);
-  }
-
   public refreshEventList() {
     const { dispatch } = this.props;
     dispatch(fetchEventDateList());
@@ -97,7 +79,6 @@ export default class EventPage extends React.Component<
     this.refreshEventList();
   }
 
-  // TODO porfile card and register event
   public render() {
     const event = this.getEvent();
     return (

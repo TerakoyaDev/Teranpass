@@ -4,8 +4,8 @@ import {
   SIGNOUT_USER,
   SIGNOUT_USER_FAILED,
   SIGNOUT_USER_SUCCESS,
-} from '../action/UserActionType';
-import { firebaseAuth } from '../firebase';
+} from '../../action/UserActionType';
+import { firebaseAuth } from '../../firebase';
 
 function signoutUser() {
   return firebaseAuth

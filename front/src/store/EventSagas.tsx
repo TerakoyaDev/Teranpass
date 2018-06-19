@@ -8,13 +8,14 @@ import {
   FETCH_EVENT_DATE_LIST_SUCCESS,
   UPDATE_EVENT,
 } from '../action/EventActionType';
-import { IUserInfo } from '../App';
 import { IEvent } from '../components/EventPage';
-import { firebaseAuth, firebaseDb } from '../firebase';
-
-async function fetchDataFromGivenPass(path: string) {
-  return (await firebaseDb.ref(path).once('value')).val();
-}
+import { firebaseAuth } from '../firebase';
+import { IUserInfo } from '../types';
+import {
+  fetchDataFromGivenPass,
+  fetchNewKeyString,
+  update,
+} from './repository';
 
 function* parseEventListForEventDateList(fetchedEventList: any) {
   let val = [];
@@ -60,11 +61,12 @@ async function createEvent(
   payload: any,
   eventsList: any[],
   userInfo: IUserInfo,
-  user: any
+  user: any,
+  newKey: string
 ) {
   const { title, date, location, body } = payload;
   // get key
-  const newPostKey = await firebaseDb.ref(`events`).push().key;
+  // const newPostKey = await firebaseDb.ref(`events`).push().key;
 
   // テーブル設計を見直す必要がある
   delete userInfo.joinEventList;
@@ -72,7 +74,7 @@ async function createEvent(
   const postEventData = {
     body,
     date,
-    eventId: newPostKey,
+    eventId: newKey,
     isDelete: false,
     location,
     participants: [userInfo],
@@ -83,11 +85,11 @@ async function createEvent(
   eventsList.push(postEventData);
 
   // update
-  const updates = {};
-  updates[`events/${newPostKey}`] = postEventData;
-  updates[`users/${user.uid}/joinEventList`] = eventsList;
+  const updateData = {};
+  updateData[`events/${newKey}`] = postEventData;
+  updateData[`users/${user.uid}/joinEventList`] = eventsList;
 
-  return await firebaseDb.ref().update(updates);
+  return updateData;
 }
 
 export function* createEventService() {
@@ -114,13 +116,24 @@ export function* createEventService() {
         uid: user.uid,
       };
 
-      yield call(createEvent, payload, eventsList, userInfo, user);
+      const newKey = yield call(fetchNewKeyString);
 
+      const updateData = yield call(
+        createEvent,
+        payload,
+        eventsList,
+        userInfo,
+        user,
+        newKey
+      );
+
+      yield call(update, updateData);
       yield put(push('/'));
     }
   }
 }
 
+// update
 export function* updateEventService() {
   while (true) {
     const { payload } = yield take(UPDATE_EVENT);
@@ -165,10 +178,6 @@ export function* updateEventService() {
       yield put(push('/'));
     }
   }
-}
-
-async function update(updates: any) {
-  await firebaseDb.ref().update(updates);
 }
 
 export function* deleteEventService() {

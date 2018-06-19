@@ -5,7 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { signoutUser, snackbarOpen } from '../action/UserAction';
-import { IUserInfo } from '../App';
+import { IUserInfo } from '../types';
 
 interface InterfaceProps {
   userInfo: IUserInfo;

@@ -10,8 +10,6 @@ import sagas from './sagas';
 export const history = createHistory();
 const routerMiddlewareWithHistory = routerMiddleware(history);
 
-// import mySaga from './sagas'
-
 // Saga ミドルウェアを作成する
 const sagaMiddleware = createSagaMiddleware();
 
@@ -23,5 +21,3 @@ const store = createStore(
 
 sagaMiddleware.run(sagas);
 export default store;
-// Saga を起動する
-// sagaMiddleware.run(mySaga)

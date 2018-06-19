@@ -34,22 +34,15 @@ export default class TopPage extends React.Component<IProps, IState> {
     this.state = { value: 0 };
 
     this.selectedDate = this.selectedDate.bind(this);
-    this.accessCreateEventPage = this.accessCreateEventPage.bind(this);
   }
 
   // push EventPagePerDate
   public selectedDate(date: string) {
     const dateVal = new Date(Date.parse(date));
-
     this.props.history.push(
       `/eventList/${dateVal.getFullYear()}/${dateVal.getMonth() +
         1}/${dateVal.getDate()}`
     );
-  }
-
-  // push create page
-  public accessCreateEventPage() {
-    this.props.history.push('/create');
   }
 
   // call fetchEventDateList when create DOM

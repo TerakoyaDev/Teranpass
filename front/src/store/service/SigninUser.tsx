@@ -6,8 +6,8 @@ import {
   SIGNIN_USER,
   SIGNIN_USER_FAILED,
   SIGNIN_USER_SUCCESS,
-} from '../action/UserActionType';
-import { firebaseAuth } from '../firebase';
+} from '../../action/UserActionType';
+import { firebaseAuth } from '../../firebase';
 
 // signin user
 function signinUser(payload: { email: string; password: string }) {

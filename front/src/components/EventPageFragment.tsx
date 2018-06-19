@@ -8,8 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import SvgIcon from 'material-ui/SvgIcon';
 import * as React from 'react';
 import { deleteEventAction } from '../action/EventAction';
-import { IUserInfo } from '../App';
 import { firebaseAuth, firebaseDb } from '../firebase';
+import { IUserInfo } from '../types';
 import JoinButton from './JoinButton';
 import RegisteredUserList from './RegisteredUserList';
 

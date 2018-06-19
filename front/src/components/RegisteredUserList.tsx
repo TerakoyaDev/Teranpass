@@ -3,7 +3,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Subheader from 'material-ui/Subheader';
 import * as React from 'react';
-import { IUserInfo } from '../App';
+import { IUserInfo } from '../types';
 import UserListItem from './UserListItem';
 
 interface IProps {

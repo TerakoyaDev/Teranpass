@@ -16,7 +16,7 @@ interface InterfaceProps {
       date: string;
     };
   };
-  event: any[];
+  eventList: any[];
 }
 
 // TODO get userInfo by id
@@ -35,13 +35,12 @@ export default class EventPagePerDateFragment extends React.Component<
 
   public onClickListItem(key: string) {
     this.props.history.push(
-      `/events/${this.props.event[key].date.split(' ')[0]}/${
-        this.props.event[key].eventId
+      `/events/${this.props.eventList[key].date.split(' ')[0]}/${
+        this.props.eventList[key].eventId
       }`
     );
   }
 
-  // TODO porfile card and register event
   public render() {
     const { year, month, date } = this.props.match.params;
     return (
@@ -49,7 +48,7 @@ export default class EventPagePerDateFragment extends React.Component<
         <p
           style={{ margin: '5px' }}
         >{`${year}年${month}月${date}日のイベント`}</p>
-        {this.props.event.length !== 0 ? (
+        {this.props.eventList.length !== 0 ? (
           <div>
             <List
               style={{
@@ -58,17 +57,17 @@ export default class EventPagePerDateFragment extends React.Component<
                 position: 'relative',
               }}
             >
-              {Object.keys(this.props.event).map((val, index) => (
+              {Object.keys(this.props.eventList).map((val, index) => (
                 <div key={index}>
                   <ListItem
                     key={index}
                     button={true}
                     onClick={this.onClickListItem.bind(this, val)}
                   >
-                    <Avatar src={this.props.event[val].sponsor.photoURL} />
+                    <Avatar src={this.props.eventList[val].sponsor.photoURL} />
                     <ListItemText
-                      primary={`${this.props.event[val].title}`}
-                      secondary={this.props.event[val].date}
+                      primary={`${this.props.eventList[val].title}`}
+                      secondary={this.props.eventList[val].date}
                     />
                   </ListItem>
                   <Divider />

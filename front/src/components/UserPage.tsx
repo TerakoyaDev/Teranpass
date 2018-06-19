@@ -2,7 +2,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import * as React from 'react';
 import { fetchEventDateList } from '../action/EventAction';
 import { fetchUserInfoFromDatabase } from '../action/UserAction';
-import { IUserInfo } from '../App';
+import { IUserInfo } from '../types';
 import { IEvent } from './EventPage';
 import UserPageFragment from './UserPageFragment';
 

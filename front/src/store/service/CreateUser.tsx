@@ -5,9 +5,9 @@ import {
   CREATE_NEW_USER,
   CREATE_NEW_USER_FAILED,
   CREATE_NEW_USER_SUCCESS,
-} from '../action/UserActionType';
-import { IUserInfo } from '../App';
-import { firebaseAuth, firebaseDb } from '../firebase';
+} from '../../action/UserActionType';
+import { firebaseAuth, firebaseDb } from '../../firebase';
+import { IUserInfo } from '../../types';
 
 // create new user
 function createNewUserToDB(email: string, password: string) {

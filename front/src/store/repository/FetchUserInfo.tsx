@@ -3,8 +3,8 @@ import { call, put, take } from 'redux-saga/effects';
 import {
   FETCH_USER_INFO_FROM_DATABASE,
   FETCH_USER_INFO_FROM_DATABASE_SUCCESS,
-} from '../action/UserActionType';
-import { firebaseDb } from '../firebase';
+} from '../../action/UserActionType';
+import { firebaseDb } from '../../firebase';
 
 async function fetchDataFromGivenPass(path: string) {
   return (await firebaseDb.ref(path).once('value')).val();

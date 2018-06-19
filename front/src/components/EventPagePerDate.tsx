@@ -1,6 +1,7 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import * as React from 'react';
 import { fetchEventDateList } from '../action/EventAction';
+import { putZero } from '../utils/DateFormat';
 import EventPagePerDateFragment from './EventPagePerDateFragment';
 
 interface InterfaceProps {
@@ -19,25 +20,9 @@ interface InterfaceProps {
   dispatch: any;
 }
 
-interface InterfaceState {
-  isLoding: boolean;
-  event: any[];
-}
-
-// TODO get userInfo by id
-export default class EventPagePerDate extends React.Component<
-  InterfaceProps,
-  InterfaceState
-> {
+export default class EventPagePerDate extends React.Component<InterfaceProps> {
   constructor(props: InterfaceProps) {
     super(props);
-    this.state = { isLoding: false, event: [] };
-
-    this.accessCreateEventPage = this.accessCreateEventPage.bind(this);
-  }
-
-  public putZero(dateNumber: string) {
-    return ('0' + dateNumber).slice(-2);
   }
 
   public getEvents() {
@@ -45,19 +30,7 @@ export default class EventPagePerDate extends React.Component<
     return this.props.eventList.filter(
       n =>
         n.date.split(' ')[0] ===
-        `${year}/${this.putZero(month)}/${this.putZero(date)}`
-    );
-  }
-
-  public accessCreateEventPage() {
-    this.props.history.push('/create');
-  }
-
-  public onClickListItem(key: string) {
-    this.props.history.push(
-      `/events/${this.state.event[key].date.split(' ')[0]}/${
-        this.state.event[key].eventId
-      }`
+        `${year}/${putZero(parseInt(month, 10))}/${putZero(parseInt(date, 10))}`
     );
   }
 
@@ -77,7 +50,7 @@ export default class EventPagePerDate extends React.Component<
           <EventPagePerDateFragment
             history={this.props.history}
             match={this.props.match}
-            event={this.getEvents()}
+            eventList={this.getEvents()}
           />
         )}
       </div>

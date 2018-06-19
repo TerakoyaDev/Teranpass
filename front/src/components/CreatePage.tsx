@@ -3,6 +3,7 @@ import TextFieldCore from '@material-ui/core/TextField';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { createEventAction } from '../action/EventAction';
+import { changeDateFormat, changeDateISOFormat } from '../utils/DateFormat';
 
 interface InterfaceState {
   title: string;
@@ -34,7 +35,7 @@ export default class UserPage extends React.Component<
     this.state = {
       body: '',
       bodyErrorMessage: '',
-      date: this.changeDateFormat(new Date()),
+      date: changeDateFormat(new Date()),
       dateErrorMessage: '',
       location: '',
       locationErrorMessage: '',
@@ -95,28 +96,6 @@ export default class UserPage extends React.Component<
     dispatch(createEventAction(title, date, location, body));
   }
 
-  public putZero(dateNumber: number) {
-    return ('0' + dateNumber).slice(-2);
-  }
-
-  public changeDateISOFormat(value: any) {
-    const date = new Date(value);
-    return `${date.getFullYear()}-${this.putZero(
-      date.getMonth() + 1
-    )}-${this.putZero(date.getDate())}T${this.putZero(
-      date.getHours()
-    )}:${this.putZero(date.getMinutes())}`;
-  }
-
-  public changeDateFormat(value: any) {
-    const date = new Date(value);
-    return `${date.getFullYear()}/${this.putZero(
-      date.getMonth() + 1
-    )}/${this.putZero(date.getDate())} ${this.putZero(
-      date.getHours()
-    )}:${this.putZero(date.getMinutes())}`;
-  }
-
   // change method
   public onChangeBody(event: React.FormEvent<HTMLSelectElement>) {
     this.setState({ ...this.state, body: event.currentTarget.value });
@@ -125,7 +104,7 @@ export default class UserPage extends React.Component<
   public onChangeDate(event: any) {
     this.setState({
       ...this.state,
-      date: this.changeDateFormat(event.currentTarget.value),
+      date: changeDateFormat(event.currentTarget.value),
     });
   }
 
@@ -147,7 +126,7 @@ export default class UserPage extends React.Component<
             id="datetime-local"
             label="Date"
             type="datetime-local"
-            defaultValue={this.changeDateISOFormat(new Date())}
+            defaultValue={changeDateISOFormat(new Date())}
             style={{ width: '80%' }}
             InputLabelProps={{
               shrink: true,

@@ -9,7 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Subheader from 'material-ui/Subheader';
 import * as React from 'react';
-import { IUserInfo } from '../App';
+import { IUserInfo } from '../types';
 
 interface IProps {
   history: {
