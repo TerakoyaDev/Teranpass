@@ -36,10 +36,16 @@ export default class EventPagePerDate extends React.Component<
     this.accessCreateEventPage = this.accessCreateEventPage.bind(this);
   }
 
+  public putZero(dateNumber: string) {
+    return ('0' + dateNumber).slice(-2);
+  }
+
   public getEvents() {
     const { year, month, date } = this.props.match.params;
     return this.props.eventList.filter(
-      n => n.date.split(' ')[0] === `${year}/${month}/${date}`
+      n =>
+        n.date.split(' ')[0] ===
+        `${year}/${this.putZero(month)}/${this.putZero(date)}`
     );
   }
 

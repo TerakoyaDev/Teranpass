@@ -17,9 +17,6 @@ interface InterfaceState {
 }
 
 interface InterfaceProps {
-  history: {
-    push: (path: string) => void;
-  };
   eventList: IEvent[];
   match: {
     params: {
@@ -40,6 +37,7 @@ export default class UserPage extends React.Component<
       n => n.eventId === this.props.match.params.id
     );
 
+    // init state
     if (event) {
       this.state = {
         body: event.body,
@@ -72,7 +70,6 @@ export default class UserPage extends React.Component<
     this.update = this.update.bind(this);
   }
 
-  // create
   public async update() {
     this.setState({
       ...this.state,
@@ -112,14 +109,15 @@ export default class UserPage extends React.Component<
       return;
     }
 
+    // dispatch
     const { title, date, location, body } = this.state;
-    console.log(this.state);
     const { dispatch } = this.props;
     dispatch(
       updateEventAction(this.props.match.params.id, title, date, location, body)
     );
   }
 
+  // format date
   public putZero(dateNumber: number) {
     return ('0' + dateNumber).slice(-2);
   }
@@ -135,8 +133,11 @@ export default class UserPage extends React.Component<
 
   public changeDateFormat(value: any) {
     const date = new Date(value);
-    return `${date.getFullYear()}/${date.getMonth() +
-      1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+    return `${this.putZero(date.getFullYear())}/${this.putZero(
+      date.getMonth() + 1
+    )}/${this.putZero(date.getDate())} ${this.putZero(
+      date.getHours()
+    )}:${this.putZero(date.getMinutes())}`;
   }
 
   // change method
@@ -159,7 +160,6 @@ export default class UserPage extends React.Component<
     this.setState({ ...this.state, title: event.currentTarget.value });
   }
 
-  // TODO porfile card and register event
   public render() {
     return (
       <div style={{ textAlign: 'center', flex: 'column' }}>

@@ -1,5 +1,6 @@
 import {
   CREATE_NEW_USER,
+  FETCH_USER_INFO_FROM_DATABASE,
   FETCH_USER_INFO_FROM_SESSION_STORAGE,
   SIGNIN_USER,
   SIGNOUT_USER,
@@ -25,6 +26,15 @@ export const createNewUser = (
 export const fetchUserInfoFromSessionStorage = () => {
   return {
     type: FETCH_USER_INFO_FROM_SESSION_STORAGE,
+  };
+};
+
+export const fetchUserInfoFromDatabase = (userId: string) => {
+  return {
+    payload: {
+      userId,
+    },
+    type: FETCH_USER_INFO_FROM_DATABASE,
   };
 };
 

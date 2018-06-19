@@ -1,6 +1,7 @@
 import {
   CREATE_NEW_USER_FAILED,
   CREATE_NEW_USER_SUCCESS,
+  FETCH_USER_INFO_FROM_DATABASE_SUCCESS,
   FETCH_USER_INFO_FROM_SESSION_STORAGE,
   SIGNIN_USER_FAILED,
   SIGNIN_USER_SUCCESS,
@@ -62,6 +63,12 @@ const userReducer = (state: any = initialState, action: any): any => {
         message: '',
         userInfo,
       };
+    case FETCH_USER_INFO_FROM_DATABASE_SUCCESS:
+      return {
+        ...state,
+        userInfo: action.userInfo,
+      };
+
     case SIGNIN_USER_SUCCESS:
       return {
         ...state,

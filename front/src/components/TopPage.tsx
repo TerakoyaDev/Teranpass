@@ -66,7 +66,7 @@ export default class TopPage extends React.Component<IProps, IState> {
     if (a.participants.length > b.participants.length) {
       return -1;
     }
-    if (a.participants.length <= b.participants.length) {
+    if (a.participants.length < b.participants.length) {
       return 1;
     }
     return 0;
@@ -76,7 +76,7 @@ export default class TopPage extends React.Component<IProps, IState> {
     if (a.date < b.date) {
       return -1;
     }
-    if (a.date >= b.date) {
+    if (a.date > b.date) {
       return 1;
     }
     return 0;

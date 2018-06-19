@@ -55,29 +55,22 @@ export default class UserPageFragment extends React.Component<IProps> {
                   position: 'relative',
                 }}
               >
-                {this.props.eventList
-                  .filter(
-                    n =>
-                      n.date >=
-                      `${new Date().getFullYear()}/${new Date().getMonth() +
-                        1}/${new Date().getDate()}`
-                  )
-                  .map((item, index) => (
-                    <div key={index}>
-                      <ListItem
-                        key={index}
-                        button={true}
-                        onClick={this.onClickListItem.bind(this, index)}
-                      >
-                        <Avatar src={item.sponsor.photoURL} />
-                        <ListItemText
-                          primary={`${item.title}`}
-                          secondary={item.date}
-                        />
-                      </ListItem>
-                      <Divider />
-                    </div>
-                  ))}
+                {this.props.eventList.map((item, index) => (
+                  <div key={index}>
+                    <ListItem
+                      key={index}
+                      button={true}
+                      onClick={this.onClickListItem.bind(this, index)}
+                    >
+                      <Avatar src={item.sponsor.photoURL} />
+                      <ListItemText
+                        primary={`${item.title}`}
+                        secondary={item.date}
+                      />
+                    </ListItem>
+                    <Divider />
+                  </div>
+                ))}
               </List>
             ) : (
               <Typography paragraph={true}>No Event</Typography>

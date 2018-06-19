@@ -110,8 +110,11 @@ export default class UserPage extends React.Component<
 
   public changeDateFormat(value: any) {
     const date = new Date(value);
-    return `${date.getFullYear()}/${date.getMonth() +
-      1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+    return `${date.getFullYear()}/${this.putZero(
+      date.getMonth() + 1
+    )}/${this.putZero(date.getDate())} ${this.putZero(
+      date.getHours()
+    )}:${this.putZero(date.getMinutes())}`;
   }
 
   // change method
