@@ -27,8 +27,11 @@ export const createEventAction = (
   };
 };
 
-export const deleteEventAction = () => {
+export const deleteEventAction = (eventId: string) => {
   return {
+    payload: {
+      eventId,
+    },
     type: DELETE_EVENT,
   };
 };

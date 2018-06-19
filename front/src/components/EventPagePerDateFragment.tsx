@@ -77,7 +77,13 @@ export default class EventPagePerDateFragment extends React.Component<
             </List>
           </div>
         ) : (
-          <div> No Event </div>
+          <div
+            style={{
+              margin: '5px',
+            }}
+          >
+            この日のイベントはありません
+          </div>
         )}
       </div>
     );

@@ -19,6 +19,7 @@ interface IProps {
   history: {
     push: (path: string) => void;
   };
+  isAuth: boolean;
   dispatch: any;
 }
 
@@ -110,6 +111,7 @@ export default class TopPage extends React.Component<IProps, IState> {
                     event={this.props.eventList}
                     history={this.props.history}
                     sortFunc={this.popularSortFunc}
+                    isAuth={this.props.isAuth}
                   />
                 );
               } else if (this.state.value === 1) {
@@ -118,6 +120,7 @@ export default class TopPage extends React.Component<IProps, IState> {
                     event={this.props.eventList}
                     history={this.props.history}
                     sortFunc={this.newestSortFunc}
+                    isAuth={this.props.isAuth}
                   />
                 );
               } else if (this.state.value === 2) {

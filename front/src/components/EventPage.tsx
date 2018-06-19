@@ -8,6 +8,7 @@ export interface IEvent {
   body: string;
   date: string;
   eventId: string;
+  isDelete: boolean;
   location: string;
   participants: IUserInfo[];
   sponsor: {
@@ -23,6 +24,7 @@ export const initialEventState = {
   body: '',
   date: '',
   eventId: '',
+  isDelete: false,
   location: '',
   participants: [],
   sponsor: {
@@ -109,6 +111,7 @@ export default class EventPage extends React.Component<
             history={this.props.history}
             event={event}
             getEvents={this.refreshEventList}
+            dispatch={this.props.dispatch}
           />
         )}
       </div>

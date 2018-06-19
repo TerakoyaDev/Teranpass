@@ -11,10 +11,15 @@ import {
 } from '../action/UserActionType';
 
 const initialState = {
-  displayName: '',
-  email: '',
-  photoURL: '',
-  uid: '',
+  isAuth: false,
+  isOpenSnackbar: false,
+  message: '',
+  userInfo: {
+    displayName: '',
+    email: '',
+    photoURL: '',
+    uid: '',
+  },
 };
 
 function fetchUserInfoFromSessionStorage() {
@@ -32,17 +37,7 @@ function fetchUserInfoFromSessionStorage() {
   return { isAuth: false, userInfo: initialState };
 }
 
-const userReducer = (
-  state: any = {
-    isAuth: false,
-    isOpenSnackbar: false,
-    message: '',
-    userInfo: {
-      ...initialState,
-    },
-  },
-  action: any
-): any => {
+const userReducer = (state: any = initialState, action: any): any => {
   switch (action.type) {
     case CREATE_NEW_USER_SUCCESS:
       return {

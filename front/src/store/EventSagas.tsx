@@ -8,6 +8,7 @@ import {
   FETCH_EVENT_DATE_LIST_SUCCESS,
 } from '../action/EventActionType';
 import { IUserInfo } from '../App';
+import { IEvent } from '../components/EventPage';
 import { firebaseAuth, firebaseDb } from '../firebase';
 
 async function fetchDataFromGivenPass(path: string) {
@@ -119,8 +120,50 @@ export function* createEventService() {
   }
 }
 
+async function update(updates: any) {
+  await firebaseDb.ref().update(updates);
+}
+
 export function* deleteEventService() {
   while (true) {
-    yield take(DELETE_EVENT);
+    const { payload } = yield take(DELETE_EVENT);
+    const { eventId } = payload;
+    const user = firebaseAuth.currentUser;
+    if (user) {
+      // update
+      const updates = {};
+
+      const joinEventList = yield call(
+        fetchDataFromGivenPass,
+        `users/${user.uid}/joinEventList`
+      );
+      const event: IEvent = yield call(
+        fetchDataFromGivenPass,
+        `events/${eventId}`
+      );
+
+      event.isDelete = true;
+
+      console.log(event);
+
+      updates[`events/${eventId}`] = event;
+      updates[`users/${user.uid}/joinEventList`] = joinEventList.filter(
+        (n: IEvent) => n.eventId !== eventId
+      );
+      // check all users
+      const users = yield call(fetchDataFromGivenPass, `users`);
+      console.log(users);
+      if (users) {
+        Object.keys(users).map(
+          (n: any) =>
+            (updates[`users/${n}/joinEventList`] = joinEventList.filter(
+              (m: IEvent) => m.eventId !== eventId
+            ))
+        );
+      }
+
+      yield call(update, updates);
+      yield put(push('/'));
+    }
   }
 }

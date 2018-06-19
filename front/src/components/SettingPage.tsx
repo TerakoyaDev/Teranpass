@@ -30,7 +30,7 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
 
     // state
     this.state = {
-      photoFile: 'New image',
+      photoFile: '変更後のユーザイメージ',
       photoFileErrorMessage: '',
       photoFileInstance: {},
       submitingMessage: 'Update',
@@ -107,6 +107,66 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
         uid: user.uid,
       });
 
+      // check all events
+      const val = (await firebaseDb.ref(`events`).once('value')).val();
+      if (val) {
+        const updates = {};
+        Object.keys(val).map((n: any) => {
+          updates[`events/${n}`] = {
+            ...val[n],
+            participants: val[n].participants.map(
+              (m: any) =>
+                m.uid === user.uid
+                  ? {
+                      description: this.state.userDescription,
+                      displayName: this.state.userName,
+                      email: user.email,
+                      photoURL: downloadLink,
+                      uid: user.uid,
+                    }
+                  : m
+            ),
+            sponsor: {
+              description: this.state.userDescription,
+              displayName: this.state.userName,
+              email: user.email,
+              photoURL: downloadLink,
+              uid: user.uid,
+            },
+          };
+        });
+
+        await firebaseDb.ref().update(updates);
+      }
+
+      // check all users
+      const users = (await firebaseDb.ref(`users`).once('value')).val();
+      if (users) {
+        const updates = {};
+        Object.keys(users).map((n: any) => {
+          updates[`users/${n}`] = {
+            ...users[n],
+            joinEventList: users[n].joinEventList.map((m: any) => {
+              return {
+                ...m,
+                sponsor:
+                  m.sponsor.uid === user.uid
+                    ? {
+                        description: this.state.userDescription,
+                        displayName: this.state.userName,
+                        email: user.email,
+                        photoURL: downloadLink,
+                        uid: user.uid,
+                      }
+                    : m.sponsor,
+              };
+            }),
+          };
+        });
+
+        await firebaseDb.ref().update(updates);
+      }
+
       const { dispatch } = this.props;
       dispatch(fetchUserInfoFromSessionStorage());
       this.props.history.push('/');
@@ -137,14 +197,14 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
     return (
       <div style={{ textAlign: 'center' }}>
         <TextField
-          hintText="New UserName Field"
+          hintText="変更後のユーザネーム"
           floatingLabelText="New UserName"
           onChange={this.onChangeUserName}
           errorText={this.state.userNameErrorMessage}
         />
         <br />
         <TextField
-          hintText="New UserDescription Field"
+          hintText="変更後のユーザ説明"
           floatingLabelText="New UserDescription"
           onChange={this.onChangeUserDescription}
           errorText={this.state.userDescriptionErrorMessage}
@@ -168,7 +228,7 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
           label={this.state.submitingMessage}
           primary={true}
           onClick={this.update}
-          style={{ width: '60%' }}
+          style={{ width: '20%' }}
         />
       </div>
     );
