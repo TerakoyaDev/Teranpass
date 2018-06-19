@@ -1,4 +1,3 @@
-import { push } from 'react-router-redux';
 import { call, put, take } from 'redux-saga/effects';
 import {
   FETCH_USER_INFO_FROM_DATABASE,
@@ -6,7 +5,7 @@ import {
 } from '../../action/UserActionType';
 import { fetchDataFromGivenPass } from '../repository';
 
-export default function* createNewUserService() {
+export default function* fetchUserInfoService() {
   while (true) {
     // fetch payload
     const { payload } = yield take(FETCH_USER_INFO_FROM_DATABASE);
@@ -20,7 +19,6 @@ export default function* createNewUserService() {
         type: FETCH_USER_INFO_FROM_DATABASE_SUCCESS,
         userInfo,
       });
-      yield put(push('/'));
     }
   }
 }
