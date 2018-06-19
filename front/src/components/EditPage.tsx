@@ -2,8 +2,9 @@ import Button from '@material-ui/core/Button';
 import TextFieldCore from '@material-ui/core/TextField';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
-import { createEventAction } from '../action/EventAction';
+import { updateEventAction } from '../action/EventAction';
 import { changeDateFormat, changeDateISOFormat } from '../utils/DateFormat';
+import { IEvent } from './EventPage';
 
 interface InterfaceState {
   title: string;
@@ -17,42 +18,59 @@ interface InterfaceState {
 }
 
 interface InterfaceProps {
-  history: {
-    push: (path: string) => void;
+  eventList: IEvent[];
+  match: {
+    params: {
+      id: string;
+    };
   };
   dispatch: any;
 }
 
-// TODO get userInfo by id
 export default class UserPage extends React.Component<
   InterfaceProps,
   InterfaceState
 > {
   constructor(props: InterfaceProps) {
     super(props);
+    const event = this.props.eventList.find(
+      n => n.eventId === this.props.match.params.id
+    );
 
-    // state
-    this.state = {
-      body: '',
-      bodyErrorMessage: '',
-      date: changeDateFormat(new Date()),
-      dateErrorMessage: '',
-      location: '',
-      locationErrorMessage: '',
-      title: '',
-      titleErrorMessage: '',
-    };
+    // init state
+    if (event) {
+      this.state = {
+        body: event.body,
+        bodyErrorMessage: '',
+        date: event.date,
+        dateErrorMessage: '',
+        location: event.location,
+        locationErrorMessage: '',
+        title: event.title,
+        titleErrorMessage: '',
+      };
+    } else {
+      this.state = {
+        body: '',
+        bodyErrorMessage: '',
+        date: changeDateFormat(new Date()),
+        dateErrorMessage: '',
+        location: '',
+        locationErrorMessage: '',
+        title: '',
+        titleErrorMessage: '',
+      };
+    }
 
     // bind
     this.onChangeBody = this.onChangeBody.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeLocation = this.onChangeLocation.bind(this);
     this.onChangeTitle = this.onChangeTitle.bind(this);
-    this.create = this.create.bind(this);
+    this.update = this.update.bind(this);
   }
 
-  // create
-  public async create() {
+  public async update() {
     this.setState({
       ...this.state,
       bodyErrorMessage: '',
@@ -91,9 +109,12 @@ export default class UserPage extends React.Component<
       return;
     }
 
+    // dispatch
     const { title, date, location, body } = this.state;
     const { dispatch } = this.props;
-    dispatch(createEventAction(title, date, location, body));
+    dispatch(
+      updateEventAction(this.props.match.params.id, title, date, location, body)
+    );
   }
 
   // change method
@@ -116,7 +137,6 @@ export default class UserPage extends React.Component<
     this.setState({ ...this.state, title: event.currentTarget.value });
   }
 
-  // TODO porfile card and register event
   public render() {
     return (
       <div style={{ textAlign: 'center', flex: 'column' }}>
@@ -126,7 +146,7 @@ export default class UserPage extends React.Component<
             id="datetime-local"
             label="Date"
             type="datetime-local"
-            defaultValue={changeDateISOFormat(new Date())}
+            defaultValue={changeDateISOFormat(new Date(this.state.date))}
             style={{ width: '80%' }}
             InputLabelProps={{
               shrink: true,
@@ -139,6 +159,7 @@ export default class UserPage extends React.Component<
           hintText="タイトル"
           floatingLabelText="Title"
           onChange={this.onChangeTitle}
+          defaultValue={this.state.title}
           errorText={this.state.titleErrorMessage}
           style={{ textAlign: 'left', width: '80%' }}
         />
@@ -147,17 +168,19 @@ export default class UserPage extends React.Component<
           hintText="開催場所"
           floatingLabelText="Location"
           onChange={this.onChangeLocation}
+          defaultValue={this.state.location}
           errorText={this.state.locationErrorMessage}
           style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
         <TextField
           style={{ textAlign: 'left', width: '80%' }}
-          hintText="説明文．マークダウン形式で書けます．改行二つで改行扱いなので注意！！"
+          hintText="説明文"
           floatingLabelText="Body"
           onChange={this.onChangeBody}
           errorText={this.state.bodyErrorMessage}
           multiLine={true}
+          defaultValue={this.state.body}
           rows={10}
           rowsMax={10}
         />
@@ -165,7 +188,7 @@ export default class UserPage extends React.Component<
         <Button
           variant="outlined"
           color="primary"
-          onClick={this.create}
+          onClick={this.update}
           style={{ width: '80%' }}
         >
           Create

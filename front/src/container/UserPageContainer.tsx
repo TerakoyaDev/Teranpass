@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
-import TopPage from '../components/TopPage';
+import UserPage from '../components/UserPage';
 import store from '../store';
 
 const mapStateToProps = (state: any) => {
   return {
-    dateList: store.getState().reducers.EventReducer.dateList,
     eventList: store.getState().reducers.EventReducer.eventList,
-    isAuth: store.getState().reducers.UserReducer.isAuth,
     isFetching: store.getState().reducers.EventReducer.isFetching,
+    userInfo: store.getState().reducers.UserReducer.userInfo,
   };
 };
 
-export default connect(mapStateToProps)(TopPage);
+export default connect(mapStateToProps)(UserPage);

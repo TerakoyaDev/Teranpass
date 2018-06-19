@@ -1,13 +1,14 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import * as React from 'react';
-import { IUserInfo } from '../App';
-import { firebaseDb } from '../firebase';
+import { fetchEventDateList } from '../action/EventAction';
+import { IUserInfo } from '../types';
 import EventPageFragment from './EventPageFragment';
 
-export interface InterfaceEvent {
+export interface IEvent {
   body: string;
   date: string;
   eventId: string;
+  isDelete: boolean;
   location: string;
   participants: IUserInfo[];
   sponsor: {
@@ -18,6 +19,22 @@ export interface InterfaceEvent {
   };
   title: string;
 }
+
+export const initialEventState = {
+  body: '',
+  date: '',
+  eventId: '',
+  isDelete: false,
+  location: '',
+  participants: [],
+  sponsor: {
+    displayName: '',
+    email: '',
+    photoURL: '',
+    uid: '',
+  },
+  title: '',
+};
 
 interface InterfaceProps {
   history: {
@@ -31,94 +48,51 @@ interface InterfaceProps {
       eventId: string;
     };
   };
+  eventList: IEvent[];
+  isFetching: boolean;
+  dispatch: any;
 }
 
-interface InterfaceState {
-  isLoding: boolean;
-  event: InterfaceEvent;
-}
-
-// TODO get userInfo by id
-export default class EventPage extends React.Component<
-  InterfaceProps,
-  InterfaceState
-> {
+export default class EventPage extends React.Component<InterfaceProps> {
   constructor(props: InterfaceProps) {
     super(props);
-    this.state = {
-      event: {
-        body: '',
-        date: '',
-        eventId: '',
-        location: '',
-        participants: [],
-        sponsor: {
-          displayName: '',
-          email: '',
-          photoURL: '',
-          uid: '',
-        },
-        title: '',
-      },
-      isLoding: false,
-    };
-
-    this.getEvents = this.getEvents.bind(this);
-    this.getEventsService = this.getEventsService.bind(this);
+    this.refreshEventList = this.refreshEventList.bind(this);
   }
 
-  public async getEvents(
-    year: string,
-    month: string,
-    date: string,
-    eventId: string
-  ) {
-    this.setState({
-      event: { ...this.state.event },
-      isLoding: true,
-    });
-    const val = (await firebaseDb
-      .ref(`events/${year}/${month}/${date}/${eventId}`)
-      .once('value')).val();
-    if (val) {
-      this.setState({
-        event: val,
-        isLoding: false,
-      });
-    } else {
-      this.setState({
-        event: this.state.event,
-        isLoding: false,
-      });
+  public getEvent() {
+    const findedEvent = this.props.eventList.find(
+      n => n.eventId === this.props.match.params.eventId
+    );
+
+    if (findedEvent) {
+      return findedEvent;
     }
+    return initialEventState;
   }
 
-  public async getEventsService() {
-    const { year, month, date, eventId } = this.props.match.params;
-    this.getEvents(year, month, date, eventId);
-  }
-
-  public pushUserPage(userInfo: IUserInfo) {
-    this.props.history.push(`/users/${userInfo.uid}`);
+  public refreshEventList() {
+    const { dispatch } = this.props;
+    dispatch(fetchEventDateList());
   }
 
   public componentWillMount() {
-    this.getEventsService();
+    this.refreshEventList();
   }
 
-  // TODO porfile card and register event
   public render() {
+    const event = this.getEvent();
     return (
       <div>
-        {this.state.isLoding ? (
+        {this.props.isFetching ? (
           <div style={{ textAlign: 'center' }}>
             <CircularProgress size={70} style={{ alignItems: 'center' }} />
           </div>
         ) : (
           <EventPageFragment
             history={this.props.history}
-            event={this.state.event}
-            getEvents={this.getEventsService}
+            event={event}
+            getEvents={this.refreshEventList}
+            dispatch={this.props.dispatch}
           />
         )}
       </div>

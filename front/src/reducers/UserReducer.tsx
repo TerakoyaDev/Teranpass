@@ -1,6 +1,7 @@
 import {
   CREATE_NEW_USER_FAILED,
   CREATE_NEW_USER_SUCCESS,
+  FETCH_USER_INFO_FROM_DATABASE_SUCCESS,
   FETCH_USER_INFO_FROM_SESSION_STORAGE,
   SIGNIN_USER_FAILED,
   SIGNIN_USER_SUCCESS,
@@ -11,10 +12,15 @@ import {
 } from '../action/UserActionType';
 
 const initialState = {
-  displayName: '',
-  email: '',
-  photoURL: '',
-  uid: '',
+  isAuth: false,
+  isOpenSnackbar: false,
+  message: '',
+  userInfo: {
+    displayName: '',
+    email: '',
+    photoURL: '',
+    uid: '',
+  },
 };
 
 function fetchUserInfoFromSessionStorage() {
@@ -32,17 +38,7 @@ function fetchUserInfoFromSessionStorage() {
   return { isAuth: false, userInfo: initialState };
 }
 
-const userReducer = (
-  state: any = {
-    isAuth: false,
-    isOpenSnackbar: false,
-    message: '',
-    userInfo: {
-      ...initialState,
-    },
-  },
-  action: any
-): any => {
+const userReducer = (state: any = initialState, action: any): any => {
   switch (action.type) {
     case CREATE_NEW_USER_SUCCESS:
       return {
@@ -67,6 +63,12 @@ const userReducer = (
         message: '',
         userInfo,
       };
+    case FETCH_USER_INFO_FROM_DATABASE_SUCCESS:
+      return {
+        ...state,
+        userInfo: action.userInfo,
+      };
+
     case SIGNIN_USER_SUCCESS:
       return {
         ...state,

@@ -1,4 +1,7 @@
 import * as firebase from 'firebase';
+import 'firebase/auth';
+import 'firebase/database';
+import 'firebase/storage';
 import { config } from './config';
 
 export const firebaseApp = firebase.initializeApp(config);

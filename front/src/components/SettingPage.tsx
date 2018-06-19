@@ -1,9 +1,9 @@
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
-import { firebaseAuth, firebaseDb, firebaseStorage } from '../firebase';
+import { updateUser } from '../action/UserAction';
 
 interface InterfaceState {
   userName: string;
@@ -15,10 +15,10 @@ interface InterfaceState {
 }
 
 interface IProps {
-  initApp: () => void;
   history: {
     push: (path: string) => void;
   };
+  dispatch: any;
 }
 
 export default class UserPage extends React.Component<IProps, InterfaceState> {
@@ -27,7 +27,7 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
 
     // state
     this.state = {
-      photoFile: 'New image',
+      photoFile: '変更後のユーザイメージ',
       photoFileErrorMessage: '',
       photoFileInstance: {},
       submitingMessage: 'Update',
@@ -60,33 +60,16 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
       return;
     }
 
-    const user = firebaseAuth.currentUser;
-    if (user) {
-      this.setState({ ...this.state, submitingMessage: 'Now submiting' });
-      // update image
-      const imageRef = firebaseStorage
-        .ref()
-        .child(`${user.uid}/${this.state.photoFile}`);
-      await imageRef.put(this.state.photoFileInstance);
-      const downloadLink = await imageRef.getDownloadURL();
+    this.setState({ ...this.state, submitingMessage: '送信中' });
 
-      // update
-      await user.updateProfile({
-        displayName: this.state.userName,
-        photoURL: downloadLink,
-      });
-
-      // set
-      await firebaseDb.ref(`users/${user.uid}`).set({
-        displayName: this.state.userName,
-        email: user.email,
-        photoURL: downloadLink,
-        uid: user.uid,
-      });
-
-      this.props.initApp();
-      this.props.history.push('/');
-    }
+    const { dispatch } = this.props;
+    dispatch(
+      updateUser(
+        this.state.userName,
+        this.state.photoFileInstance,
+        this.state.photoFile
+      )
+    );
   }
 
   // change method
@@ -106,10 +89,11 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
     return (
       <div style={{ textAlign: 'center' }}>
         <TextField
-          hintText="New UserName Field"
+          hintText="変更後のユーザネーム"
           floatingLabelText="New UserName"
           onChange={this.onChangeUserName}
           errorText={this.state.userNameErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
         <div>
@@ -126,12 +110,15 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
             </IconButton>
           </label>
         </div>
-        <FlatButton
-          label={this.state.submitingMessage}
-          primary={true}
+        <br />
+        <Button
+          variant="outlined"
+          color="primary"
           onClick={this.update}
-          style={{ width: '60%' }}
-        />
+          style={{ width: '80%' }}
+        >
+          {this.state.submitingMessage}
+        </Button>
       </div>
     );
   }

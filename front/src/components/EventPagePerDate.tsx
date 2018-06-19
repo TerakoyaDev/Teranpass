@@ -1,6 +1,7 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import * as React from 'react';
-import { firebaseDb } from '../firebase';
+import { fetchEventDateList } from '../action/EventAction';
+import { putZero } from '../utils/DateFormat';
 import EventPagePerDateFragment from './EventPagePerDateFragment';
 
 interface InterfaceProps {
@@ -14,59 +15,34 @@ interface InterfaceProps {
       date: string;
     };
   };
+  isFetching: boolean;
+  eventList: any[];
+  dispatch: any;
 }
 
-interface InterfaceState {
-  isLoding: boolean;
-  event: any[];
-}
-
-// TODO get userInfo by id
-export default class EventPagePerDate extends React.Component<
-  InterfaceProps,
-  InterfaceState
-> {
+export default class EventPagePerDate extends React.Component<InterfaceProps> {
   constructor(props: InterfaceProps) {
     super(props);
-    this.state = { isLoding: false, event: [] };
-
-    this.accessCreateEventPage = this.accessCreateEventPage.bind(this);
   }
 
-  public async getEvents(year: string, month: string, date: string) {
-    this.setState({ isLoding: true, event: [] });
-    const val = (await firebaseDb
-      .ref(`events/${year}/${month}/${date}`)
-      .once('value')).val();
-    if (val) {
-      this.setState({ isLoding: false, event: val });
-    } else {
-      this.setState({ isLoding: false, event: [] });
-    }
-  }
-
-  public accessCreateEventPage() {
-    this.props.history.push('/create');
-  }
-
-  public onClickListItem(key: string) {
-    this.props.history.push(
-      `/events/${this.state.event[key].date.split(' ')[0]}/${
-        this.state.event[key].eventId
-      }`
+  public getEvents() {
+    const { year, month, date } = this.props.match.params;
+    return this.props.eventList.filter(
+      n =>
+        n.date.split(' ')[0] ===
+        `${year}/${putZero(parseInt(month, 10))}/${putZero(parseInt(date, 10))}`
     );
   }
 
   public componentWillMount() {
-    const { year, month, date } = this.props.match.params;
-    this.getEvents(year, month, date);
+    const { dispatch } = this.props;
+    dispatch(fetchEventDateList());
   }
 
-  // TODO porfile card and register event
   public render() {
     return (
       <div>
-        {this.state.isLoding ? (
+        {this.props.isFetching ? (
           <div style={{ textAlign: 'center' }}>
             <CircularProgress size={70} style={{ alignItems: 'center' }} />
           </div>
@@ -74,7 +50,7 @@ export default class EventPagePerDate extends React.Component<
           <EventPagePerDateFragment
             history={this.props.history}
             match={this.props.match}
-            event={this.state.event}
+            eventList={this.getEvents()}
           />
         )}
       </div>

@@ -1,25 +1,8 @@
-import * as React from 'react';
-import { SignContext } from '../App';
+import { connect } from 'react-redux';
 import SettingPage from '../components/SettingPage';
 
-interface IProps {
-  history: {
-    push: (path: string) => void;
-  };
-}
+const mapStateToProps = (state: any) => {
+  return {};
+};
 
-export default class SignupPageContainer extends React.Component<IProps> {
-  constructor(props: IProps) {
-    super(props);
-  }
-
-  public render() {
-    return (
-      <SignContext.Consumer>
-        {({ initApp }) => (
-          <SettingPage initApp={initApp} history={this.props.history} />
-        )}
-      </SignContext.Consumer>
-    );
-  }
-}
+export default connect(mapStateToProps)(SettingPage);

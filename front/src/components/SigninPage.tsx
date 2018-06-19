@@ -1,4 +1,4 @@
-import FlatButton from 'material-ui/FlatButton';
+import Button from '@material-ui/core/Button';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { signinUser } from '../action/UserAction';
@@ -45,7 +45,7 @@ export default class SigninPage extends React.Component<
     if (this.state.email === '') {
       this.setState({
         ...this.state,
-        emailErrorMessage: 'email field is required',
+        emailErrorMessage: 'Email field is required',
         passwordErrorMessage: '',
       });
       return;
@@ -54,7 +54,7 @@ export default class SigninPage extends React.Component<
       this.setState({
         ...this.state,
         emailErrorMessage: '',
-        passwordErrorMessage: 'password field is required',
+        passwordErrorMessage: 'Password field is required',
       });
       return;
     }
@@ -77,26 +77,30 @@ export default class SigninPage extends React.Component<
       <div style={{ textAlign: 'center', flex: 'column' }}>
         <div>{this.props.message}</div>
         <TextField
-          hintText="Email Field"
+          hintText="メールアドレス"
           floatingLabelText="Email"
           onChange={this.onChangeEmail}
           errorText={this.state.emailErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
         <TextField
-          hintText="Password Field"
+          style={{ textAlign: 'left', width: '80%' }}
+          hintText="パスワード"
           floatingLabelText="Password"
           type="password"
           onChange={this.onChangePassword}
           errorText={this.state.passwordErrorMessage}
         />
         <br />
-        <FlatButton
-          label="Sign in"
-          primary={true}
+        <Button
+          variant="outlined"
+          color="primary"
           onClick={this.signin}
-          style={{ width: '60%' }}
-        />
+          style={{ width: '80%' }}
+        >
+          Signin
+        </Button>
       </div>
     );
   }

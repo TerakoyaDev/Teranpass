@@ -9,17 +9,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Subheader from 'material-ui/Subheader';
 import * as React from 'react';
+import { IUserInfo } from '../types';
 
 interface IProps {
   history: {
     push: (path: string) => void;
   };
-  userInfo: {
-    displayName: string;
-    email: string;
-    photoURL: string;
-    uid: string;
-  };
+  userInfo: IUserInfo;
   eventList: any[];
 }
 
@@ -45,7 +41,6 @@ export default class UserPageFragment extends React.Component<IProps> {
           <CardHeader
             avatar={<Avatar src={this.props.userInfo.photoURL} />}
             title={this.props.userInfo.displayName}
-            subheader="19卒エンジニア"
           />
         </Card>
         <Card>

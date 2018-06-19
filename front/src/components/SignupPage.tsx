@@ -1,4 +1,4 @@
-import FlatButton from 'material-ui/FlatButton';
+import Button from '@material-ui/core/Button';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { createNewUser } from '../action/UserAction';
@@ -60,7 +60,7 @@ export default class SignupPage extends React.Component<
     if (this.state.email === '') {
       this.setState({
         ...this.state,
-        emailErrorMessage: 'email field is required',
+        emailErrorMessage: 'Email field is required',
         passwordErrorMessage: '',
         userNameErrorMessage: '',
       });
@@ -70,7 +70,7 @@ export default class SignupPage extends React.Component<
       this.setState({
         ...this.state,
         emailErrorMessage: '',
-        passwordErrorMessage: 'password field is required',
+        passwordErrorMessage: 'Password field is required',
         userNameErrorMessage: '',
       });
       return;
@@ -100,33 +100,38 @@ export default class SignupPage extends React.Component<
       <div style={{ textAlign: 'center', flex: 'column' }}>
         <div>{store.getState().reducers.UserReducer.message}</div>
         <TextField
-          hintText="UserName Field"
+          hintText="ユーザネーム"
           floatingLabelText="UserName"
           onChange={this.onChangeUserName}
           errorText={this.state.userNameErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
         <TextField
-          hintText="Email Field"
+          hintText="メールアドレス"
           floatingLabelText="Email"
           onChange={this.onChangeEmail}
           errorText={this.state.emailErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
         <TextField
-          hintText="Password Field"
+          hintText="パスワード"
           floatingLabelText="Password"
           type="password"
           onChange={this.onChangePassword}
           errorText={this.state.passwordErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
-        <FlatButton
-          label="Sign up"
-          primary={true}
+        <Button
+          variant="outlined"
+          color="primary"
           onClick={this.signup}
-          style={{ width: '60%' }}
-        />
+          style={{ width: '80%' }}
+        >
+          Signin
+        </Button>
       </div>
     );
   }

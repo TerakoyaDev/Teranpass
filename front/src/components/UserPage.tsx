@@ -1,6 +1,9 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import * as React from 'react';
-import { firebaseDb } from '../firebase';
+import { fetchEventDateList } from '../action/EventAction';
+import { fetchUserInfoFromDatabase } from '../action/UserAction';
+import { IUserInfo } from '../types';
+import { IEvent } from './EventPage';
 import UserPageFragment from './UserPageFragment';
 
 interface InterfaceProps {
@@ -12,76 +15,35 @@ interface InterfaceProps {
   history: {
     push: (path: string) => void;
   };
+  eventList: IEvent[];
+  userInfo: IUserInfo;
+  isFetching: boolean;
+  dispatch: any;
 }
 
-interface IState {
-  isLoding: boolean;
-  userInfo: {
-    displayName: string;
-    email: string;
-    photoURL: string;
-    uid: string;
-  };
-  eventList: any[];
-}
-
-// TODO get userInfo by id
-export default class UserPage extends React.Component<InterfaceProps, IState> {
+export default class UserPage extends React.Component<InterfaceProps> {
   constructor(props: InterfaceProps) {
     super(props);
-    this.state = {
-      eventList: [],
-      isLoding: false,
-      userInfo: {
-        displayName: '',
-        email: '',
-        photoURL: '',
-        uid: '',
-      },
-    };
-
-    this.getUserInfo = this.getUserInfo.bind(this);
-  }
-
-  public async getUserInfo(id: string) {
-    this.setState({
-      ...this.state,
-      isLoding: true,
-    });
-    const val = await (await firebaseDb.ref(`users/${id}`).once('value')).val();
-    let userEventList = [];
-    const fetchedEventList = (await firebaseDb
-      .ref(`userHasEvents/${this.props.match.params.id}`)
-      .once('value')).val();
-    if (fetchedEventList) {
-      userEventList = fetchedEventList;
-    }
-    this.setState({
-      ...this.state,
-      eventList: userEventList,
-      isLoding: false,
-      userInfo: val,
-    });
   }
 
   public componentWillMount() {
-    this.setState({ ...this.state, isLoding: false });
-    this.getUserInfo(this.props.match.params.id);
+    const { dispatch } = this.props;
+    dispatch(fetchUserInfoFromDatabase(this.props.match.params.id));
+    dispatch(fetchEventDateList());
   }
 
-  // TODO porfile card and register event
   public render() {
     return (
       <div>
-        {this.state.isLoding ? (
+        {this.props.isFetching ? (
           <div style={{ textAlign: 'center' }}>
             <CircularProgress size={70} style={{ alignItems: 'center' }} />
           </div>
         ) : (
           <UserPageFragment
-            userInfo={this.state.userInfo}
+            userInfo={this.props.userInfo}
             history={this.props.history}
-            eventList={this.state.eventList}
+            eventList={this.props.eventList}
           />
         )}
       </div>

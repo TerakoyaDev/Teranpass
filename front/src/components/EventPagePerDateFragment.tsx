@@ -1,10 +1,8 @@
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
 
 interface InterfaceProps {
@@ -18,7 +16,7 @@ interface InterfaceProps {
       date: string;
     };
   };
-  event: any[];
+  eventList: any[];
 }
 
 // TODO get userInfo by id
@@ -37,34 +35,39 @@ export default class EventPagePerDateFragment extends React.Component<
 
   public onClickListItem(key: string) {
     this.props.history.push(
-      `/events/${this.props.event[key].date.split(' ')[0]}/${
-        this.props.event[key].eventId
+      `/events/${this.props.eventList[key].date.split(' ')[0]}/${
+        this.props.eventList[key].eventId
       }`
     );
   }
 
-  // TODO porfile card and register event
   public render() {
     const { year, month, date } = this.props.match.params;
     return (
       <div>
-        {`${year}年${month}月${date}日のイベント`}
-        {this.props.event.length !== 0 ? (
+        <p
+          style={{ margin: '5px' }}
+        >{`${year}年${month}月${date}日のイベント`}</p>
+        {this.props.eventList.length !== 0 ? (
           <div>
             <List
-              style={{ maxHeight: 300, overflow: 'auto', position: 'relative' }}
+              style={{
+                maxHeight: window.innerHeight - 150,
+                overflow: 'auto',
+                position: 'relative',
+              }}
             >
-              {Object.keys(this.props.event).map((val, index) => (
+              {Object.keys(this.props.eventList).map((val, index) => (
                 <div key={index}>
                   <ListItem
                     key={index}
                     button={true}
                     onClick={this.onClickListItem.bind(this, val)}
                   >
-                    <Avatar src={this.props.event[val].sponsor.photoURL} />
+                    <Avatar src={this.props.eventList[val].sponsor.photoURL} />
                     <ListItemText
-                      primary={`${this.props.event[val].title}`}
-                      secondary={this.props.event[val].date}
+                      primary={`${this.props.eventList[val].title}`}
+                      secondary={this.props.eventList[val].date}
                     />
                   </ListItem>
                   <Divider />
@@ -73,16 +76,14 @@ export default class EventPagePerDateFragment extends React.Component<
             </List>
           </div>
         ) : (
-          <div> No Event </div>
+          <div
+            style={{
+              margin: '5px',
+            }}
+          >
+            この日のイベントはありません
+          </div>
         )}
-        <Button
-          variant="fab"
-          color={'primary'}
-          style={{ position: 'absolute', bottom: 10, right: 10 }}
-          onClick={this.accessCreateEventPage}
-        >
-          <AddIcon />
-        </Button>
       </div>
     );
   }

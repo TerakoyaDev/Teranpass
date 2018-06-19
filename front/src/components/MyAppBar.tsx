@@ -8,7 +8,7 @@ import {
   fetchUserInfoFromSessionStorage,
   snackbarClose,
 } from '../action/UserAction';
-import { IUserInfo } from '../App';
+import { IUserInfo } from '../types';
 import Logged from './Logged';
 import Signin from './Signin';
 import Signup from './Signup';

@@ -1,6 +1,10 @@
-import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import AddIcon from '@material-ui/icons/Add';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Event from '@material-ui/icons/Event';
+import New from '@material-ui/icons/SmsFailed';
+import Star from '@material-ui/icons/Star';
 import * as React from 'react';
 import InfiniteCalendar, {
   Calendar,
@@ -9,43 +13,69 @@ import InfiniteCalendar, {
 } from 'react-infinite-calendar';
 import 'react-infinite-calendar/styles.css'; // only needs to be imported once
 import { fetchEventDateList } from '../action/EventAction';
+import EventList from './EventList';
 
 interface IProps {
   isFetching: boolean;
   dateList: Date[];
+  eventList: any[];
   history: {
     push: (path: string) => void;
   };
+  isAuth: boolean;
   dispatch: any;
 }
 
-export default class TopPage extends React.Component<IProps> {
+interface IState {
+  value: number;
+}
+
+export default class TopPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
+    this.state = { value: 0 };
+
     this.selectedDate = this.selectedDate.bind(this);
-    this.accessCreateEventPage = this.accessCreateEventPage.bind(this);
   }
 
   // push EventPagePerDate
   public selectedDate(date: string) {
     const dateVal = new Date(Date.parse(date));
-
     this.props.history.push(
       `/eventList/${dateVal.getFullYear()}/${dateVal.getMonth() +
         1}/${dateVal.getDate()}`
     );
   }
 
-  // push create page
-  public accessCreateEventPage() {
-    this.props.history.push('/create');
-  }
-
   // call fetchEventDateList when create DOM
   public componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchEventDateList());
+  }
+
+  public handleChange = (event: any, value: number) => {
+    this.setState({ value });
+  };
+
+  public popularSortFunc(a: any, b: any) {
+    if (a.participants.length > b.participants.length) {
+      return -1;
+    }
+    if (a.participants.length < b.participants.length) {
+      return 1;
+    }
+    return 0;
+  }
+
+  public newestSortFunc(a: any, b: any) {
+    if (a.date < b.date) {
+      return -1;
+    }
+    if (a.date > b.date) {
+      return 1;
+    }
+    return 0;
   }
 
   public render() {
@@ -57,25 +87,56 @@ export default class TopPage extends React.Component<IProps> {
           </div>
         ) : (
           <div>
-            <InfiniteCalendar
-              Component={withMultipleDates(Calendar)}
-              interpolateSelection={defaultMultipleDateInterpolation}
-              width={window.innerWidth}
-              height={window.innerHeight - 200}
-              selected={this.props.dateList}
-              onSelect={this.selectedDate}
-              displayOptions={{
-                showHeader: false,
-              }}
-            />
-            <Button
-              variant="fab"
-              color={'primary'}
-              style={{ position: 'absolute', bottom: 10, right: 10 }}
-              onClick={this.accessCreateEventPage}
-            >
-              <AddIcon />
-            </Button>
+            <AppBar position="static" color="inherit">
+              <Tabs
+                value={this.state.value}
+                onChange={this.handleChange}
+                indicatorColor="primary"
+                textColor="inherit"
+                fullWidth={true}
+              >
+                <Tab icon={<Star />} label="人気のイベント" />
+                <Tab icon={<New />} label="直近のイベント" />
+                <Tab icon={<Event />} label="カレンダー" />
+              </Tabs>
+            </AppBar>
+            {((): any => {
+              if (this.state.value === 0) {
+                return (
+                  <EventList
+                    event={this.props.eventList}
+                    history={this.props.history}
+                    sortFunc={this.popularSortFunc}
+                    isAuth={this.props.isAuth}
+                  />
+                );
+              } else if (this.state.value === 1) {
+                return (
+                  <EventList
+                    event={this.props.eventList}
+                    history={this.props.history}
+                    sortFunc={this.newestSortFunc}
+                    isAuth={this.props.isAuth}
+                  />
+                );
+              } else if (this.state.value === 2) {
+                return (
+                  <div>
+                    <InfiniteCalendar
+                      Component={withMultipleDates(Calendar)}
+                      interpolateSelection={defaultMultipleDateInterpolation}
+                      width={window.innerWidth}
+                      height={window.innerHeight - 190}
+                      selected={this.props.dateList}
+                      onSelect={this.selectedDate}
+                      displayOptions={{
+                        showHeader: false,
+                      }}
+                    />
+                  </div>
+                );
+              }
+            })()}
           </div>
         )}
       </div>

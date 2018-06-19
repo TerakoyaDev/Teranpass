@@ -6,6 +6,7 @@ import {
 
 const initialState = {
   dateList: [],
+  eventList: [],
   isFetching: false,
 };
 
@@ -25,6 +26,7 @@ const eventReducer = (
       return {
         ...state,
         dateList: action.dateList,
+        eventList: action.eventList,
         isFetching: false,
       };
     case FETCH_EVENT_DATE_LIST_FAILED:
