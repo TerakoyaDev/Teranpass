@@ -45,28 +45,30 @@ export default function* updateUserService() {
       const updates = {};
       if (events) {
         Object.keys(events).map((n: any) => {
-          updates[`events/${n}`] = {
-            ...events[n],
-            participants: events[n].participants.map(
-              (m: any) =>
-                m.uid === user.uid
-                  ? {
-                      description,
-                      displayName: userName,
-                      email: user.email,
-                      photoURL: downloadLink,
-                      uid: user.uid,
-                    }
-                  : m
-            ),
-            sponsor: {
-              description,
-              displayName: userName,
-              email: user.email,
-              photoURL: downloadLink,
-              uid: user.uid,
-            },
-          };
+          if (events[n].date >= new Date()) {
+            updates[`events/${n}`] = {
+              ...events[n],
+              participants: events[n].participants.map(
+                (m: any) =>
+                  m.uid === user.uid
+                    ? {
+                        description,
+                        displayName: userName,
+                        email: user.email,
+                        photoURL: downloadLink,
+                        uid: user.uid,
+                      }
+                    : m
+              ),
+              sponsor: {
+                description,
+                displayName: userName,
+                email: user.email,
+                photoURL: downloadLink,
+                uid: user.uid,
+              },
+            };
+          }
         });
       }
 
@@ -74,7 +76,10 @@ export default function* updateUserService() {
       const users = yield call(fetchDataFromGivenPass, 'users');
       if (users) {
         Object.keys(users).map((n: any) => {
-          if (users[n].joinEventList !== undefined) {
+          if (
+            users[n].joinEventList !== undefined &&
+            users[n].joinEventList.date >= new Date()
+          ) {
             updates[`users/${n}`] = {
               ...users[n],
               joinEventList: users[n].joinEventList.map((m: any) => {
