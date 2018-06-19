@@ -1,13 +1,11 @@
 import { fork } from 'redux-saga/effects';
-import {
-  createEventService,
-  deleteEventService,
-  fetchEventListDataService,
-  updateEventService,
-} from './EventSagas';
+import createEventService from './service/CreateEvent';
 import createNewUserService from './service/CreateUser';
+import deleteEventService from './service/DeleteEvent';
+import fetchEventListDataService from './service/FetchEventListData';
 import signinUserService from './service/SigninUser';
 import signoutUserService from './service/SignoutUser';
+import updateEventService from './service/UpdateEvent';
 
 function* mySaga() {
   yield fork(createNewUserService);
