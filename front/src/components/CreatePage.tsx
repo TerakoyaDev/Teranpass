@@ -1,5 +1,5 @@
+import Button from '@material-ui/core/Button';
 import TextFieldCore from '@material-ui/core/TextField';
-import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { createEventAction } from '../action/EventAction';
@@ -95,6 +95,19 @@ export default class UserPage extends React.Component<
     dispatch(createEventAction(title, date, location, body));
   }
 
+  public putZero(dateNumber: number) {
+    return ('0' + dateNumber).slice(-2);
+  }
+
+  public changeDateISOFormat(value: any) {
+    const date = new Date(value);
+    return `${date.getFullYear()}-${this.putZero(
+      date.getMonth() + 1
+    )}-${this.putZero(date.getDate())}T${this.putZero(
+      date.getHours()
+    )}:${this.putZero(date.getMinutes())}`;
+  }
+
   public changeDateFormat(value: any) {
     const date = new Date(value);
     return `${date.getFullYear()}/${date.getMonth() +
@@ -131,8 +144,8 @@ export default class UserPage extends React.Component<
             id="datetime-local"
             label="Date"
             type="datetime-local"
-            defaultValue={new Date().toISOString().split('.')[0]}
-            style={{ width: '200' }}
+            defaultValue={this.changeDateISOFormat(new Date())}
+            style={{ width: '80%' }}
             InputLabelProps={{
               shrink: true,
             }}
@@ -145,6 +158,7 @@ export default class UserPage extends React.Component<
           floatingLabelText="Title"
           onChange={this.onChangeTitle}
           errorText={this.state.titleErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
         <TextField
@@ -152,10 +166,11 @@ export default class UserPage extends React.Component<
           floatingLabelText="Location"
           onChange={this.onChangeLocation}
           errorText={this.state.locationErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
         <TextField
-          style={{ textAlign: 'left' }}
+          style={{ textAlign: 'left', width: '80%' }}
           hintText="説明文"
           floatingLabelText="Body"
           onChange={this.onChangeBody}
@@ -165,12 +180,14 @@ export default class UserPage extends React.Component<
           rowsMax={10}
         />
         <br />
-        <FlatButton
-          label="create"
-          primary={true}
+        <Button
+          variant="outlined"
+          color="primary"
           onClick={this.create}
-          style={{ width: '20%' }}
-        />
+          style={{ width: '80%' }}
+        >
+          Create
+        </Button>
       </div>
     );
   }

@@ -1,6 +1,6 @@
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
-import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { fetchUserInfoFromSessionStorage } from '../action/UserAction';
@@ -201,6 +201,7 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
           floatingLabelText="New UserName"
           onChange={this.onChangeUserName}
           errorText={this.state.userNameErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
         <TextField
@@ -208,6 +209,7 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
           floatingLabelText="New UserDescription"
           onChange={this.onChangeUserDescription}
           errorText={this.state.userDescriptionErrorMessage}
+          style={{ textAlign: 'left', width: '80%' }}
         />
         <br />
         <div>
@@ -224,12 +226,15 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
             </IconButton>
           </label>
         </div>
-        <FlatButton
-          label={this.state.submitingMessage}
-          primary={true}
+        <br />
+        <Button
+          variant="outlined"
+          color="primary"
           onClick={this.update}
-          style={{ width: '20%' }}
-        />
+          style={{ width: '80%' }}
+        >
+          {this.state.submitingMessage}
+        </Button>
       </div>
     );
   }
