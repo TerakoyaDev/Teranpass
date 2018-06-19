@@ -13,6 +13,7 @@ interface IProps {
     push: (path: string) => void;
   };
   event: any[];
+  isAuth: boolean;
   sortFunc: (a: any, b: any) => number;
 }
 
@@ -81,14 +82,18 @@ export default class EventList extends React.Component<IProps> {
             イベントがありません．イベントを作成してみましょう．
           </div>
         )}
-        <Button
-          variant="fab"
-          color={'primary'}
-          style={{ position: 'absolute', bottom: 10, right: 10 }}
-          onClick={this.accessCreateEventPage}
-        >
-          <AddIcon />
-        </Button>
+        {this.props.isAuth ? (
+          <Button
+            variant="fab"
+            color={'primary'}
+            style={{ position: 'absolute', bottom: 10, right: 10 }}
+            onClick={this.accessCreateEventPage}
+          >
+            <AddIcon />
+          </Button>
+        ) : (
+          <div />
+        )}
       </div>
     );
   }

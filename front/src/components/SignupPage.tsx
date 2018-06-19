@@ -60,7 +60,7 @@ export default class SignupPage extends React.Component<
     if (this.state.email === '') {
       this.setState({
         ...this.state,
-        emailErrorMessage: 'email field is required',
+        emailErrorMessage: 'Email field is required',
         passwordErrorMessage: '',
         userNameErrorMessage: '',
       });
@@ -70,7 +70,7 @@ export default class SignupPage extends React.Component<
       this.setState({
         ...this.state,
         emailErrorMessage: '',
-        passwordErrorMessage: 'password field is required',
+        passwordErrorMessage: 'Password field is required',
         userNameErrorMessage: '',
       });
       return;
@@ -100,21 +100,21 @@ export default class SignupPage extends React.Component<
       <div style={{ textAlign: 'center', flex: 'column' }}>
         <div>{store.getState().reducers.UserReducer.message}</div>
         <TextField
-          hintText="UserName Field"
+          hintText="ユーザネーム"
           floatingLabelText="UserName"
           onChange={this.onChangeUserName}
           errorText={this.state.userNameErrorMessage}
         />
         <br />
         <TextField
-          hintText="Email Field"
+          hintText="メールアドレス"
           floatingLabelText="Email"
           onChange={this.onChangeEmail}
           errorText={this.state.emailErrorMessage}
         />
         <br />
         <TextField
-          hintText="Password Field"
+          hintText="パスワード"
           floatingLabelText="Password"
           type="password"
           onChange={this.onChangePassword}
@@ -125,7 +125,7 @@ export default class SignupPage extends React.Component<
           label="Sign up"
           primary={true}
           onClick={this.signup}
-          style={{ width: '60%' }}
+          style={{ width: '20%' }}
         />
       </div>
     );

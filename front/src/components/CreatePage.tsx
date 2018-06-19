@@ -64,28 +64,28 @@ export default class UserPage extends React.Component<
     if (this.state.title === '') {
       this.setState({
         ...this.state,
-        titleErrorMessage: 'title field is required',
+        titleErrorMessage: 'Title field is required',
       });
       return;
     }
     if (this.state.date === '') {
       this.setState({
         ...this.state,
-        dateErrorMessage: 'body field is required',
+        dateErrorMessage: 'Body field is required',
       });
       return;
     }
     if (this.state.location === '') {
       this.setState({
         ...this.state,
-        locationErrorMessage: 'location field is required',
+        locationErrorMessage: 'Location field is required',
       });
       return;
     }
     if (this.state.body === '') {
       this.setState({
         ...this.state,
-        bodyErrorMessage: 'body field is required',
+        bodyErrorMessage: 'Body field is required',
       });
       return;
     }
@@ -129,7 +129,7 @@ export default class UserPage extends React.Component<
         <form noValidate={true}>
           <TextFieldCore
             id="datetime-local"
-            label="Next appointment"
+            label="Date"
             type="datetime-local"
             defaultValue={new Date().toISOString().split('.')[0]}
             style={{ width: '200' }}
@@ -141,14 +141,14 @@ export default class UserPage extends React.Component<
         </form>
         <br />
         <TextField
-          hintText="Title Field"
+          hintText="タイトル"
           floatingLabelText="Title"
           onChange={this.onChangeTitle}
           errorText={this.state.titleErrorMessage}
         />
         <br />
         <TextField
-          hintText="Location Field"
+          hintText="開催場所"
           floatingLabelText="Location"
           onChange={this.onChangeLocation}
           errorText={this.state.locationErrorMessage}
@@ -156,7 +156,7 @@ export default class UserPage extends React.Component<
         <br />
         <TextField
           style={{ textAlign: 'left' }}
-          hintText="Body Field"
+          hintText="説明文"
           floatingLabelText="Body"
           onChange={this.onChangeBody}
           errorText={this.state.bodyErrorMessage}
@@ -169,7 +169,7 @@ export default class UserPage extends React.Component<
           label="create"
           primary={true}
           onClick={this.create}
-          style={{ width: '60%' }}
+          style={{ width: '20%' }}
         />
       </div>
     );

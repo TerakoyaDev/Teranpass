@@ -6,9 +6,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import SvgIcon from 'material-ui/SvgIcon';
 import * as React from 'react';
+import { deleteEventAction } from '../action/EventAction';
 import { IUserInfo } from '../App';
 import { firebaseAuth, firebaseDb } from '../firebase';
-import { IEvent } from './EventPage';
 import JoinButton from './JoinButton';
 import RegisteredUserList from './RegisteredUserList';
 
@@ -18,6 +18,7 @@ interface InterfaceProps {
   };
   event: any;
   getEvents: () => void;
+  dispatch: any;
 }
 
 interface InterfaceState {
@@ -136,28 +137,8 @@ export default class EventPageFragment extends React.Component<
   }
 
   public async deleteEvent() {
-    const user = firebaseAuth.currentUser;
-    if (user) {
-      // update
-      const updates = {};
-
-      const joinEventList = (await firebaseDb
-        .ref(`users/${user.uid}/joinEventList`)
-        .once('value')).val();
-
-      const event = (await firebaseDb
-        .ref(`events/${this.props.event.eventId}`)
-        .once('value')).val();
-
-      event.isDelete = true;
-
-      updates[`events/${this.props.event.eventId}`] = event;
-      updates[`users/${user.uid}/joinEventList`] = joinEventList.filter(
-        (n: IEvent) => n.eventId !== this.props.event.eventId
-      );
-      await firebaseDb.ref().update(updates);
-      this.props.history.push('/');
-    }
+    const { dispatch } = this.props;
+    dispatch(deleteEventAction(this.props.event.eventId));
   }
 
   public componentWillMount() {
