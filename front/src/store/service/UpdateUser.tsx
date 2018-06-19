@@ -3,6 +3,7 @@ import { call, put, take } from 'redux-saga/effects';
 import { UPDATE_USER } from '../../action/UserActionType';
 import { FETCH_USER_INFO_FROM_SESSION_STORAGE } from '../../action/UserActionType';
 import { firebaseAuth } from '../../firebase';
+import { changeDateFormat } from '../../utils/DateFormat';
 import {
   fetchDataFromGivenPass,
   storeDataToGivenPass,
@@ -45,14 +46,13 @@ export default function* updateUserService() {
       const updates = {};
       if (events) {
         Object.keys(events).map((n: any) => {
-          if (events[n].date >= new Date()) {
+          if (events[n].date >= changeDateFormat(new Date())) {
             updates[`events/${n}`] = {
               ...events[n],
               participants: events[n].participants.map(
                 (m: any) =>
                   m.uid === user.uid
                     ? {
-                        description,
                         displayName: userName,
                         email: user.email,
                         photoURL: downloadLink,
@@ -78,7 +78,7 @@ export default function* updateUserService() {
         Object.keys(users).map((n: any) => {
           if (
             users[n].joinEventList !== undefined &&
-            users[n].joinEventList.date >= new Date()
+            users[n].joinEventList.date >= changeDateFormat(new Date())
           ) {
             updates[`users/${n}`] = {
               ...users[n],
