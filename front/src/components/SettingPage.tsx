@@ -12,8 +12,6 @@ interface InterfaceState {
   submitingMessage: string;
   userNameErrorMessage: string;
   photoFileErrorMessage: string;
-  userDescription: string;
-  userDescriptionErrorMessage: string;
 }
 
 interface IProps {
@@ -33,15 +31,12 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
       photoFileErrorMessage: '',
       photoFileInstance: {},
       submitingMessage: 'Update',
-      userDescription: '',
-      userDescriptionErrorMessage: '',
       userName: '',
       userNameErrorMessage: '',
     };
 
     // bind
     this.onChangeUserName = this.onChangeUserName.bind(this);
-    this.onChangeUserDescription = this.onChangeUserDescription.bind(this);
     this.onChangeFile = this.onChangeFile.bind(this);
     this.update = this.update.bind(this);
   }
@@ -52,17 +47,7 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
       this.setState({
         ...this.state,
         photoFileErrorMessage: '',
-        userDescriptionErrorMessage: '',
         userNameErrorMessage: 'UserName field is required',
-      });
-      return;
-    }
-    if (this.state.userDescription === '') {
-      this.setState({
-        ...this.state,
-        photoFileErrorMessage: '',
-        userDescriptionErrorMessage: 'UserDescription field is required',
-        userNameErrorMessage: '',
       });
       return;
     }
@@ -70,7 +55,6 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
       this.setState({
         ...this.state,
         photoFileErrorMessage: 'email field is required',
-        userDescriptionErrorMessage: '',
         userNameErrorMessage: '',
       });
       return;
@@ -82,7 +66,6 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
     dispatch(
       updateUser(
         this.state.userName,
-        this.state.userDescription,
         this.state.photoFileInstance,
         this.state.photoFile
       )
@@ -92,13 +75,6 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
   // change method
   public onChangeUserName(event: React.FormEvent<HTMLSelectElement>) {
     this.setState({ ...this.state, userName: event.currentTarget.value });
-  }
-
-  public onChangeUserDescription(event: React.FormEvent<HTMLSelectElement>) {
-    this.setState({
-      ...this.state,
-      userDescription: event.currentTarget.value,
-    });
   }
 
   public onChangeFile(event: any) {
@@ -117,14 +93,6 @@ export default class UserPage extends React.Component<IProps, InterfaceState> {
           floatingLabelText="New UserName"
           onChange={this.onChangeUserName}
           errorText={this.state.userNameErrorMessage}
-          style={{ textAlign: 'left', width: '80%' }}
-        />
-        <br />
-        <TextField
-          hintText="変更後のユーザ説明"
-          floatingLabelText="New UserDescription"
-          onChange={this.onChangeUserDescription}
-          errorText={this.state.userDescriptionErrorMessage}
           style={{ textAlign: 'left', width: '80%' }}
         />
         <br />

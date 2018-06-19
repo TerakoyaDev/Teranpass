@@ -11,5 +11,4 @@ export interface IUserInfo {
   photoURL: string;
   uid: string;
   joinEventList: IUser[];
-  description: string;
 }

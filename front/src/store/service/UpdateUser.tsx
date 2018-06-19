@@ -15,7 +15,7 @@ import {
 export default function* updateUserService() {
   while (true) {
     const { payload } = yield take(UPDATE_USER);
-    const { description, photoFileInstance, photoURL, userName } = payload;
+    const { photoFileInstance, photoURL, userName } = payload;
     const user = firebaseAuth.currentUser;
     if (user) {
       const downloadLink = yield call(
@@ -33,7 +33,6 @@ export default function* updateUserService() {
       );
 
       storeDataToGivenPass(`users/${user.uid}`, {
-        description,
         displayName: userName,
         email: user.email,
         joinEventList,
@@ -61,7 +60,6 @@ export default function* updateUserService() {
                     : m
               ),
               sponsor: {
-                description,
                 displayName: userName,
                 email: user.email,
                 photoURL: downloadLink,
@@ -88,7 +86,6 @@ export default function* updateUserService() {
                   sponsor:
                     m.sponsor.uid === user.uid
                       ? {
-                          description,
                           displayName: userName,
                           email: user.email,
                           photoURL: downloadLink,

@@ -66,7 +66,6 @@ export default function* createNewUserService() {
 
       yield call(storeDataToGivenPass, `users/${userInfo.uid}`, {
         ...userInfo,
-        description: 'エンジニア',
       });
 
       yield put({

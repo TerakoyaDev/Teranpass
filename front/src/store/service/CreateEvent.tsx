@@ -58,7 +58,6 @@ export default function* createEventService() {
         eventsList = fetchedUser.joinEventList;
       }
       const userInfo = {
-        description: fetchedUser.description,
         displayName: user.displayName,
         email: user.email,
         joinEventList: eventsList,

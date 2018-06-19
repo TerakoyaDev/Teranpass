@@ -41,7 +41,6 @@ export default class UserPageFragment extends React.Component<IProps> {
           <CardHeader
             avatar={<Avatar src={this.props.userInfo.photoURL} />}
             title={this.props.userInfo.displayName}
-            subheader={this.props.userInfo.description}
           />
         </Card>
         <Card>

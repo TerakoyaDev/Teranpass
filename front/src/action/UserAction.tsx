@@ -26,13 +26,11 @@ export const createNewUser = (
 
 export const updateUser = (
   userName: string,
-  description: string,
   photoFileInstance: {},
   photoURL: string
 ) => {
   return {
     payload: {
-      description,
       photoFileInstance,
       photoURL,
       userName,
