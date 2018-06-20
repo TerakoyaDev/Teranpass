@@ -8,7 +8,7 @@ interface IProps {
   joinUserToEvent: () => void;
 }
 
-export default class JoinButton extends React.Component<IProps> {
+export default class JoinEventButton extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props);
   }

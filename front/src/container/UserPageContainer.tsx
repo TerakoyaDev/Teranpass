@@ -6,7 +6,7 @@ const mapStateToProps = (state: any) => {
   return {
     eventList: store.getState().reducers.EventReducer.eventList,
     isFetching: store.getState().reducers.EventReducer.isFetching,
-    userInfo: store.getState().reducers.UserReducer.userInfo,
+    userInfo: store.getState().reducers.UserReducer.otherUserInfo,
   };
 };
 

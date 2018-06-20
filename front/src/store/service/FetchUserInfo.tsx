@@ -12,6 +12,7 @@ export default function* fetchUserInfoService() {
 
     const { userId } = payload;
 
+    // fetch
     const userInfo = yield call(fetchDataFromGivenPass, `users/${userId}`);
 
     if (userInfo) {

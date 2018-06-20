@@ -21,7 +21,10 @@ interface IProps {
   dispatch: any;
 }
 
-export default class UserPage extends React.Component<IProps, InterfaceState> {
+export default class SettingUserPage extends React.Component<
+  IProps,
+  InterfaceState
+> {
   constructor(props: IProps) {
     super(props);
 

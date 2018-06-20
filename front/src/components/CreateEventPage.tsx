@@ -24,7 +24,7 @@ interface InterfaceProps {
 }
 
 // TODO get userInfo by id
-export default class UserPage extends React.Component<
+export default class CreateEventPage extends React.Component<
   InterfaceProps,
   InterfaceState
 > {

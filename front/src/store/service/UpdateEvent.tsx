@@ -1,8 +1,8 @@
 import { push } from 'react-router-redux';
 import { call, put, take } from 'redux-saga/effects';
 import { UPDATE_EVENT } from '../../action/EventActionType';
-import { IEvent } from '../../components/EventPage';
 import { firebaseAuth } from '../../firebase';
+import { IEvent } from '../../types';
 import { fetchDataFromGivenPass, update } from '../repository';
 
 export default function* updateEventService() {
@@ -13,7 +13,11 @@ export default function* updateEventService() {
       const updates = {};
 
       const { id, title, date, location, body } = payload;
+
+      // fetch
       const targetEvent = yield call(fetchDataFromGivenPass, `events/${id}`);
+
+      // set each value
       targetEvent.title = title;
       targetEvent.date = date;
       targetEvent.location = location;
@@ -21,6 +25,7 @@ export default function* updateEventService() {
 
       updates[`events/${id}`] = targetEvent;
 
+      // check all participants and change joinEventList
       for (const val of targetEvent.participants) {
         const targetUser = yield call(
           fetchDataFromGivenPass,
@@ -45,7 +50,10 @@ export default function* updateEventService() {
         };
       }
 
+      // update
       yield call(update, updates);
+
+      // history push
       yield put(push('/'));
     }
   }

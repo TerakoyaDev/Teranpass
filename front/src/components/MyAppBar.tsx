@@ -9,9 +9,9 @@ import {
   snackbarClose,
 } from '../action/UserAction';
 import { IUserInfo } from '../types';
-import Logged from './Logged';
-import Signin from './Signin';
-import Signup from './Signup';
+import SigninButton from './SigninButton';
+import SignupButton from './SignupButton';
+import UserIcon from './UserIcon';
 
 interface IProps {
   isAuth: boolean;
@@ -50,14 +50,14 @@ export default class MyAppBar extends React.Component<IProps> {
           }
           iconElementRight={
             this.props.isAuth ? (
-              <Logged
+              <UserIcon
                 userInfo={this.props.userInfo}
                 dispatch={this.props.dispatch}
               />
             ) : (
               <div>
-                <Signup />
-                <Signin />
+                <SignupButton />
+                <SigninButton />
               </div>
             )
           }

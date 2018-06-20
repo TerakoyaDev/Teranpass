@@ -46,7 +46,7 @@ export default class UserPageFragment extends React.Component<IProps> {
         <Card>
           <CardContent>
             <Subheader>{`登録中のイベント`}</Subheader>
-            {this.props.eventList.length !== 0 ? (
+            {this.props.userInfo.joinEventList ? (
               <List
                 style={{
                   maxHeight: 300,
@@ -54,7 +54,7 @@ export default class UserPageFragment extends React.Component<IProps> {
                   position: 'relative',
                 }}
               >
-                {this.props.eventList.map((item, index) => (
+                {this.props.userInfo.joinEventList.map((item, index) => (
                   <div key={index}>
                     <ListItem
                       key={index}

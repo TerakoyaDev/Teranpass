@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import EditPage from '../components/EditPage';
+import EditEventPage from '../components/EditEventPage';
 import store from '../store';
 
 const mapStateToProps = (state: any) => {
@@ -10,4 +10,4 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(EditPage);
+export default connect(mapStateToProps)(EditEventPage);
