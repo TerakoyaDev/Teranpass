@@ -11,7 +11,7 @@ import * as ReactMarkdown from 'react-markdown';
 import { deleteEventAction } from '../action/EventAction';
 import { firebaseAuth, firebaseDb } from '../firebase';
 import { IUserInfo } from '../types';
-import JoinButton from './JoinButton';
+import JoinEventButton from './JoinEventButton';
 import RegisteredUserList from './RegisteredUserList';
 
 interface InterfaceProps {
@@ -188,7 +188,7 @@ export default class EventPageFragment extends React.Component<
                     </Tooltip>
                   </div>
                 ) : (
-                  <JoinButton
+                  <JoinEventButton
                     isJoin={this.state.isJoin}
                     removeUserInEvent={this.removeUserFromEvent}
                     joinUserToEvent={this.joinUserToEvent}

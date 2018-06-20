@@ -12,7 +12,7 @@ interface InterfaceProps {
   dispatch: any;
 }
 
-export default class Logged extends React.Component<InterfaceProps> {
+export default class UserIcon extends React.Component<InterfaceProps> {
   constructor(props: InterfaceProps) {
     super(props);
     this.Signout = this.Signout.bind(this);

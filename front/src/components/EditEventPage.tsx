@@ -27,7 +27,7 @@ interface InterfaceProps {
   dispatch: any;
 }
 
-export default class UserPage extends React.Component<
+export default class EditEventPage extends React.Component<
   InterfaceProps,
   InterfaceState
 > {
