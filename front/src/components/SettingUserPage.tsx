@@ -1,4 +1,5 @@
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import TextField from 'material-ui/TextField';
@@ -15,6 +16,7 @@ interface InterfaceState {
 }
 
 interface IProps {
+  isProcessingForUser: boolean;
   history: {
     push: (path: string) => void;
   };
@@ -90,38 +92,46 @@ export default class SettingUserPage extends React.Component<
 
   public render() {
     return (
-      <div style={{ textAlign: 'center' }}>
-        <TextField
-          hintText="変更後のユーザネーム"
-          floatingLabelText="New UserName"
-          onChange={this.onChangeUserName}
-          errorText={this.state.userNameErrorMessage}
-          style={{ textAlign: 'left', width: '80%' }}
-        />
-        <br />
-        <div>
-          {this.state.photoFile}
-          <input
-            type="file"
-            style={{ display: 'none' }}
-            id="icon-button-file"
-            onChange={this.onChangeFile}
-          />
-          <label htmlFor="icon-button-file">
-            <IconButton color="primary" component="span">
-              <PhotoCamera />
-            </IconButton>
-          </label>
-        </div>
-        <br />
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={this.update}
-          style={{ width: '80%' }}
-        >
-          {this.state.submitingMessage}
-        </Button>
+      <div>
+        {this.props.isProcessingForUser ? (
+          <div style={{ textAlign: 'center' }}>
+            <CircularProgress size={70} style={{ alignItems: 'center' }} />
+          </div>
+        ) : (
+          <div style={{ textAlign: 'center' }}>
+            <TextField
+              hintText="変更後のユーザネーム"
+              floatingLabelText="New UserName"
+              onChange={this.onChangeUserName}
+              errorText={this.state.userNameErrorMessage}
+              style={{ textAlign: 'left', width: '80%' }}
+            />
+            <br />
+            <div>
+              {this.state.photoFile}
+              <input
+                type="file"
+                style={{ display: 'none' }}
+                id="icon-button-file"
+                onChange={this.onChangeFile}
+              />
+              <label htmlFor="icon-button-file">
+                <IconButton color="primary" component="span">
+                  <PhotoCamera />
+                </IconButton>
+              </label>
+            </div>
+            <br />
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={this.update}
+              style={{ width: '80%' }}
+            >
+              {this.state.submitingMessage}
+            </Button>
+          </div>
+        )}
       </div>
     );
   }

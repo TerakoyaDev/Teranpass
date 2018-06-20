@@ -4,6 +4,8 @@ import store from '../store';
 
 const mapStateToProps = (state: any) => {
   return {
+    isProcessingForUser: store.getState().reducers.UserReducer
+      .isProcessingForUser,
     message: store.getState().reducers.UserReducer.message,
   };
 };

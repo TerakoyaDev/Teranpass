@@ -1,4 +1,5 @@
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { signinUser } from '../action/UserAction';
@@ -11,6 +12,7 @@ interface InterfaceState {
 }
 
 interface InterfaceProps {
+  isProcessingForUser: boolean;
   message: string;
   history: {
     push: (path: string) => void;
@@ -74,33 +76,41 @@ export default class SigninPage extends React.Component<
 
   public render() {
     return (
-      <div style={{ textAlign: 'center', flex: 'column' }}>
-        <div>{this.props.message}</div>
-        <TextField
-          hintText="メールアドレス"
-          floatingLabelText="Email"
-          onChange={this.onChangeEmail}
-          errorText={this.state.emailErrorMessage}
-          style={{ textAlign: 'left', width: '80%' }}
-        />
-        <br />
-        <TextField
-          style={{ textAlign: 'left', width: '80%' }}
-          hintText="パスワード"
-          floatingLabelText="Password"
-          type="password"
-          onChange={this.onChangePassword}
-          errorText={this.state.passwordErrorMessage}
-        />
-        <br />
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={this.signin}
-          style={{ width: '80%' }}
-        >
-          Signin
-        </Button>
+      <div>
+        {this.props.isProcessingForUser ? (
+          <div style={{ textAlign: 'center' }}>
+            <CircularProgress size={70} style={{ alignItems: 'center' }} />
+          </div>
+        ) : (
+          <div style={{ textAlign: 'center', flex: 'column' }}>
+            <div>{this.props.message}</div>
+            <TextField
+              hintText="メールアドレス"
+              floatingLabelText="Email"
+              onChange={this.onChangeEmail}
+              errorText={this.state.emailErrorMessage}
+              style={{ textAlign: 'left', width: '80%' }}
+            />
+            <br />
+            <TextField
+              style={{ textAlign: 'left', width: '80%' }}
+              hintText="パスワード"
+              floatingLabelText="Password"
+              type="password"
+              onChange={this.onChangePassword}
+              errorText={this.state.passwordErrorMessage}
+            />
+            <br />
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={this.signin}
+              style={{ width: '80%' }}
+            >
+              Signin
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
