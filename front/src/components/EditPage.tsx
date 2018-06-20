@@ -3,8 +3,8 @@ import TextFieldCore from '@material-ui/core/TextField';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { updateEventAction } from '../action/EventAction';
+import { IEvent } from '../types';
 import { changeDateFormat, changeDateISOFormat } from '../utils/DateFormat';
-import { IEvent } from './EventPage';
 
 interface InterfaceState {
   title: string;

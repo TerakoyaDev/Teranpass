@@ -21,7 +21,10 @@ function signoutUser() {
 export default function* signoutUserService() {
   while (true) {
     yield take(SIGNOUT_USER);
+
+    // signout
     const { isSignout, message } = yield call(signoutUser);
+
     if (isSignout) {
       yield put({
         type: SIGNOUT_USER_SUCCESS,

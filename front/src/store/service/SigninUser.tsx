@@ -9,10 +9,10 @@ import {
 } from '../../action/UserActionType';
 import { firebaseAuth } from '../../firebase';
 
-// signin user
 function signinUser(payload: { email: string; password: string }) {
   const { email, password } = payload;
   firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+
   return firebaseAuth
     .signInWithEmailAndPassword(email, password)
     .then(() => {
@@ -26,7 +26,10 @@ function signinUser(payload: { email: string; password: string }) {
 export default function* signinUserService() {
   while (true) {
     const { payload } = yield take(SIGNIN_USER);
+
+    // signin
     const { isAuth, message } = yield call(signinUser, payload);
+
     if (isAuth) {
       yield put({
         type: SIGNIN_USER_SUCCESS,

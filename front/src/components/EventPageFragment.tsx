@@ -65,9 +65,12 @@ export default class EventPageFragment extends React.Component<
   public async joinUserToEvent() {
     const user = firebaseAuth.currentUser;
     if (user) {
+      // fetch
       const ref = firebaseDb.ref(
         `events/${this.props.event.eventId}/participants`
       );
+
+      // store
       ref.transaction(array => {
         if (array) {
           array.push({
@@ -81,6 +84,8 @@ export default class EventPageFragment extends React.Component<
           return [];
         }
       });
+
+      // fetch
       const val = (await firebaseDb
         .ref(`users/${user.uid}/joinEventList`)
         .once('value')).val();
@@ -107,9 +112,12 @@ export default class EventPageFragment extends React.Component<
   public async removeUserFromEvent() {
     const user = firebaseAuth.currentUser;
     if (user) {
+      // fetch
       const ref = firebaseDb.ref(
         `events/${this.props.event.eventId}/participants`
       );
+
+      // store
       ref.transaction(array => {
         if (array) {
           return array.filter((n: IUserInfo) => n.uid !== user.uid);
@@ -118,10 +126,11 @@ export default class EventPageFragment extends React.Component<
         }
       });
 
-      // userHasEvents
+      // fetch
       const val = (await firebaseDb
         .ref(`users/${user.uid}/joinEventList`)
         .once('value')).val();
+
       let eventsList = [];
       if (val) {
         eventsList = val;

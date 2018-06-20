@@ -18,6 +18,7 @@ export default function* updateUserService() {
     const { photoFileInstance, photoURL, userName } = payload;
     const user = firebaseAuth.currentUser;
     if (user) {
+      // fetch download link
       const downloadLink = yield call(
         updateUserImage,
         user.uid,
@@ -27,12 +28,14 @@ export default function* updateUserService() {
 
       yield call(updateProfile, user, userName, downloadLink);
 
+      // fetch
       const joinEventList = yield call(
         fetchDataFromGivenPass,
         `users/${user.uid}/joinEventList`
       );
 
-      storeDataToGivenPass(`users/${user.uid}`, {
+      // store
+      yield call(storeDataToGivenPass, `users/${user.uid}`, {
         displayName: userName,
         email: user.email,
         joinEventList,

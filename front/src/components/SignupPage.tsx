@@ -1,10 +1,15 @@
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { createNewUser } from '../action/UserAction';
 import store from '../store';
 
 interface InterfaceState {
+  photoFile: string;
+  photoFileInstance: {};
+  photoFileErrorMessage: string;
   userName: string;
   email: string;
   password: string;
@@ -34,6 +39,9 @@ export default class SignupPage extends React.Component<
       emailErrorMessage: '',
       password: '',
       passwordErrorMessage: '',
+      photoFile: '変更後のユーザイメージ',
+      photoFileErrorMessage: '',
+      photoFileInstance: {},
       userName: '',
       userNameErrorMessage: '',
     };
@@ -42,6 +50,7 @@ export default class SignupPage extends React.Component<
     this.onChangeUserName = this.onChangeUserName.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangeFile = this.onChangeFile.bind(this);
     this.signup = this.signup.bind(this);
   }
 
@@ -53,6 +62,7 @@ export default class SignupPage extends React.Component<
         ...this.state,
         emailErrorMessage: '',
         passwordErrorMessage: '',
+        photoFileErrorMessage: '',
         userNameErrorMessage: 'UserName field is required',
       });
       return;
@@ -62,6 +72,7 @@ export default class SignupPage extends React.Component<
         ...this.state,
         emailErrorMessage: 'Email field is required',
         passwordErrorMessage: '',
+        photoFileErrorMessage: '',
         userNameErrorMessage: '',
       });
       return;
@@ -71,14 +82,33 @@ export default class SignupPage extends React.Component<
         ...this.state,
         emailErrorMessage: '',
         passwordErrorMessage: 'Password field is required',
+        photoFileErrorMessage: '',
         userNameErrorMessage: '',
       });
       return;
     }
 
+    if (this.state.photoFile === '') {
+      this.setState({
+        ...this.state,
+        emailErrorMessage: '',
+        passwordErrorMessage: '',
+        photoFileErrorMessage: 'email field is required',
+        userNameErrorMessage: '',
+      });
+      return;
+    }
+
+    // dispatch
     const { dispatch } = this.props;
     dispatch(
-      createNewUser(this.state.userName, this.state.email, this.state.password)
+      createNewUser(
+        this.state.userName,
+        this.state.email,
+        this.state.password,
+        this.state.photoFileInstance,
+        this.state.photoFile
+      )
     );
   }
 
@@ -93,6 +123,14 @@ export default class SignupPage extends React.Component<
 
   public onChangePassword(event: React.FormEvent<HTMLSelectElement>) {
     this.setState({ ...this.state, password: event.currentTarget.value });
+  }
+
+  public onChangeFile(event: any) {
+    this.setState({
+      ...this.state,
+      photoFile: event.target.value,
+      photoFileInstance: event.target.files[0],
+    });
   }
 
   public render() {
@@ -123,6 +161,22 @@ export default class SignupPage extends React.Component<
           errorText={this.state.passwordErrorMessage}
           style={{ textAlign: 'left', width: '80%' }}
         />
+        <br />
+        <div>
+          {this.state.photoFile}
+          <input
+            type="file"
+            style={{ display: 'none' }}
+            id="icon-button-file"
+            onChange={this.onChangeFile}
+          />
+          <label htmlFor="icon-button-file">
+            <IconButton color="primary" component="span">
+              <PhotoCamera />
+            </IconButton>
+          </label>
+        </div>
+        <br />
         <br />
         <Button
           variant="outlined"

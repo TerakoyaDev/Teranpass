@@ -12,12 +12,16 @@ import {
 export const createNewUser = (
   userName: string,
   email: string,
-  password: string
+  password: string,
+  photoFileInstance: {},
+  photoFile: string
 ) => {
   return {
     payload: {
       email,
       password,
+      photoFile,
+      photoFileInstance,
       userName,
     },
     type: CREATE_NEW_USER,

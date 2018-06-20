@@ -1,24 +1,8 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import * as React from 'react';
 import { fetchEventDateList } from '../action/EventAction';
-import { IUserInfo } from '../types';
+import { IEvent } from '../types';
 import EventPageFragment from './EventPageFragment';
-
-export interface IEvent {
-  body: string;
-  date: string;
-  eventId: string;
-  isDelete: boolean;
-  location: string;
-  participants: IUserInfo[];
-  sponsor: {
-    displayName: string;
-    email: string;
-    photoURL: string;
-    uid: string;
-  };
-  title: string;
-}
 
 export const initialEventState = {
   body: '',

@@ -15,6 +15,12 @@ const initialState = {
   isAuth: false,
   isOpenSnackbar: false,
   message: '',
+  otherUserInfo: {
+    displayName: '',
+    email: '',
+    photoURL: '',
+    uid: '',
+  },
   userInfo: {
     displayName: '',
     email: '',
@@ -66,7 +72,7 @@ const userReducer = (state: any = initialState, action: any): any => {
     case FETCH_USER_INFO_FROM_DATABASE_SUCCESS:
       return {
         ...state,
-        userInfo: action.userInfo,
+        otherUserInfo: action.userInfo,
       };
 
     case SIGNIN_USER_SUCCESS:

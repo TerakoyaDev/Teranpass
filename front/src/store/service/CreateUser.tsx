@@ -7,7 +7,7 @@ import {
   CREATE_NEW_USER_SUCCESS,
 } from '../../action/UserActionType';
 import { firebaseAuth } from '../../firebase';
-import { storeDataToGivenPass } from '../repository';
+import { storeDataToGivenPass, updateUserImage } from '../repository';
 
 // create new user
 function createNewUserToDB(email: string, password: string) {
@@ -49,35 +49,45 @@ export default function* createNewUserService() {
     // fetch payload
     const { payload } = yield take(CREATE_NEW_USER);
 
-    const { userName, email, password } = payload;
+    const { userName, email, password, photoFile, photoFileInstance } = payload;
 
-    // createNewUserToFirebase
+    // create new user
     const { isCreated, message } = yield call(
       createNewUserToDB,
       email,
       password
     );
+
     if (isCreated) {
-      const userInfo = yield call(
-        updateUserProfile,
-        userName,
-        'https://materialdesignicons.com/api/download/icon/png/1D7E8F31-998D-442A-80E6-EBB8DFA8CBA2/48'
-      );
+      const user = firebaseAuth.currentUser;
+      if (user) {
+        // fetch downloadLink
+        const downloadLink = yield call(
+          updateUserImage,
+          user.uid,
+          photoFile,
+          photoFileInstance
+        );
 
-      yield call(storeDataToGivenPass, `users/${userInfo.uid}`, {
-        ...userInfo,
-      });
+        // update user profile
+        const userInfo = yield call(updateUserProfile, userName, downloadLink);
 
-      yield put({
-        type: CREATE_NEW_USER_SUCCESS,
-        userInfo,
-      });
-      yield put(push('/'));
-    } else {
-      yield put({
-        message,
-        type: CREATE_NEW_USER_FAILED,
-      });
+        // store
+        yield call(storeDataToGivenPass, `users/${userInfo.uid}`, {
+          ...userInfo,
+        });
+
+        yield put({
+          type: CREATE_NEW_USER_SUCCESS,
+          userInfo,
+        });
+        yield put(push('/'));
+      } else {
+        yield put({
+          message,
+          type: CREATE_NEW_USER_FAILED,
+        });
+      }
     }
   }
 }

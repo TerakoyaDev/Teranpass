@@ -20,6 +20,7 @@ async function createEvent(
 
   // テーブル設計を見直す必要がある
   delete userInfo.joinEventList;
+
   // postEventData
   const postEventData = {
     body,
@@ -34,7 +35,7 @@ async function createEvent(
 
   eventsList.push(postEventData);
 
-  // update
+  // set updateData
   const updateData = {};
   updateData[`events/${newKey}`] = postEventData;
   updateData[`users/${user.uid}/joinEventList`] = eventsList;
@@ -47,6 +48,7 @@ export default function* createEventService() {
     const { payload } = yield take(CREATE_EVENT);
     const user = firebaseAuth.currentUser;
     if (user) {
+      // fetch
       const fetchedUser = yield call(
         fetchDataFromGivenPass,
         `users/${user.uid}`
@@ -57,6 +59,8 @@ export default function* createEventService() {
       if (fetchedUser.joinEventList) {
         eventsList = fetchedUser.joinEventList;
       }
+
+      // new userInfo
       const userInfo = {
         displayName: user.displayName,
         email: user.email,
@@ -67,6 +71,7 @@ export default function* createEventService() {
 
       const newKey = yield call(fetchNewKeyString);
 
+      // fetch new updateData
       const updateData = yield call(
         createEvent,
         payload,

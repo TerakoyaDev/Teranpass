@@ -10,5 +10,21 @@ export interface IUserInfo {
   email: string;
   photoURL: string;
   uid: string;
-  joinEventList: IUser[];
+  joinEventList: IEvent[];
+}
+
+export interface IEvent {
+  body: string;
+  date: string;
+  eventId: string;
+  isDelete: boolean;
+  location: string;
+  participants: IUserInfo[];
+  sponsor: {
+    displayName: string;
+    email: string;
+    photoURL: string;
+    uid: string;
+  };
+  title: string;
 }
