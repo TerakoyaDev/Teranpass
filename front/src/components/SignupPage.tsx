@@ -1,4 +1,5 @@
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import TextField from 'material-ui/TextField';
@@ -21,6 +22,7 @@ interface InterfaceState {
 }
 
 interface InterfaceProps {
+  isProcessingForUser: boolean;
   message: string;
   history: {
     push: (path: string) => void;
@@ -175,66 +177,74 @@ export default class SignupPage extends React.Component<
 
   public render() {
     return (
-      <div style={{ textAlign: 'center', flex: 'column' }}>
-        <div>{store.getState().reducers.UserReducer.message}</div>
-        <TextField
-          hintText="ユーザネーム"
-          floatingLabelText="UserName"
-          onChange={this.onChangeUserName}
-          errorText={this.state.userNameErrorMessage}
-          style={{ textAlign: 'left', width: '80%' }}
-        />
-        <br />
-        <TextField
-          hintText="メールアドレス"
-          floatingLabelText="Email"
-          onChange={this.onChangeEmail}
-          errorText={this.state.emailErrorMessage}
-          style={{ textAlign: 'left', width: '80%' }}
-        />
-        <br />
-        <TextField
-          hintText="パスワード"
-          floatingLabelText="Password"
-          type="password"
-          onChange={this.onChangePassword}
-          errorText={this.state.passwordErrorMessage}
-          style={{ textAlign: 'left', width: '80%' }}
-        />
-        <br />
-        <TextField
-          hintText="パスワード（確認）"
-          floatingLabelText="Confirm password"
-          type="password"
-          onChange={this.onChangeConfirmPassword}
-          errorText={this.state.confirmPasswordErrorMessage}
-          style={{ textAlign: 'left', width: '80%' }}
-        />
-        <br />
-        <div>
-          {this.state.photoFile}
-          <input
-            type="file"
-            style={{ display: 'none' }}
-            id="icon-button-file"
-            onChange={this.onChangeFile}
-          />
-          <label htmlFor="icon-button-file">
-            <IconButton color="primary" component="span">
-              <PhotoCamera />
-            </IconButton>
-          </label>
-        </div>
-        <br />
-        <br />
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={this.signup}
-          style={{ width: '80%' }}
-        >
-          Signin
-        </Button>
+      <div>
+        {this.props.isProcessingForUser ? (
+          <div style={{ textAlign: 'center' }}>
+            <CircularProgress size={70} style={{ alignItems: 'center' }} />
+          </div>
+        ) : (
+          <div style={{ textAlign: 'center', flex: 'column' }}>
+            <div>{store.getState().reducers.UserReducer.message}</div>
+            <TextField
+              hintText="ユーザネーム"
+              floatingLabelText="UserName"
+              onChange={this.onChangeUserName}
+              errorText={this.state.userNameErrorMessage}
+              style={{ textAlign: 'left', width: '80%' }}
+            />
+            <br />
+            <TextField
+              hintText="メールアドレス"
+              floatingLabelText="Email"
+              onChange={this.onChangeEmail}
+              errorText={this.state.emailErrorMessage}
+              style={{ textAlign: 'left', width: '80%' }}
+            />
+            <br />
+            <TextField
+              hintText="パスワード"
+              floatingLabelText="Password"
+              type="password"
+              onChange={this.onChangePassword}
+              errorText={this.state.passwordErrorMessage}
+              style={{ textAlign: 'left', width: '80%' }}
+            />
+            <br />
+            <TextField
+              hintText="パスワード（確認）"
+              floatingLabelText="Confirm password"
+              type="password"
+              onChange={this.onChangeConfirmPassword}
+              errorText={this.state.confirmPasswordErrorMessage}
+              style={{ textAlign: 'left', width: '80%' }}
+            />
+            <br />
+            <div>
+              {this.state.photoFile}
+              <input
+                type="file"
+                style={{ display: 'none' }}
+                id="icon-button-file"
+                onChange={this.onChangeFile}
+              />
+              <label htmlFor="icon-button-file">
+                <IconButton color="primary" component="span">
+                  <PhotoCamera />
+                </IconButton>
+              </label>
+            </div>
+            <br />
+            <br />
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={this.signup}
+              style={{ width: '80%' }}
+            >
+              Signin
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
