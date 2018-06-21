@@ -2,8 +2,10 @@ import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import * as React from 'react';
+import UserCountBadge from './UserCountBadge';
 
 interface InterfaceProps {
   history: {
@@ -69,6 +71,11 @@ export default class EventPagePerDateFragment extends React.Component<
                       primary={`${this.props.eventList[val].title}`}
                       secondary={`${this.props.eventList[val].date}~`}
                     />
+                    <ListItemSecondaryAction>
+                      <UserCountBadge
+                        count={this.props.eventList[val].participants.length}
+                      />
+                    </ListItemSecondaryAction>
                   </ListItem>
                   <Divider />
                 </div>

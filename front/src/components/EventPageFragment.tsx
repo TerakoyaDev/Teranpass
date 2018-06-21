@@ -166,7 +166,6 @@ export default class EventPageFragment extends React.Component<
         <Card>
           <CardHeader
             avatar={<Avatar src={this.props.event.sponsor.photoURL} />}
-            style={{ backgroundColor: '#CEECF5' }}
             action={
               <div>
                 {this.isAuthedAccount() ? (

@@ -7,6 +7,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import AddIcon from '@material-ui/icons/Add';
 import * as React from 'react';
+import UserCountBadge from './UserCountBadge';
 
 interface IProps {
   history: {
@@ -62,13 +63,9 @@ export default class EventList extends React.Component<IProps> {
                         secondary={`${this.props.event[val].date}~`}
                       />
                       <ListItemSecondaryAction>
-                        {this.props.event[val].participants.length !== 1 ? (
-                          <div style={{ margin: '10px', color: 'red' }}>{`${this
-                            .props.event[val].participants.length -
-                            1}人登録中！`}</div>
-                        ) : (
-                          <div />
-                        )}
+                        <UserCountBadge
+                          count={this.props.event[val].participants.length}
+                        />
                       </ListItemSecondaryAction>
                     </ListItem>
                     <Divider />
