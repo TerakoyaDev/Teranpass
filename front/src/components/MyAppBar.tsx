@@ -1,7 +1,10 @@
+import AppBar from '@material-ui/core/AppBar';
 import Snackbar from '@material-ui/core/Snackbar';
-import AppBar from 'material-ui/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import IconButton from 'material-ui/IconButton';
-import ActionHome from 'material-ui/svg-icons/action/home';
+import { white } from 'material-ui/styles/colors';
+import SvgIcon from 'material-ui/SvgIcon';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -37,19 +40,22 @@ export default class MyAppBar extends React.Component<IProps> {
 
   public render() {
     return (
-      <div>
+      <div style={{ flexGrow: 1 }}>
         <AppBar
-          title="Teranpass"
-          iconElementLeft={
-            <IconButton
-              containerElement={<Link to="/" />}
-              style={{ color: 'white' }}
-            >
-              <ActionHome />
+          position="static"
+          color="secondary"
+          style={{ backgroundColor: '#4286f4' }}
+        >
+          <Toolbar>
+            <IconButton containerElement={<Link to="/" />}>
+              <SvgIcon color={white}>
+                <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+              </SvgIcon>
             </IconButton>
-          }
-          iconElementRight={
-            this.props.isAuth ? (
+            <Typography variant="title" color="inherit" style={{ flex: 1 }}>
+              Teranpass
+            </Typography>
+            {this.props.isAuth ? (
               <UserIcon
                 userInfo={this.props.userInfo}
                 dispatch={this.props.dispatch}
@@ -59,9 +65,9 @@ export default class MyAppBar extends React.Component<IProps> {
                 <SignupButton />
                 <SigninButton />
               </div>
-            )
-          }
-        />
+            )}
+          </Toolbar>
+        </AppBar>
         <Snackbar
           anchorOrigin={{
             horizontal: 'left',

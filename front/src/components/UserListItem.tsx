@@ -1,6 +1,5 @@
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
+import Chip from '@material-ui/core/Chip';
 import * as React from 'react';
 import { IUserInfo } from '../types';
 
@@ -37,20 +36,11 @@ export default class UserListItem extends React.Component<IProps, IState> {
 
   public render() {
     return (
-      <Tooltip
-        enterDelay={300}
-        id="tooltip-controlled"
-        leaveDelay={300}
-        onClose={this.handleTooltipClose}
-        onOpen={this.handleTooltipOpen}
-        open={this.state.open}
-        placement="top"
-        title={this.props.item.displayName}
-      >
-        <IconButton onClick={this.pushUserPage.bind(this, this.props.item)}>
-          <Avatar src={this.props.item.photoURL} />
-        </IconButton>
-      </Tooltip>
+      <Chip
+        avatar={<Avatar src={this.props.item.photoURL} />}
+        label={this.props.item.displayName}
+        onClick={this.pushUserPage.bind(this, this.props.item)}
+      />
     );
   }
 }
