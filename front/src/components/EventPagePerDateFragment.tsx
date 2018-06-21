@@ -67,7 +67,7 @@ export default class EventPagePerDateFragment extends React.Component<
                     <Avatar src={this.props.eventList[val].sponsor.photoURL} />
                     <ListItemText
                       primary={`${this.props.eventList[val].title}`}
-                      secondary={this.props.eventList[val].date}
+                      secondary={`${this.props.eventList[val].date}~`}
                     />
                   </ListItem>
                   <Divider />

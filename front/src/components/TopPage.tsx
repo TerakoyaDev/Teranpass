@@ -92,7 +92,7 @@ export default class TopPage extends React.Component<IProps, IState> {
                 value={this.state.value}
                 onChange={this.handleChange}
                 indicatorColor="primary"
-                textColor="inherit"
+                textColor="primary"
                 fullWidth={true}
               >
                 <Tab icon={<Star />} label="人気のイベント" />

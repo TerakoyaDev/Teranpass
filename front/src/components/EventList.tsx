@@ -59,7 +59,7 @@ export default class EventList extends React.Component<IProps> {
                       <Avatar src={this.props.event[val].sponsor.photoURL} />
                       <ListItemText
                         primary={`${this.props.event[val].title}`}
-                        secondary={this.props.event[val].date}
+                        secondary={`${this.props.event[val].date}~`}
                       />
                       <ListItemSecondaryAction>
                         {this.props.event[val].participants.length !== 1 ? (

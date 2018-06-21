@@ -4,7 +4,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
 import SvgIcon from 'material-ui/SvgIcon';
 import * as React from 'react';
 import * as ReactMarkdown from 'react-markdown';
@@ -197,13 +196,11 @@ export default class EventPageFragment extends React.Component<
               </div>
             }
             title={this.props.event.title}
-            subheader={this.props.event.date}
+            subheader={`${this.props.event.date}~  ${
+              this.props.event.location
+            }`}
           />
           <CardContent>
-            <Typography component="p">
-              {`場所: ${this.props.event.location}`}
-            </Typography>
-            <br />
             <div>
               <ReactMarkdown source={this.props.event.body} />
             </div>

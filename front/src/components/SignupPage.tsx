@@ -45,7 +45,7 @@ export default class SignupPage extends React.Component<
       emailErrorMessage: '',
       password: '',
       passwordErrorMessage: '',
-      photoFile: '変更後のユーザイメージ',
+      photoFile: 'ユーザイメージ',
       photoFileErrorMessage: '',
       photoFileInstance: {},
       userName: '',

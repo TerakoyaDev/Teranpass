@@ -191,7 +191,7 @@ export default class EditEventPage extends React.Component<
           onClick={this.update}
           style={{ width: '80%' }}
         >
-          Create
+          Update
         </Button>
       </div>
     );
