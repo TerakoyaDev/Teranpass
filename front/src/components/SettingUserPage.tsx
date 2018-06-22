@@ -1,6 +1,7 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
+import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import Slider from '@material-ui/lab/Slider';
@@ -17,6 +18,7 @@ interface InterfaceState {
   sliderValue: number;
   userNameErrorMessage: string;
   photoFileErrorMessage: string;
+  modalOpen: boolean;
 }
 
 interface IProps {
@@ -37,6 +39,7 @@ export default class SettingUserPage extends React.Component<
 
     // state
     this.state = {
+      modalOpen: false,
       photoFile: '変更後のユーザイメージ',
       photoFileErrorMessage: '',
       photoFileInstance: {},
@@ -91,6 +94,7 @@ export default class SettingUserPage extends React.Component<
   public onChangeFile(event: any) {
     this.setState({
       ...this.state,
+      modalOpen: true,
       photoFile: event.target.value,
       photoFileInstance: event.target.files[0],
     });
@@ -104,6 +108,10 @@ export default class SettingUserPage extends React.Component<
     this.setState({ sliderValue: value });
   };
 
+  public handleModalClose = () => {
+    this.setState({ modalOpen: false });
+  };
+
   public render() {
     return (
       <div>
@@ -113,17 +121,7 @@ export default class SettingUserPage extends React.Component<
           </div>
         ) : (
           <div style={{ textAlign: 'center' }}>
-            <AvatarEditor
-              ref={this.setEditorRef}
-              image={this.state.photoFileInstance}
-              width={100}
-              height={100}
-              border={10}
-              color={[131, 132, 135, 0.6]} // RGBA
-              borderRadius={100}
-              scale={this.state.sliderValue / 50}
-              rotate={0}
-            />
+            <br />
             <div>
               {this.state.photoFile}
               <input
@@ -138,13 +136,47 @@ export default class SettingUserPage extends React.Component<
                 </IconButton>
               </label>
             </div>
-            <Typography id="label">Image scale</Typography>
-            <Slider
-              value={this.state.sliderValue}
-              aria-labelledby="label"
-              onChange={this.handleSliderChange}
-              style={{ width: '40%', marginLeft: '30%' }}
-            />
+            <Modal
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+              open={this.state.modalOpen}
+              onClose={this.handleModalClose}
+            >
+              <div
+                style={{
+                  backgroundColor: '#ffffff',
+                  flex: 'column',
+                  height: '30%',
+                  left: '30%',
+                  position: 'absolute',
+                  textAlign: 'center',
+                  top: '30%',
+                  width: '30%',
+                }}
+              >
+                <br />
+                <AvatarEditor
+                  ref={this.setEditorRef}
+                  image={this.state.photoFileInstance}
+                  width={100}
+                  height={100}
+                  border={10}
+                  color={[131, 132, 135, 0.6]} // RGBA
+                  borderRadius={100}
+                  scale={this.state.sliderValue / 50}
+                  rotate={0}
+                  style={{ flex: 1 }}
+                />
+                <Typography id="label">Image scale</Typography>
+                <Slider
+                  value={this.state.sliderValue}
+                  aria-labelledby="label"
+                  onChange={this.handleSliderChange}
+                  style={{ width: '40%', marginLeft: '30%' }}
+                />
+                <Button onClick={this.handleModalClose}>閉じる</Button>
+              </div>
+            </Modal>
             <TextField
               hintText="変更後のユーザネーム"
               floatingLabelText="New UserName"
