@@ -1,1 +1,2 @@
-declare module 'react-infinite-calendar'
+declare module 'react-infinite-calendar';
+declare module '*';

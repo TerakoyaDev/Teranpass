@@ -1,16 +1,20 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import Slider from '@material-ui/lab/Slider';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
+import AvatarEditor from 'react-avatar-editor';
 import { updateUser } from '../action/UserAction';
 
 interface InterfaceState {
   userName: string;
   photoFile: string;
-  photoFileInstance: {};
+  photoFileInstance: any;
   submitingMessage: string;
+  sliderValue: number;
   userNameErrorMessage: string;
   photoFileErrorMessage: string;
 }
@@ -27,6 +31,7 @@ export default class SettingUserPage extends React.Component<
   IProps,
   InterfaceState
 > {
+  public editor: any;
   constructor(props: IProps) {
     super(props);
 
@@ -35,6 +40,7 @@ export default class SettingUserPage extends React.Component<
       photoFile: '変更後のユーザイメージ',
       photoFileErrorMessage: '',
       photoFileInstance: {},
+      sliderValue: 50,
       submitingMessage: 'Update',
       userName: '',
       userNameErrorMessage: '',
@@ -67,13 +73,13 @@ export default class SettingUserPage extends React.Component<
 
     this.setState({ ...this.state, submitingMessage: '送信中' });
 
-    const { dispatch } = this.props;
-    dispatch(
-      updateUser(
-        this.state.userName,
-        this.state.photoFileInstance,
-        this.state.photoFile
-      )
+    this.editor.getImageScaledToCanvas().toBlob(
+      (blob: any) => {
+        const { dispatch } = this.props;
+        dispatch(updateUser(this.state.userName, blob, this.state.photoFile));
+      },
+      'image/jpeg',
+      95
     );
   }
 
@@ -90,6 +96,14 @@ export default class SettingUserPage extends React.Component<
     });
   }
 
+  public setEditorRef = (editor: any) => {
+    this.editor = editor;
+  };
+
+  public handleSliderChange = (event: any, value: any) => {
+    this.setState({ sliderValue: value });
+  };
+
   public render() {
     return (
       <div>
@@ -99,14 +113,17 @@ export default class SettingUserPage extends React.Component<
           </div>
         ) : (
           <div style={{ textAlign: 'center' }}>
-            <TextField
-              hintText="変更後のユーザネーム"
-              floatingLabelText="New UserName"
-              onChange={this.onChangeUserName}
-              errorText={this.state.userNameErrorMessage}
-              style={{ textAlign: 'left', width: '80%' }}
+            <AvatarEditor
+              ref={this.setEditorRef}
+              image={this.state.photoFileInstance}
+              width={100}
+              height={100}
+              border={10}
+              color={[131, 132, 135, 0.6]} // RGBA
+              borderRadius={100}
+              scale={this.state.sliderValue / 50}
+              rotate={0}
             />
-            <br />
             <div>
               {this.state.photoFile}
               <input
@@ -121,6 +138,20 @@ export default class SettingUserPage extends React.Component<
                 </IconButton>
               </label>
             </div>
+            <Typography id="label">Image scale</Typography>
+            <Slider
+              value={this.state.sliderValue}
+              aria-labelledby="label"
+              onChange={this.handleSliderChange}
+              style={{ width: '40%', marginLeft: '30%' }}
+            />
+            <TextField
+              hintText="変更後のユーザネーム"
+              floatingLabelText="New UserName"
+              onChange={this.onChangeUserName}
+              errorText={this.state.userNameErrorMessage}
+              style={{ textAlign: 'left', width: '80%' }}
+            />
             <br />
             <Button
               variant="outlined"

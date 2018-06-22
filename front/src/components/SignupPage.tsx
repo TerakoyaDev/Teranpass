@@ -1,9 +1,12 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import Slider from '@material-ui/lab/Slider';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
+import AvatarEditor from 'react-avatar-editor';
 import { createNewUser } from '../action/UserAction';
 import store from '../store';
 
@@ -11,7 +14,7 @@ interface InterfaceState {
   confirmPassword: string;
   confirmPasswordErrorMessage: string;
   photoFile: string;
-  photoFileInstance: {};
+  photoFileInstance: any;
   photoFileErrorMessage: string;
   userName: string;
   email: string;
@@ -19,6 +22,7 @@ interface InterfaceState {
   userNameErrorMessage: string;
   emailErrorMessage: string;
   passwordErrorMessage: string;
+  sliderValue: number;
 }
 
 interface InterfaceProps {
@@ -34,6 +38,7 @@ export default class SignupPage extends React.Component<
   InterfaceProps,
   InterfaceState
 > {
+  public editor: any;
   constructor(props: InterfaceProps) {
     super(props);
 
@@ -48,6 +53,7 @@ export default class SignupPage extends React.Component<
       photoFile: 'ユーザイメージ',
       photoFileErrorMessage: '',
       photoFileInstance: {},
+      sliderValue: 50,
       userName: '',
       userNameErrorMessage: '',
     };
@@ -134,16 +140,21 @@ export default class SignupPage extends React.Component<
       return;
     }
 
-    // dispatch
-    const { dispatch } = this.props;
-    dispatch(
-      createNewUser(
-        this.state.userName,
-        this.state.email,
-        this.state.password,
-        this.state.photoFileInstance,
-        this.state.photoFile
-      )
+    this.editor.getImageScaledToCanvas().toBlob(
+      (blob: any) => {
+        const { dispatch } = this.props;
+        dispatch(
+          createNewUser(
+            this.state.userName,
+            this.state.email,
+            this.state.password,
+            blob,
+            this.state.photoFile
+          )
+        );
+      },
+      'image/jpeg',
+      95
     );
   }
 
@@ -175,6 +186,14 @@ export default class SignupPage extends React.Component<
     });
   }
 
+  public setEditorRef = (editor: any) => {
+    this.editor = editor;
+  };
+
+  public handleSliderChange = (event: any, value: any) => {
+    this.setState({ sliderValue: value });
+  };
+
   public render() {
     return (
       <div>
@@ -185,6 +204,39 @@ export default class SignupPage extends React.Component<
         ) : (
           <div style={{ textAlign: 'center', flex: 'column' }}>
             <div>{store.getState().reducers.UserReducer.message}</div>
+            <br />
+            <AvatarEditor
+              ref={this.setEditorRef}
+              image={this.state.photoFileInstance}
+              width={100}
+              height={100}
+              border={10}
+              color={[131, 132, 135, 0.6]} // RGBA
+              borderRadius={100}
+              scale={this.state.sliderValue / 50}
+              rotate={0}
+            />
+            <div>
+              {this.state.photoFile}
+              <input
+                type="file"
+                style={{ display: 'none' }}
+                id="icon-button-file"
+                onChange={this.onChangeFile}
+              />
+              <label htmlFor="icon-button-file">
+                <IconButton color="primary" component="span">
+                  <PhotoCamera />
+                </IconButton>
+              </label>
+            </div>
+            <Typography id="label">Image scale</Typography>
+            <Slider
+              value={this.state.sliderValue}
+              aria-labelledby="label"
+              onChange={this.handleSliderChange}
+              style={{ width: '40%', marginLeft: '30%' }}
+            />
             <TextField
               hintText="ユーザネーム"
               floatingLabelText="UserName"
@@ -218,21 +270,6 @@ export default class SignupPage extends React.Component<
               errorText={this.state.confirmPasswordErrorMessage}
               style={{ textAlign: 'left', width: '80%' }}
             />
-            <br />
-            <div>
-              {this.state.photoFile}
-              <input
-                type="file"
-                style={{ display: 'none' }}
-                id="icon-button-file"
-                onChange={this.onChangeFile}
-              />
-              <label htmlFor="icon-button-file">
-                <IconButton color="primary" component="span">
-                  <PhotoCamera />
-                </IconButton>
-              </label>
-            </div>
             <br />
             <br />
             <Button
