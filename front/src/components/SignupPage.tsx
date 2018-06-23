@@ -191,7 +191,9 @@ export default class SignupPage extends React.Component<
   }
 
   public setEditorRef = (editor: any) => {
-    this.editor = editor;
+    if (editor) {
+      this.editor = editor;
+    }
   };
 
   public handleSliderChange = (event: any, value: any) => {
