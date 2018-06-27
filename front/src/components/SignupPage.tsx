@@ -1,13 +1,12 @@
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import IconButton from '@material-ui/core/IconButton';
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import Slider from '@material-ui/lab/Slider';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import AvatarEditor from 'react-avatar-editor';
+import Dropzone from 'react-dropzone';
 import { createNewUser } from '../action/UserAction';
 import store from '../store';
 import { toBlobFromBase64 } from '../utils/toBlob.tsx';
@@ -202,6 +201,10 @@ export default class SignupPage extends React.Component<
     this.setState({ modalOpen: false });
   };
 
+  public handleDrop = (dropped: any) => {
+    this.setState({ modalOpen: true, photoFileInstance: dropped[0] });
+  };
+
   public render() {
     return (
       <div>
@@ -213,20 +216,32 @@ export default class SignupPage extends React.Component<
           <div style={{ textAlign: 'center', flex: 'column' }}>
             <div>{store.getState().reducers.UserReducer.message}</div>
             <br />
-            <div>
-              {this.state.photoFile}
-              <input
-                type="file"
-                style={{ display: 'none' }}
-                id="icon-button-file"
-                onChange={this.onChangeFile}
-              />
-              <label htmlFor="icon-button-file">
-                <IconButton color="primary" component="span">
-                  <PhotoCamera />
-                </IconButton>
-              </label>
-            </div>
+            <Dropzone
+              onDrop={this.handleDrop}
+              style={{
+                border: '1px solid black',
+                borderRadius: `${(Math.min(100, 100) + 10) * 0.5}px`,
+                height: '100px',
+                marginLeft: `${window.innerWidth / 2 - 50}px`,
+                width: '100px',
+              }}
+            >
+              {!!this.editor && !this.state.modalOpen ? (
+                <div>
+                  <img
+                    src={this.editor.getImageScaledToCanvas().toDataURL()}
+                    style={{
+                      border: '1px solid black',
+                      borderRadius: `${(Math.min(100, 100) + 10) * 0.5}px`,
+                      flex: 1,
+                    }}
+                  />
+                  <br />
+                </div>
+              ) : (
+                <div style={{ marginTop: '30px' }}>Please input image.</div>
+              )}
+            </Dropzone>
             <Modal
               aria-labelledby="simple-modal-title"
               aria-describedby="simple-modal-description"

@@ -85,10 +85,7 @@ export default function* updateUserService() {
         const users = yield call(fetchDataFromGivenPass, 'users');
         if (users) {
           Object.keys(users).map((n: any) => {
-            if (
-              users[n].joinEventList !== undefined &&
-              users[n].joinEventList.date >= changeDateFormat(new Date())
-            ) {
+            if (users[n].joinEventList !== undefined) {
               updates[`users/${n}`] = {
                 ...users[n],
                 joinEventList: users[n].joinEventList.map((m: any) => {
