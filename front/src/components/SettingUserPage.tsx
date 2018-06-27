@@ -146,12 +146,13 @@ export default class SettingUserPage extends React.Component<
                 style={{
                   backgroundColor: '#ffffff',
                   flex: 'column',
-                  height: '30%',
-                  left: '30%',
+                  height: '250px',
+                  left: '50%',
+                  marginLeft: '-100px',
                   position: 'absolute',
                   textAlign: 'center',
                   top: '30%',
-                  width: '30%',
+                  width: '200px',
                 }}
               >
                 <br />
