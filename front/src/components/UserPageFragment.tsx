@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Subheader from 'material-ui/Subheader';
 import * as React from 'react';
+import { IEvent } from '../types';
 import { IUserInfo } from '../types';
 
 interface IProps {
@@ -54,22 +55,24 @@ export default class UserPageFragment extends React.Component<IProps> {
                   position: 'relative',
                 }}
               >
-                {this.props.userInfo.joinEventList.map((item, index) => (
-                  <div key={index}>
-                    <ListItem
-                      key={index}
-                      button={true}
-                      onClick={this.onClickListItem.bind(this, index)}
-                    >
-                      <Avatar src={item.sponsor.photoURL} />
-                      <ListItemText
-                        primary={`${item.title}`}
-                        secondary={item.date}
-                      />
-                    </ListItem>
-                    <Divider />
-                  </div>
-                ))}
+                {this.props.userInfo.joinEventList
+                  .filter((n: IEvent) => new Date(n.date) >= new Date())
+                  .map((item, index) => (
+                    <div key={index}>
+                      <ListItem
+                        key={index}
+                        button={true}
+                        onClick={this.onClickListItem.bind(this, index)}
+                      >
+                        <Avatar src={item.sponsor.photoURL} />
+                        <ListItemText
+                          primary={`${item.title}`}
+                          secondary={item.date}
+                        />
+                      </ListItem>
+                      <Divider />
+                    </div>
+                  ))}
               </List>
             ) : (
               <Typography paragraph={true}>No Event</Typography>
