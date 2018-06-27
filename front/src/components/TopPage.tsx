@@ -123,7 +123,7 @@ export default class TopPage extends React.Component<IProps, IState> {
                       Component={withMultipleDates(Calendar)}
                       interpolateSelection={defaultMultipleDateInterpolation}
                       width={window.innerWidth}
-                      height={window.innerHeight - 160}
+                      height={window.innerHeight - 170}
                       selected={this.props.dateList}
                       onSelect={this.selectedDate}
                       displayOptions={{

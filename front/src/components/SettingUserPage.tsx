@@ -9,6 +9,7 @@ import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { updateUser } from '../action/UserAction';
+import { toBlobFromBase64 } from '../utils/toBlob.tsx';
 
 interface InterfaceState {
   userName: string;
@@ -76,14 +77,11 @@ export default class SettingUserPage extends React.Component<
 
     this.setState({ ...this.state, submitingMessage: '送信中' });
 
-    this.editor.getImageScaledToCanvas().toBlob(
-      (blob: any) => {
-        const { dispatch } = this.props;
-        dispatch(updateUser(this.state.userName, blob, this.state.photoFile));
-      },
-      'image/jpeg',
-      95
+    const blob = toBlobFromBase64(
+      this.editor.getImageScaledToCanvas().toDataURL()
     );
+    const { dispatch } = this.props;
+    dispatch(updateUser(this.state.userName, blob, this.state.photoFile));
   }
 
   // change method

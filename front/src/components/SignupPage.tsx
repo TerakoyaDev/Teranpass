@@ -10,6 +10,7 @@ import * as React from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { createNewUser } from '../action/UserAction';
 import store from '../store';
+import { toBlobFromBase64 } from '../utils/toBlob.tsx';
 
 interface InterfaceState {
   confirmPassword: string;
@@ -143,21 +144,18 @@ export default class SignupPage extends React.Component<
       return;
     }
 
-    this.editor.getImageScaledToCanvas().toBlob(
-      (blob: any) => {
-        const { dispatch } = this.props;
-        dispatch(
-          createNewUser(
-            this.state.userName,
-            this.state.email,
-            this.state.password,
-            blob,
-            this.state.photoFile
-          )
-        );
-      },
-      'image/jpeg',
-      95
+    const blob = toBlobFromBase64(
+      this.editor.getImageScaledToCanvas().toDataURL()
+    );
+    const { dispatch } = this.props;
+    dispatch(
+      createNewUser(
+        this.state.userName,
+        this.state.email,
+        this.state.password,
+        blob,
+        this.state.photoFile
+      )
     );
   }
 
